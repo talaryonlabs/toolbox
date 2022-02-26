@@ -1,5 +1,6 @@
 # toolbox
-![.NET](https://github.com/talaryonlabs/toolbox/workflows/.NET%20Core/badge.svg)
+
+![.NET](https://github.com/talaryonlabs/toolbox/actions/workflows/dotnet.yml/badge.svg)
 ![GitHub](https://img.shields.io/github/license/talaryonlabs/toolbox)
 
 <!-- #![GitHub pull requests](https://img.shields.io/github/issues-pr/talaryonlabs/toolbox) -->
