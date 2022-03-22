@@ -49,7 +49,7 @@ namespace Talaryon.Data
         {
             var f = new SqlQueryFilter<T>();
             filter(f);
-            _filterParams.Add($"$({f.BuildFilter()})");
+            _filterParams.Add($"({f.BuildFilter()})");
             return this;
         }
 

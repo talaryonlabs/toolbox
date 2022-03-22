@@ -16,12 +16,12 @@ namespace Talaryon.Data
             IDatabaseSelector<T>
         {
             private readonly IDbConnection _connection;
-            private readonly SqlAdapterBase.QueryBuilder<T> _queryBuilder;
+            private readonly QueryBuilder<T> _queryBuilder;
 
             public Query(IDbConnection connection)
             {
                 _connection = connection;
-                _queryBuilder = new SqlAdapterBase.QueryBuilder<T>();
+                _queryBuilder = new QueryBuilder<T>();
                 _queryBuilder.Select<T>("*");
             }
 
@@ -31,7 +31,8 @@ namespace Talaryon.Data
 
             Task<T> ITalaryonRunner<T>.RunAsync(CancellationToken cancellationToken)
             {
-                return _connection.QueryFirstOrDefaultAsync<T>(_queryBuilder.Build());
+                var query = _queryBuilder.Build();
+                return _connection.QueryFirstOrDefaultAsync<T>(query);
             }
 
             IEnumerable<T> ITalaryonRunner<IEnumerable<T>>.Run() => (this as ITalaryonRunner<IEnumerable<T>>)
@@ -43,7 +44,7 @@ namespace Talaryon.Data
                 return _connection.QueryAsync<T>(_queryBuilder.Build());
             }
             
-            IDatabaseSelector<T> IDatabaseSelector<T>.Column<TJoinItem>(string column, string alias)
+            IDatabaseSelector<T> IDatabaseSelector<T>.Column<TJoinItem>(string column, string? alias)
             {
                 _queryBuilder.Select<TJoinItem>(column, alias);
                 return this;

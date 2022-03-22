@@ -52,8 +52,8 @@ namespace Talaryon.Data
 
     public interface IDatabaseSelector<TItem>
     {
-        IDatabaseSelector<TItem> Column(string column, string alias = null) => Column<TItem>(column, alias);
-        IDatabaseSelector<TItem> Column<TJoinItem>(string column, string alias = null);
+        IDatabaseSelector<TItem> Column(string column, string? alias = null) => Column<TItem>(column, alias);
+        IDatabaseSelector<TItem> Column<TJoinItem>(string column, string? alias = null);
     }
 
     public interface IDatabaseOrder<TItem>

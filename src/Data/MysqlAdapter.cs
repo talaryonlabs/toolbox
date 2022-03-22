@@ -6,10 +6,10 @@ namespace Talaryon.Data
 {
     public sealed class MysqlOptions : TalaryonOptions<MysqlOptions>
     {
-        public string Server { get; set; }
-        public string User { get; set; }
-        public string Password { get; set; }
-        public string Database { get; set; }
+        public string? Server { get; set; }
+        public string? User { get; set; }
+        public string? Password { get; set; }
+        public string? Database { get; set; }
     }
     
     public sealed class MysqlAdapter : SqlAdapterBase, IDisposable

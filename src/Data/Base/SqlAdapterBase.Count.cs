@@ -12,13 +12,13 @@ namespace Talaryon.Data
             IDatabaseCount<T>
         {
             private readonly IDbConnection _connection;
-            private readonly SqlAdapterBase.QueryBuilder<T> _queryBuilder;
+            private readonly QueryBuilder<T> _queryBuilder;
 
             public Count(IDbConnection connection)
             {
                 _connection = connection;
-                _queryBuilder = new SqlAdapterBase.QueryBuilder<T>();
-                _queryBuilder.Select("COUNT(*)");
+                _queryBuilder = new QueryBuilder<T>();
+                _queryBuilder.Count();
             }
 
             public IDatabaseCount<T> Join<TJoinItem>(string column, string joinedColumn)

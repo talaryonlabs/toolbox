@@ -7,29 +7,37 @@ namespace Talaryon.Data
     {
         private class QueryBuilder<TItem>
         {
-            private readonly Dictionary<string, object> _queryParams;
+            private readonly Dictionary<string, object?> _queryParams;
             private readonly string _table;
 
 
             public QueryBuilder()
             {
-                _queryParams = new Dictionary<string, object>();
+                _queryParams = new Dictionary<string, object?>();
                 _table = EntityHelper.GetTableName<TItem>();
             }
 
-            public void Select(string column, string alias = null) => Select<TItem>(column, alias);
+            public void Select(string column, string? alias = null) => Select<TItem>(column, alias);
 
-            public void Select<TJoinItem>(string column, string alias = null)
+            public void Select<TJoinItem>(string column, string? alias = null)
             {
                 if (!_queryParams.ContainsKey("columns"))
                     _queryParams.Add("columns", new List<string>());
- 
-                ((List<string>) _queryParams["columns"])
+
+                ((List<string>)_queryParams["columns"])
                     .Add(
                         alias is not null
                             ? $"{EntityHelper.GetTableName<TJoinItem>()}.{column} as {alias}"
                             : $"{EntityHelper.GetTableName<TJoinItem>()}.{column}"
                     );
+            }
+
+            public void Count()
+            {
+                if (!_queryParams.ContainsKey("columns"))
+                    _queryParams.Add("columns", new List<string>());
+                
+                ((List<string>)_queryParams["columns"]).Add("COUNT(*)");
             }
 
             public void Distinct()
@@ -130,7 +138,7 @@ namespace Talaryon.Data
                         (string) _queryParams["offset"]
                     });
 
-                return string.Join(" ", _queryParams);
+                return string.Join(" ", query);
             }
         }
     }
