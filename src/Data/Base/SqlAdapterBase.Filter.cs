@@ -2,21 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Talaryon.Data
+namespace TalaryonLabs.Toolbox.Data;
+
+public partial class SqlAdapterBase
 {
-    public partial class SqlAdapterBase
-    {
-        private class SqlQueryFilter<T> :
+    private class SqlQueryFilter<T> :
         IDatabaseFilter<T>,
         IDatabaseFilterColumn<T>,
         IDatabaseFilterOperator<T>
     {
-        private readonly List<string> _filterParams;
-
-        public SqlQueryFilter()
-        {
-            _filterParams = new List<string>();
-        }
+        private readonly List<string> _filterParams = new();
 
         public string BuildFilter()
         {
@@ -29,7 +24,7 @@ namespace Talaryon.Data
             return string.Join(" ", _filterParams);
         }
         
-        IDatabaseFilterColumn<T> IDatabaseFilter<T>.Is<TJoinItem>(string column)
+        IDatabaseFilterColumn<T> IDatabaseFilter<T>.Is<TJoinItem>(string? column)
         {
             _filterParams
                 .Add($"{EntityHelper.GetTableName<TJoinItem>()}.{column}");
@@ -93,6 +88,5 @@ namespace Talaryon.Data
             _filterParams.Add("AND");
             return this;
         }
-    }
     }
 }

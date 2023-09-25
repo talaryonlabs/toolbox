@@ -1,10 +1,9 @@
 ﻿using Microsoft.Extensions.Options;
 
-namespace Talaryon
+namespace TalaryonLabs.Toolbox;
+
+public class TalaryonOptions<T> : IOptions<T> 
+    where T : class, new()
 {
-    public class TalaryonOptions<T> : IOptions<T> 
-        where T : class, new()
-    {
-        T IOptions<T>.Value => (T)(object)this;
-    }
+    T IOptions<T>.Value => (T)(object)this;
 }

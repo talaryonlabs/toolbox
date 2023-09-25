@@ -2,31 +2,32 @@
 using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.Options;
 
-namespace Talaryon.Data
+namespace TalaryonLabs.Toolbox.Data;
+
+public sealed class SqliteOptions : TalaryonOptions<SqliteOptions>
 {
-    public sealed class SqliteOptions : TalaryonOptions<SqliteOptions>
-    {
-        public string DataSource { get; set; }
-    }
+    public string? DataSource { get; set; }
+}
 
-    public sealed class SqliteAdapter : SqlAdapterBase, IDisposable
-    {
-        private readonly SqliteConnection _connection;
+public sealed class SqliteAdapter : SqlAdapterBase, IDisposable
+{
+    private readonly SqliteConnection _connection;
 
-        public SqliteAdapter(IOptions<SqliteOptions> optionsAccessor)
+    public SqliteAdapter(IOptions<SqliteOptions> optionsAccessor)
+    {
+        if (optionsAccessor is null)
         {
-            if (optionsAccessor is null)
-            {
-                throw new ArgumentNullException(nameof(optionsAccessor));
-            }
+            throw new ArgumentNullException(nameof(optionsAccessor));
+        }
+
+        if (optionsAccessor.Value.DataSource != null)
             _connection = new SqliteConnection($"Data Source={optionsAccessor.Value.DataSource}");
 
-            UseConnection(_connection);
-        }
+        UseConnection(_connection ?? throw new InvalidOperationException());
+    }
 
-        public void Dispose()
-        {
-            _connection?.Dispose();
-        }
+    public void Dispose()
+    {
+        _connection?.Dispose();
     }
 }

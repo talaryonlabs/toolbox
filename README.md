@@ -8,7 +8,7 @@
 
 ### Built With
 
-* [.NET5](https://github.com/dotnet)
+* [.NET 7](https://github.com/dotnet)
 
 <!-- ROADMAP -->
 ## Roadmap

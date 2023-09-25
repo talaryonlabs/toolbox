@@ -1,7 +1,6 @@
-﻿namespace Talaryon
+﻿namespace TalaryonLabs.Toolbox;
+
+public interface ITalaryonExistable
 {
-    public interface ITalaryonExistable
-    {
-        ITalaryonRunner<bool> Exists();
-    }
+    ITalaryonRunner<bool> Exists();
 }

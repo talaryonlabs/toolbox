@@ -1,7 +1,6 @@
-﻿namespace Talaryon
+﻿namespace TalaryonLabs.Toolbox;
+
+public interface ITalaryonCountable
 {
-    public interface ITalaryonCountable
-    {
-        ITalaryonRunner<int> Count();
-    }
+    ITalaryonRunner<int> Count();
 }

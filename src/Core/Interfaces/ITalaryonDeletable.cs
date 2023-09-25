@@ -1,12 +1,11 @@
-﻿namespace Talaryon
+﻿namespace TalaryonLabs.Toolbox;
+
+public interface ITalaryonDeletable
 {
-    public interface ITalaryonDeletable
-    {
-        ITalaryonRunner Delete(bool force = false);
-    }
+    ITalaryonRunner Delete(bool force = false);
+}
     
-    public interface ITalaryonDeletable<TResult>
-    {
-        ITalaryonRunner<TResult> Delete(bool force = false);
-    }
+public interface ITalaryonDeletable<TResult>
+{
+    ITalaryonRunner<TResult> Delete(bool force = false);
 }

@@ -1,12 +1,11 @@
-﻿namespace Talaryon
+﻿namespace TalaryonLabs.Toolbox;
+
+public interface ITalaryonCreatable<TResult>
 {
-    public interface ITalaryonCreatable<TResult>
-    {
-        ITalaryonRunner<TResult> Create();
-    }
+    ITalaryonRunner<TResult> Create();
+}
     
-    public interface ITalaryonCreatable<TResult, out TParams>
-    {
-        ITalaryonParams<TResult, TParams> Create();
-    }
+public interface ITalaryonCreatable<TResult, out TParams>
+{
+    ITalaryonParams<TResult, TParams> Create();
 }

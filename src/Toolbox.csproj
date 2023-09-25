@@ -1,24 +1,30 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net5.0</TargetFramework>
-        <AssemblyName>Talaryon.Toolbox</AssemblyName>
-        <RootNamespace>Talaryon</RootNamespace>
+        <TargetFramework>net7.0</TargetFramework>
+        <AssemblyName>TalaryonLabs.Toolbox</AssemblyName>
+        <RootNamespace>TalaryonLabs.Toolbox</RootNamespace>
         <Nullable>enable</Nullable>
+        <LangVersion>11</LangVersion>
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Dapper" Version="2.0.123" />
+      <PackageReference Include="Dapper" Version="2.0.151" />
       <PackageReference Include="Dapper.Contrib" Version="2.0.78" />
-      <PackageReference Include="Microsoft.Data.Sqlite" Version="5.0.15" />
-      <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="5.0.0" />
-      <PackageReference Include="Microsoft.Extensions.Options" Version="5.0.0" />
-      <PackageReference Include="MySql.Data" Version="8.0.28" />
-      <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+      <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
+      <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
+      <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="7.0.11" />
+      <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="7.0.0" />
+      <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
+      <PackageReference Include="Microsoft.Extensions.Options" Version="7.0.1" />
+      <PackageReference Include="MySqlConnector" Version="2.2.7" />
+      <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     </ItemGroup>
 
     <ItemGroup>
       <None Remove="Toolbox.csproj.DotSettings" />
     </ItemGroup>
+
+
 
 </Project>

@@ -1,43 +1,42 @@
 ﻿using System;
 using Microsoft.Extensions.Options;
-using MySql.Data.MySqlClient;
+using MySqlConnector;
 
-namespace Talaryon.Data
+namespace TalaryonLabs.Toolbox.Data;
+
+public sealed class MysqlOptions : TalaryonOptions<MysqlOptions>
 {
-    public sealed class MysqlOptions : TalaryonOptions<MysqlOptions>
-    {
-        public string? Server { get; set; }
-        public string? User { get; set; }
-        public string? Password { get; set; }
-        public string? Database { get; set; }
-    }
+    public string? Server { get; set; }
+    public string? User { get; set; }
+    public string? Password { get; set; }
+    public string? Database { get; set; }
+}
     
-    public sealed class MysqlAdapter : SqlAdapterBase, IDisposable
+public sealed class MysqlAdapter : SqlAdapterBase, IDisposable
+{
+    private readonly MySqlConnection _connection;
+
+    public MysqlAdapter(IOptions<MysqlOptions> optionsAccessor)
     {
-        private readonly MySqlConnection _connection;
-
-        public MysqlAdapter(IOptions<MysqlOptions> optionsAccessor)
+        if (optionsAccessor is null)
         {
-            if (optionsAccessor is null)
-            {
-                throw new ArgumentNullException(nameof(optionsAccessor));
-            }
-
-            var options = optionsAccessor.Value;
-
-            _connection = new MySqlConnection(
-                $"server={options.Server};" +
-                $"uid={options.User};" +
-                $"pwd={options.Password};" +
-                $"database={options.Database}"
-            );
-
-            UseConnection(_connection);
+            throw new ArgumentNullException(nameof(optionsAccessor));
         }
 
-        public void Dispose()
-        {
-            _connection?.Dispose();
-        }
+        var options = optionsAccessor.Value;
+
+        _connection = new MySqlConnection(
+            $"server={options.Server};" +
+            $"uid={options.User};" +
+            $"pwd={options.Password};" +
+            $"database={options.Database}"
+        );
+
+        UseConnection(_connection);
+    }
+
+    public void Dispose()
+    {
+        _connection?.Dispose();
     }
 }
