@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Toolbox", "src/Toolbox.csproj", "{809BED6D-E97B-4DAF-8807-E4E3B54E2B60}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Toolbox", "src\Toolbox\Toolbox.csproj", "{809BED6D-E97B-4DAF-8807-E4E3B54E2B60}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Toolbox.Tests", "tests\Toolbox.Tests\Toolbox.Tests.csproj", "{2D37A279-A3DD-4B34-9891-E0A7EDA0C886}"
 EndProject
