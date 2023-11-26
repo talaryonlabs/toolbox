@@ -18,10 +18,7 @@ public sealed class MysqlAdapter : SqlAdapterBase, IDisposable
 
     public MysqlAdapter(IOptions<MysqlOptions> optionsAccessor)
     {
-        if (optionsAccessor is null)
-        {
-            throw new ArgumentNullException(nameof(optionsAccessor));
-        }
+        ArgumentNullException.ThrowIfNull(optionsAccessor);
 
         var options = optionsAccessor.Value;
 

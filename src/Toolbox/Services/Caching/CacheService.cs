@@ -5,7 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Caching.Distributed;
 
-namespace TalaryonLabs.Toolbox.Services;
+namespace TalaryonLabs.Toolbox.Services.Caching;
 
 public class CacheService :
     ICacheService,

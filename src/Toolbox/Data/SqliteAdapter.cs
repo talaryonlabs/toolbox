@@ -15,10 +15,7 @@ public sealed class SqliteAdapter : SqlAdapterBase, IDisposable
 
     public SqliteAdapter(IOptions<SqliteOptions> optionsAccessor)
     {
-        if (optionsAccessor is null)
-        {
-            throw new ArgumentNullException(nameof(optionsAccessor));
-        }
+        ArgumentNullException.ThrowIfNull(optionsAccessor);
 
         if (optionsAccessor.Value.DataSource != null)
             _connection = new SqliteConnection($"Data Source={optionsAccessor.Value.DataSource}");
