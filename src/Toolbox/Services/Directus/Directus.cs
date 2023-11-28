@@ -23,8 +23,8 @@ public class DirectusMetadata
 
 public class DirectusResponse<T>
 {
-    public T Data { get; set; }
-    public DirectusMetadata Meta { get; set; }
+    public T? Data { get; set; }
+    public DirectusMetadata? Meta { get; set; }
 }
 
 public class Directus : IDirectus
@@ -115,7 +115,7 @@ public class Directus : IDirectus
             try
             {
                 TalaryonLogger.Debug<Directus>($"Call {url}");
-                return await httpClient.GetFromJsonAsync<DirectusResponse<T>>(url);
+                return await httpClient.GetFromJsonAsync<DirectusResponse<T>>(url, cancellationToken);
             }
             catch (Exception e)
             {
@@ -135,7 +135,7 @@ public class Directus : IDirectus
             try
             {
                 TalaryonLogger.Debug<Directus>($"Call {url}");
-                return await httpClient.GetFromJsonAsync<DirectusResponse<T[]>>(url);
+                return await httpClient.GetFromJsonAsync<DirectusResponse<T[]>>(url, cancellationToken);
             }
             catch (Exception e)
             {

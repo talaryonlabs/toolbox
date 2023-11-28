@@ -1,34 +1,27 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace TalaryonLabs.Toolbox.Services.YouTrack;
 
-[YouTrackApiEndpoint("/api/issues")]
-[YouTrackApiEndpoint("/api/issues/.id", YouTrackApiEndpointType.Get)]
-public class YouTrackIssue : IYouTrackRessource
+[YouTrackEndpoint("/api/issues", YouTrackEndpointType.List | YouTrackEndpointType.Create)]
+[YouTrackEndpoint("/api/issues/.id", YouTrackEndpointType.Get | YouTrackEndpointType.Update | YouTrackEndpointType.Delete)]
+[YouTrackAdditionalFields("reporter(id,name,$type)", "updater(id,name,$type)", "project(id,name,$type)")]
+public class YouTrackIssue : IYouTrackResource
 {
-    [JsonProperty("id")]
-    public string? Id { get; }
+    [JsonPropertyName("id")] public string? Id { get; set; }
+    [JsonPropertyName("$type")] public string? Type { get; set; }
+    [JsonPropertyName("summary")] public string? Summary { get; set; }
+    [JsonPropertyName("description")] public string? Description { get; set; }
+    [JsonPropertyName("created")] public long? CreatedAt { get; set; }
+    [JsonPropertyName("updated")] public long? UpdatedAt { get; set; }
+    [JsonPropertyName("resolved")] public long? ResolvedAt { get; set; }
+    [JsonPropertyName("reporter")] public YouTrackUser? CreatedBy { get; set; }
+    [JsonPropertyName("updater")] public YouTrackUser? UpdatedBy { get; set; }
+    [JsonPropertyName("project")] public YouTrackProject? Project { get; set; }
+}
 
-    [JsonProperty("summary")]
-    public string? Summary { get; set; }
-    
-    [JsonProperty("description")]
-    public string? Description { get; set; }
-
-    [JsonProperty("created")]
-    public long CreatedAt { get; }
-    
-    [JsonProperty("updated")]
-    public long UpdatedAt { get; }
-    
-    [JsonProperty("resolved")]
-    public long ResolvedAt { get; }
-
-    [JsonProperty("reporter")]
-    public YouTrackUser? CreatedBy { get; }
-    
-    [JsonProperty("updater")]
-    public YouTrackUser? UpdatedBy { get; }
-    
-//    YouTrackProject Project { get; }
+public class YouTrackIssueParams : YouTrackParams
+{
+    public YouTrackIssueParams Summary(string summary) => (YouTrackIssueParams)Set("summary", summary);
+    public YouTrackIssueParams Description(string description) => (YouTrackIssueParams)Set("description", description);
+    public YouTrackIssueParams Project(dynamic project) => (YouTrackIssueParams)Set("project", project);
 }

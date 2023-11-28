@@ -1,19 +1,58 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace TalaryonLabs.Toolbox.Services.YouTrack;
 
-public static class YouTrackEndpoint<T>
+public static class YouTrackEndpoint
 {
-    public static string? GetEndpoint(YouTrackApiEndpointType type = YouTrackApiEndpointType.List) => typeof(T)
-        .GetCustomAttributes<YouTrackApiEndpointAttribute>(true)
-        .FirstOrDefault(p => p.Type == type)
+    public static string? GetEndpoint<T>(YouTrackEndpointType type = YouTrackEndpointType.List) => typeof(T)
+        .GetCustomAttributes<YouTrackEndpointAttribute>(true)
+        .FirstOrDefault(p => p.Type.HasFlag(type))
         ?.Url;
 
-    public static string GetFields() => string.Join(",", typeof(T)
+    public static List<string> GetFields<T>() => typeof(T)
         .GetProperties()
-        .Where(p => p.HasCustomAttribute<JsonPropertyAttribute>())
-        .Select(p => p.GetCustomAttribute<JsonPropertyAttribute>(true)?.PropertyName)
-        .ToList());
+        .Where(p => p.HasCustomAttribute<JsonPropertyNameAttribute>())
+        .Select(p => p.GetCustomAttribute<JsonPropertyNameAttribute>(true)?.Name)
+        .ToList()!;
+    
+    public static List<string> GetAdditionalFields<T>() => (typeof(T)
+        .GetCustomAttributes<YouTrackAdditionalFieldsAttribute>(true)
+        .FirstOrDefault()
+        ?.Fields ?? Array.Empty<string>())
+        .ToList();
+}
+
+[AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
+public class YouTrackEndpointAttribute(string? url, YouTrackEndpointType type = YouTrackEndpointType.List) : Attribute
+{
+    public string? Url { get; set; } = url;
+    public YouTrackEndpointType Type { get; set; } = type;
+}
+
+[Flags]
+public enum YouTrackEndpointType
+{
+    List = 1,
+    Get = 2,
+    Create = 4,
+    Update = 8,
+    Delete = 16
+}
+
+public class YouTrackEndpointException : Exception
+{
+    public YouTrackEndpointException()
+        : base("YouTrackEndpoint not found.")
+    {
+    }
+}
+
+[AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
+public class YouTrackAdditionalFieldsAttribute(params string[]? fields) : Attribute
+{
+    public string[]? Fields { get; } = fields;
 }

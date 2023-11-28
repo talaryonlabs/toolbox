@@ -1,35 +1,19 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace TalaryonLabs.Toolbox.Services.YouTrack;
 
-[YouTrackApiEndpoint("/api/users")]
-[YouTrackApiEndpoint("/api/users/.id", YouTrackApiEndpointType.Get)]
-public class YouTrackUser : IYouTrackRessource
+[YouTrackEndpoint("/api/users")]
+[YouTrackEndpoint("/api/users/.id", YouTrackEndpointType.Get)]
+public class YouTrackUser : IYouTrackResource
 {
-    [JsonProperty("id")]
-    public string? Id { get; }
-    
-    [JsonProperty("login")]
-    string? Login { get; }
-    
-    [JsonProperty("name")]
-    public string? Name { get; }
-    
-    [JsonProperty("fullName")]
-    string? FullName { get; }
-    
-    [JsonProperty("email")]
-    string? Email { get; }
-    
-    [JsonProperty("guest")]
-    bool IsGuest { get; }
-    
-    [JsonProperty("online")]
-    bool IsOnline { get; }
-    
-    [JsonProperty("banned")]
-    bool IsBanned { get; }
-    
-    [JsonProperty("avatarUrl")]
-    string? AvatarUrl { get; }
+    [JsonPropertyName("id")] public string? Id { get; set; }
+    [JsonPropertyName("$type")] public string? Type { get; set; }
+    [JsonPropertyName("login")] public string? Login { get; set; }
+    [JsonPropertyName("name")] public string? Name { get; set; }
+    [JsonPropertyName("fullName")] public string? FullName { get; set; }
+    [JsonPropertyName("email")] public string? Email { get; set; }
+    [JsonPropertyName("guest")] public bool IsGuest { get; set; }
+    [JsonPropertyName("online")] public bool IsOnline { get; set; }
+    [JsonPropertyName("banned")] public bool IsBanned { get; set; }
+    [JsonPropertyName("avatarUrl")] public string? AvatarUrl { get; set; }
 }

@@ -1,48 +1,47 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace TalaryonLabs.Toolbox.Services.YouTrack;
 
 public interface IYouTrack
 {
-    IYouTrackRessouceProvider<YouTrackProject> Project(string id);
-    IYouTrackRessoucesProvider<YouTrackProject> Projects();
+    IYouTrackResourceProviderSingle<T> Single<T>(string id) where T : IYouTrackResource;
+    IYouTrackResourceProviderMany<T> Many<T>() where T : IYouTrackResource;
+    IYouTrackResourceCreateFactory<T, TParams> Factory<T, TParams>() where T : IYouTrackResource where TParams : YouTrackParams;
 }
 
-public interface IYouTrackRessouceProvider<T> : ITalaryonRunner<T>, ITalaryonExistable
-    where T : IYouTrackRessource
+public interface IYouTrackResource
+{
+    string? Id { get; set; }
+    string? Type { get; set; }
+}
+
+public interface IYouTrackResourceCreateFactory<T, out TParams> : ITalaryonCreatable<T, TParams>, ITalaryonParams<T, TParams>
+    where T : IYouTrackResource
+    where TParams : YouTrackParams
 {
     
 }
 
-public interface IYouTrackRessoucesProvider<T> : ITalaryonEnumerable<T>, ITalaryonCountable
-    where T : IYouTrackRessource
+public interface IYouTrackResourceUpdateFactory<T, out TParams> : ITalaryonUpdatable<T, TParams>, ITalaryonDeletable<bool>, ITalaryonParams<T, TParams>
+    where T : IYouTrackResource
+    where TParams : YouTrackParams
 {
     
 }
 
-public interface IYouTrackRessource
+public interface IYouTrackResourceProviderSingle<T> : ITalaryonRunner<T>, ITalaryonExistable
+    where T : IYouTrackResource
 {
-    string? Id { get; }
+    IYouTrackResourceProviderSingle<T> Fields(params string[] fields);
+    IYouTrackResourceUpdateFactory<T, TParams> GetFactory<TParams>() where TParams : YouTrackParams;
 }
 
-
-[AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
-public class YouTrackApiEndpointAttribute(string? url, YouTrackApiEndpointType type = YouTrackApiEndpointType.List) : Attribute
+public interface IYouTrackResourceProviderMany<T> : ITalaryonEnumerable<T>, ITalaryonCountable
+    where T : IYouTrackResource
 {
-    public string? Url { get; set; } = url;
-    public YouTrackApiEndpointType Type { get; set; } = type;
+    IYouTrackResourceProviderMany<T> Fields(params string[] fields);
+    IYouTrackResourceProviderMany<T> Query(string queryString);
 }
-
-public enum YouTrackApiEndpointType
-{
-    List,
-    Get,
-    Create,
-    Update,
-    Delete
-}
-
 
 public interface IYouTrackCustomField
 {

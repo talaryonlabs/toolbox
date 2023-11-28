@@ -1,20 +1,23 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace TalaryonLabs.Toolbox.Services.YouTrack;
 
-[YouTrackApiEndpoint("/api/admin/projects")]
-[YouTrackApiEndpoint("/api/admin/projects/.id", YouTrackApiEndpointType.Get)]
-public class YouTrackProject : IYouTrackRessource
+[YouTrackEndpoint("/api/admin/projects")]
+[YouTrackEndpoint("/api/admin/projects/.id", YouTrackEndpointType.Get)]
+[YouTrackAdditionalFields("createdBy(id,name,$type)")]
+public class YouTrackProject : IYouTrackResource
 {
-    [JsonProperty("id")]
-    public string? Id { get; }
-    
-    [JsonProperty("name")]
-    string? Name { get; set; }
-    
-    [JsonProperty("description")]
-    string? Description { get; set; }
+    [JsonPropertyName("id")] public string? Id { get; set; }
+    [JsonPropertyName("$type")] public string? Type { get; set; }
+    [JsonPropertyName("name")] public string? Name { get; set; }
+    [JsonPropertyName("description")] public string? Description { get; set; }
+    [JsonPropertyName("shortName")] public string? ShortName { get; set;}
+    [JsonPropertyName("createdBy")] public YouTrackUser? CreatedBy { get; set; }
+}
 
-    [JsonProperty("createdBy")]
-    YouTrackUser? CreatedBy { get; set; } 
+public class YouTrackProjectParams : YouTrackParams
+{
+    public YouTrackProjectParams Name(string name) => (YouTrackProjectParams)Set("name", name);
+    public YouTrackProjectParams Description(string description) => (YouTrackProjectParams)Set("description", description);
+    public YouTrackProjectParams ShortName(string shortName) => (YouTrackProjectParams)Set("shortName", shortName);
 }
