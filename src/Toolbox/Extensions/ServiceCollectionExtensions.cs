@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
-namespace TalaryonLabs.Toolbox;
+namespace TalaryonLabs.Toolbox.Extensions;
 
-public static class TalaryonExtensions
-{ 
+public static class ServiceCollectionExtensions
+{
     public static IServiceCollection AddConfig<TConfig>(this IServiceCollection services, TConfig config)
         where TConfig : class, IOptions<TConfig>, new()
     {
@@ -51,12 +48,4 @@ public static class TalaryonExtensions
             .AddTransient<TImplementation>()
             .AddTransient<TService>(x => x.GetRequiredService<TImplementation>());
     }
-        
-    public static T RunSynchronouslyWithResult<T>(this Task<T> task)
-    {
-        task.RunSynchronously();
-        return task.Result;
-    }
-
-    public static bool HasCustomAttribute<T>(this MemberInfo memberInfo) where T : Attribute => memberInfo.GetCustomAttributes<T>(true).Any();
 }

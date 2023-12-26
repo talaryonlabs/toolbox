@@ -2,6 +2,8 @@
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Reflection;
+using System.Security.Cryptography;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Web;
 using Newtonsoft.Json;
@@ -131,5 +133,47 @@ public static class TalaryonHelper
 
                 return $"{name.ToLower()}={HttpUtility.UrlEncode(value.ToString())}";
             }));
+    }
+
+    public static X509Certificate2 CreateSelfSignedCertificate()
+    {
+        using var rsa = RSA.Create();
+        var certificateRequest =
+            new CertificateRequest("CN=localhost", rsa, HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
+        certificateRequest.CertificateExtensions.Add(
+            new X509BasicConstraintsExtension(
+                certificateAuthority: false,
+                hasPathLengthConstraint: false,
+                pathLengthConstraint: 0,
+                critical: true
+            )
+        );
+        certificateRequest.CertificateExtensions.Add(
+            new X509KeyUsageExtension(
+                keyUsages:
+                X509KeyUsageFlags.DigitalSignature | X509KeyUsageFlags.KeyEncipherment |
+                X509KeyUsageFlags.CrlSign | X509KeyUsageFlags.KeyCertSign,
+                critical: false
+            )
+        );
+        certificateRequest.CertificateExtensions.Add(
+            new X509EnhancedKeyUsageExtension([new("1.3.6.1.5.5.7.3.1")],
+                false));
+
+        certificateRequest.CertificateExtensions.Add(
+            new X509SubjectKeyIdentifierExtension(
+                key: certificateRequest.PublicKey,
+                critical: false
+            )
+        );
+
+        var sanBuilder = new SubjectAlternativeNameBuilder();
+        sanBuilder.AddDnsName("localhost");
+        certificateRequest.CertificateExtensions.Add(sanBuilder.Build());
+
+        var cert = certificateRequest.CreateSelfSigned(DateTimeOffset.Now.AddDays(-1), DateTimeOffset.Now.AddYears(5));
+
+        // windows only
+        return new X509Certificate2(cert.Export(X509ContentType.Pfx), (string?)null, X509KeyStorageFlags.Exportable);
     }
 }

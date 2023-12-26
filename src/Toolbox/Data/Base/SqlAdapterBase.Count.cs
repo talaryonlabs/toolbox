@@ -3,6 +3,7 @@ using System.Data;
 using System.Threading;
 using System.Threading.Tasks;
 using Dapper;
+using TalaryonLabs.Toolbox.Extensions;
 
 namespace TalaryonLabs.Toolbox.Data;
 
