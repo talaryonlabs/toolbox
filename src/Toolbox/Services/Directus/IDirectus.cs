@@ -14,7 +14,7 @@ public interface IDirectus
 
 public interface IDirectusRequestSingle<T> : ITalaryonRunner<DirectusResponse<T>?>
 {
-    IDirectusRequestSingle<T>? Fields(params string[] fields);
+    IDirectusRequestSingle<T> Fields(params string[] fields);
 }
 
 public interface IDirectusRequestMany<T> : ITalaryonRunner<DirectusResponse<T[]>?>

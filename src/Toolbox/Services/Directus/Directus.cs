@@ -150,8 +150,8 @@ public class Directus : IDirectus
             .RunAsync(CancellationToken.None)
             .RunSynchronouslyWithResult();
 
-        IDirectusRequestSingle<T>? IDirectusRequestSingle<T>.Fields(params string[] fields) =>
-            Fields(fields) as IDirectusRequestSingle<T>;
+        IDirectusRequestSingle<T> IDirectusRequestSingle<T>.Fields(params string[] fields) =>
+            (Fields(fields) as IDirectusRequestSingle<T>)!;
 
         
     }

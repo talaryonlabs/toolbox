@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Win32.SafeHandles;
 using TalaryonLabs.Toolbox.IO;
 
 namespace TalaryonLabs.Toolbox.Communication;
@@ -95,13 +96,26 @@ public static class Packet
         };
     }*/
 
-    public static async ValueTask<T> ReadFromStreamAsync<T>(Stream stream,
+    public static async ValueTask<T?> ReadFromStreamAsync<T>(Stream stream,
         CancellationToken cancellationToken = default) where T : IPacket
     {
-        var packet = Activator.CreateInstance<T>();
-        await Reader.ReadAsync(stream, packet);
-
-        return packet;
+        return await Task.Run(async () =>
+        {
+            while (!cancellationToken.IsCancellationRequested)
+            {
+                var packet = Activator.CreateInstance<T>();
+                try
+                {
+                    await Reader.ReadAsync(stream, packet);
+                    return packet;
+                }
+                catch (PacketVerifyException ex)
+                {
+                    TalaryonLogger.Error<IPacket>(ex.Message);
+                }
+            } 
+            return default;
+        }, cancellationToken);
     }
 
 
@@ -214,6 +228,7 @@ public static class Packet
         public async ValueTask ReadAsync<T>(Stream stream, T packet)
             where T : IPacket
         {
+            var dummy = Activator.CreateInstance<T>();
             var binaryReader = new AsyncBinaryReader(stream);
             var dataLength = default(int);
             var headerFields = GetHeaderFields<T>();
@@ -221,6 +236,11 @@ public static class Packet
             foreach (var header in headerFields)
             {
                 var value = await ReadAsync(binaryReader, header.Type, header.HeaderLength);
+                if (header.HeaderType == PacketHeaderType.Verify)
+                {
+                    var identifier = (byte[])header.GetValue(dummy);
+                    if (!((byte[])value).SequenceEqual(identifier)) throw new PacketVerifyException();
+                }
                 if (header.HeaderType == PacketHeaderType.DataLength)
                 {
                     dataLength = Convert.ToInt32(value);
@@ -246,7 +266,7 @@ public static class Packet
         {
             if (!_configs.TryGetValue(type, out var multicastDelegate))
                 throw new PacketTypeConfigurationException($"Configuration for type {type.FullName} not found.");
-
+            
             var task = (Task)multicastDelegate.DynamicInvoke(binaryReader, size)!;
             await task;
 
