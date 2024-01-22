@@ -9,7 +9,7 @@ public interface IDirectus
     IDirectusRequestSingle<T> Select<T>(string name, string? id);
     IDirectusRequestMany<T> Many<T>(string name);
 
-    string GetAssetUrl(string assetId);
+    string GetAssetUrl(string? assetId);
 }
 
 public interface IDirectusRequestSingle<T> : ITalaryonRunner<DirectusResponse<T>?>
