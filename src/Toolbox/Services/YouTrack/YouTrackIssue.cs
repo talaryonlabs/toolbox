@@ -24,4 +24,5 @@ public class YouTrackIssueParams : YouTrackParams
     public YouTrackIssueParams Summary(string summary) => (YouTrackIssueParams)Set("summary", summary);
     public YouTrackIssueParams Description(string description) => (YouTrackIssueParams)Set("description", description);
     public YouTrackIssueParams Project(dynamic project) => (YouTrackIssueParams)Set("project", project);
+    public YouTrackIssueParams Reporter(dynamic reporter) => (YouTrackIssueParams)Set("reporter", reporter);
 }

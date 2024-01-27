@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 
-namespace TalaryonLabs.Toolbox.Services.YouTrack;
+namespace TalaryonLabs.Toolbox.Services.Hub;
 
-public class YouTrackParams
+public class HubParams
 {
     private readonly Dictionary<string, object> _params = new();
 
-    public YouTrackParams Set(string name, object value)
+    public HubParams Set(string name, object value)
     {
         if(!_params.TryAdd(name, value))
             _params[name] = value;
