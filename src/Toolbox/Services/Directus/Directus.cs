@@ -74,7 +74,7 @@ public class Directus : IDirectus
     {
         private readonly List<string> _query = new();
 
-        public IDirectusRequestMany<T> Fields(params string[] fields)
+        public IDirectusRequestMany<T> Fields(params string[]? fields)
         {
             _query.Add($"fields={string.Join(",", fields)}");
             return this;
@@ -150,7 +150,7 @@ public class Directus : IDirectus
             .RunAsync(CancellationToken.None)
             .RunSynchronouslyWithResult();
 
-        IDirectusRequestSingle<T> IDirectusRequestSingle<T>.Fields(params string[] fields) =>
+        IDirectusRequestSingle<T> IDirectusRequestSingle<T>.Fields(params string[]? fields) =>
             (Fields(fields) as IDirectusRequestSingle<T>)!;
 
         

@@ -14,12 +14,12 @@ public interface IDirectus
 
 public interface IDirectusRequestSingle<T> : ITalaryonRunner<DirectusResponse<T>?>
 {
-    IDirectusRequestSingle<T> Fields(params string[] fields);
+    IDirectusRequestSingle<T> Fields(params string[]? fields);
 }
 
 public interface IDirectusRequestMany<T> : ITalaryonRunner<DirectusResponse<T[]>?>
 {
-    IDirectusRequestMany<T> Fields(params string[] fields);
+    IDirectusRequestMany<T> Fields(params string[]? fields);
 
     IDirectusRequestMany<T> Filter(string name, string type, string value);
     // IDirectusRequest<T> Search(string pattern);
