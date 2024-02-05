@@ -1,4 +1,6 @@
 ﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Extensions;
 
 namespace TalaryonLabs.Toolbox.Services.Directus;
 
@@ -10,6 +12,7 @@ public interface IDirectus
     IDirectusRequestMany<T> Many<T>(string name);
 
     string GetAssetUrl(string? assetId);
+    string GetAssetUrl(string? assetId, QueryString queryString);
 }
 
 public interface IDirectusRequestSingle<T> : ITalaryonRunner<DirectusResponse<T>?>

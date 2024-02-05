@@ -5,6 +5,8 @@ using System.Net.Http.Json;
 using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.Extensions.Options;
 using TalaryonLabs.Toolbox.Extensions;
 
@@ -67,7 +69,8 @@ public class Directus : IDirectus
     }
 
     public IDirectusRequestMany<T> Many<T>(string name) => new Request<T>(name, _httpClient, null);
-    public string GetAssetUrl(string? assetId) => _base + $"assets/{assetId}";
+    public string GetAssetUrl(string? assetId) => $"{_base}assets/{assetId}";
+    public string GetAssetUrl(string? assetId, QueryString queryString) => $"{_base}assets/{assetId}{queryString.ToString()}";
 
     private class Request<T>(string name, HttpClient httpClient, string? id) : IDirectusRequestMany<T>,
         IDirectusRequestSingle<T>
