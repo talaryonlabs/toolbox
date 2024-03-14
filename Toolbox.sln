@@ -4,8 +4,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Toolbox", "src\Toolbox\Tool
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Toolbox.Tests", "tests\Toolbox.Tests\Toolbox.Tests.csproj", "{2D37A279-A3DD-4B34-9891-E0A7EDA0C886}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp1", "..\..\..\..\Developing\ConsoleApp1\ConsoleApp1.csproj", "{B840AB85-99F3-4BEB-AFCD-AABFB6A68822}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,9 +18,5 @@ Global
 		{2D37A279-A3DD-4B34-9891-E0A7EDA0C886}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2D37A279-A3DD-4B34-9891-E0A7EDA0C886}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2D37A279-A3DD-4B34-9891-E0A7EDA0C886}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B840AB85-99F3-4BEB-AFCD-AABFB6A68822}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B840AB85-99F3-4BEB-AFCD-AABFB6A68822}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B840AB85-99F3-4BEB-AFCD-AABFB6A68822}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B840AB85-99F3-4BEB-AFCD-AABFB6A68822}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
