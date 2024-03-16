@@ -2,7 +2,7 @@
 
 # Talaryon's toolbox
 
-![.NET](https://github.com/talaryonlabs/toolbox/actions/workflows/dotnet.yml/badge.svg)
+[![Build status](https://teamcity.jetbrains.com/guestAuth/app/rest/builds/buildType:(id:Toolbox_Build)/statusIcon](https://talaryon.teamcity.com/viewType.html?buildTypeId=Toolbox_Build)
 ![GitHub](https://img.shields.io/github/license/talaryonlabs/toolbox)
 ![GitHub pull requests](https://img.shields.io/github/issues-pr/talaryonlabs/toolbox) 
 
