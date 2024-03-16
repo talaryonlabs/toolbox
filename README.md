@@ -2,7 +2,7 @@
 
 # Talaryon's toolbox
 
-[![Build status](https://teamcity.jetbrains.com/guestAuth/app/rest/builds/buildType:(id:Toolbox_Build)/statusIcon](https://talaryon.teamcity.com/viewType.html?buildTypeId=Toolbox_Build)
+[![Build status](https://teamcity.jetbrains.com/guestAuth/app/rest/builds/buildType:(id:Toolbox_Build)/statusIcon)
 ![GitHub](https://img.shields.io/github/license/talaryonlabs/toolbox)
 ![GitHub pull requests](https://img.shields.io/github/issues-pr/talaryonlabs/toolbox) 
 
