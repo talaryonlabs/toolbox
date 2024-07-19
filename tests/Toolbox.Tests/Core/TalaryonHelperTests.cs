@@ -1,4 +1,4 @@
-namespace TalaryonLabs.Toolbox.Tests
+namespace Talaryon.Toolbox.Tests
 {
     public class TalaryonHelperTests
     {

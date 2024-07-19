@@ -7,9 +7,9 @@
 
         <IsPackable>false</IsPackable>
 
-        <AssemblyName>TalaryonLabs.Toolbox.Tests</AssemblyName>
+        <AssemblyName>Talaryon.Toolbox.Tests</AssemblyName>
 
-        <RootNamespace>TalaryonLabs.Toolbox.Tests</RootNamespace>
+        <RootNamespace>Talaryon.Toolbox.Tests</RootNamespace>
 
         <LangVersion>12</LangVersion>
     </PropertyGroup>

@@ -1,7 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
-namespace TalaryonLabs.Toolbox.Tests
+namespace Talaryon.Toolbox.Tests
 {
     public class TalaryonExtensionsTests
     {
