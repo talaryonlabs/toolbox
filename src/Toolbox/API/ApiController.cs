@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace TalaryonLabs.Toolbox.API;
+namespace Talaryon.Toolbox.API;
 
 [ApiController]
 public abstract class ApiController<T, TArgs> : ControllerBase 

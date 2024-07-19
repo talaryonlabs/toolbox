@@ -7,9 +7,9 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Win32.SafeHandles;
-using TalaryonLabs.Toolbox.IO;
+using Talaryon.Toolbox.IO;
 
-namespace TalaryonLabs.Toolbox.Communication;
+namespace Talaryon.Toolbox.Communication;
 
 public static class Packet
 {

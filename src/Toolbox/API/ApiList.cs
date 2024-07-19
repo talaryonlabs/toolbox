@@ -2,7 +2,7 @@
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
 
-namespace TalaryonLabs.Toolbox.API;
+namespace Talaryon.Toolbox.API;
 
 [JsonObject]
 public class ApiList<T>

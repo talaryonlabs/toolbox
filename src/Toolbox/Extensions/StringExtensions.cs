@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace TalaryonLabs.Toolbox.Extensions;
+namespace Talaryon.Toolbox.Extensions;
 
 public static class StringExtensions
 {

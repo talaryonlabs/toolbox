@@ -1,4 +1,4 @@
-﻿namespace TalaryonLabs.Toolbox.Communication;
+﻿namespace Talaryon.Toolbox.Communication;
 
 public interface IPacket
 {

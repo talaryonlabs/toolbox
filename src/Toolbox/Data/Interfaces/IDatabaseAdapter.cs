@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace TalaryonLabs.Toolbox.Data;
+namespace Talaryon.Toolbox.Data;
 
 public interface IDatabaseAdapter
 {

@@ -2,7 +2,7 @@
 using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.Options;
 
-namespace TalaryonLabs.Toolbox.Data;
+namespace Talaryon.Toolbox.Data;
 
 public sealed class SqliteOptions : TalaryonOptions<SqliteOptions>
 {

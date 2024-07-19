@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Options;
 using MySqlConnector;
 
-namespace TalaryonLabs.Toolbox.Data;
+namespace Talaryon.Toolbox.Data;
 
 public sealed class MysqlOptions : TalaryonOptions<MysqlOptions>
 {

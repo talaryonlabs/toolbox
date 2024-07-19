@@ -2,7 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
-namespace TalaryonLabs.Toolbox.Extensions;
+namespace Talaryon.Toolbox.Extensions;
 
 public static class ServiceCollectionExtensions
 {

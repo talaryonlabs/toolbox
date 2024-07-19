@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using Newtonsoft.Json;
 
-namespace TalaryonLabs.Toolbox.API;
+namespace Talaryon.Toolbox.API;
 
 [JsonObject]
 public class ApiRequest<T>

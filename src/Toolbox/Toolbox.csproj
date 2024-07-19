@@ -2,8 +2,8 @@
 
     <PropertyGroup>
         <TargetFramework>net8.0</TargetFramework>
-        <AssemblyName>TalaryonLabs.Toolbox</AssemblyName>
-        <RootNamespace>TalaryonLabs.Toolbox</RootNamespace>
+        <AssemblyName>Talaryon.Toolbox</AssemblyName>
+        <RootNamespace>Talaryon.Toolbox</RootNamespace>
         <Nullable>enable</Nullable>
         <LangVersion>12</LangVersion>
     </PropertyGroup>

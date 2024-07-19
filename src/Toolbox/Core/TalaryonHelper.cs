@@ -7,9 +7,9 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Web;
 using Newtonsoft.Json;
-using TalaryonLabs.Toolbox.API;
+using Talaryon.Toolbox.API;
 
-namespace TalaryonLabs.Toolbox;
+namespace Talaryon.Toolbox;
 
 public static class TalaryonHelper
 {

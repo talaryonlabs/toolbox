@@ -1,4 +1,4 @@
-﻿namespace TalaryonLabs.Toolbox;
+﻿namespace Talaryon.Toolbox;
 
 public interface ITalaryonCreatable<TResult>
 {

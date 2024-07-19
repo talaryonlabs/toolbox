@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace TalaryonLabs.Toolbox.Services.Hub;
+namespace Talaryon.Toolbox.Services.Hub;
 
 public class HubParams
 {

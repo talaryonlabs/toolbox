@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace TalaryonLabs.Toolbox.Data;
+namespace Talaryon.Toolbox.Data;
 
 public partial class SqlAdapterBase
 {

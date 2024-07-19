@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 
-namespace TalaryonLabs.Toolbox.Data;
+namespace Talaryon.Toolbox.Data;
 
 // SELECT [DISTINCT] [*]
 // FROM {table}

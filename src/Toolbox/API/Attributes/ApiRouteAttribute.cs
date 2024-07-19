@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
 
-namespace TalaryonLabs.Toolbox.API;
+namespace Talaryon.Toolbox.API;
 
 [AttributeUsage(AttributeTargets.Class)]
 public class ApiRouteAttribute : RouteAttribute

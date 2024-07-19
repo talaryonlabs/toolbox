@@ -3,7 +3,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using Microsoft.Extensions.Options;
 
-namespace TalaryonLabs.Toolbox.Services.YouTrack;
+namespace Talaryon.Toolbox.Services.YouTrack;
 
 public sealed class YouTrackOptions : TalaryonOptions<YouTrackOptions>
 {

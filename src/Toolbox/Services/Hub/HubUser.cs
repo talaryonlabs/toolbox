@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
-namespace TalaryonLabs.Toolbox.Services.Hub;
+namespace Talaryon.Toolbox.Services.Hub;
 
 [HubEndpoint("/hub/api/rest/users", ResponseType = typeof(HubUserList), Type =  HubEndpointType.List | HubEndpointType.Create)]
 [HubEndpoint("/hub/api/rest/users/.id", HubEndpointType.Get)]

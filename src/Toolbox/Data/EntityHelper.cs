@@ -3,7 +3,7 @@ using System.Linq;
 using System.Reflection;
 using Dapper.Contrib.Extensions;
 
-namespace TalaryonLabs.Toolbox.Data;
+namespace Talaryon.Toolbox.Data;
 
 public static class EntityHelper
 {

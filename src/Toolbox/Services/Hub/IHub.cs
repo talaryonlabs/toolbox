@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using TalaryonLabs.Toolbox.Services.YouTrack;
+using Talaryon.Toolbox.Services.YouTrack;
 
-namespace TalaryonLabs.Toolbox.Services.Hub;
+namespace Talaryon.Toolbox.Services.Hub;
 
 public interface IHub
 {

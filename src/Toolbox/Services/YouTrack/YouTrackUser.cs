@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace TalaryonLabs.Toolbox.Services.YouTrack;
+namespace Talaryon.Toolbox.Services.YouTrack;
 
 [YouTrackEndpoint("/api/users")]
 [YouTrackEndpoint("/api/users/.id", YouTrackEndpointType.Get)]

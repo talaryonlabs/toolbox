@@ -2,9 +2,9 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Dapper.Contrib.Extensions;
-using TalaryonLabs.Toolbox.Extensions;
+using Talaryon.Toolbox.Extensions;
 
-namespace TalaryonLabs.Toolbox.Data;
+namespace Talaryon.Toolbox.Data;
 
 public partial class SqlAdapterBase
 {

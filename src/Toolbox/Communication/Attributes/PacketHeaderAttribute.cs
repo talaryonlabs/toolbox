@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TalaryonLabs.Toolbox.Communication;
+namespace Talaryon.Toolbox.Communication;
 
 public enum PacketHeaderType : ushort
 {

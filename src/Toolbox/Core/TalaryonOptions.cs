@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Options;
 
-namespace TalaryonLabs.Toolbox;
+namespace Talaryon.Toolbox;
 
 public class TalaryonOptions<T> : IOptions<T> 
     where T : class, new()

@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Extensions;
 
-namespace TalaryonLabs.Toolbox.Services.Directus;
+namespace Talaryon.Toolbox.Services.Directus;
 
 public interface IDirectus
 {

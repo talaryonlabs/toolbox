@@ -2,7 +2,7 @@
 using System.Runtime.Serialization;
 using Microsoft.AspNetCore.Http;
 
-namespace TalaryonLabs.Toolbox.API;
+namespace Talaryon.Toolbox.API;
 
 [DataContract]
 public sealed class InternalServerError : ApiError

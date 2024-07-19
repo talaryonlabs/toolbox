@@ -6,9 +6,9 @@ using System.Net.Http.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http.Extensions;
-using TalaryonLabs.Toolbox.Extensions;
+using Talaryon.Toolbox.Extensions;
 
-namespace TalaryonLabs.Toolbox.Services.YouTrack;
+namespace Talaryon.Toolbox.Services.YouTrack;
 
 public class YouTrackFactory<T, TParams>(HttpClient httpClient, string? id = null) :
         IYouTrackResourceCreateFactory<T, TParams>,

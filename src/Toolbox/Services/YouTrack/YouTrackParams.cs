@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace TalaryonLabs.Toolbox.Services.YouTrack;
+namespace Talaryon.Toolbox.Services.YouTrack;
 
 public class YouTrackParams
 {

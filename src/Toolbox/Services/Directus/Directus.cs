@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.Extensions.Options;
-using TalaryonLabs.Toolbox.Extensions;
+using Talaryon.Toolbox.Extensions;
 
-namespace TalaryonLabs.Toolbox.Services.Directus;
+namespace Talaryon.Toolbox.Services.Directus;
 
 public sealed class DirectusOptions : TalaryonOptions<DirectusOptions>
 {

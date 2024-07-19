@@ -1,9 +1,9 @@
 ﻿using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using TalaryonLabs.Toolbox.Communication;
+using Talaryon.Toolbox.Communication;
 
-namespace TalaryonLabs.Toolbox.Extensions;
+namespace Talaryon.Toolbox.Extensions;
 
 public static class StreamExtensions
 {

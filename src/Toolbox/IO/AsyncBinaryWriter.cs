@@ -3,7 +3,7 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace TalaryonLabs.Toolbox.IO;
+namespace Talaryon.Toolbox.IO;
 
 public class AsyncBinaryWriter(Stream stream)
 {

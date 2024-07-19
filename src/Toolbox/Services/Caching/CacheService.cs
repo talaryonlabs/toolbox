@@ -4,9 +4,9 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Caching.Distributed;
-using TalaryonLabs.Toolbox.Extensions;
+using Talaryon.Toolbox.Extensions;
 
-namespace TalaryonLabs.Toolbox.Services.Caching;
+namespace Talaryon.Toolbox.Services.Caching;
 
 public class CacheService :
     ICacheService,

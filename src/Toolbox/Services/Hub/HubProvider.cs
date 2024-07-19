@@ -6,9 +6,9 @@ using System.Net.Http.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http.Extensions;
-using TalaryonLabs.Toolbox.Extensions;
+using Talaryon.Toolbox.Extensions;
 
-namespace TalaryonLabs.Toolbox.Services.Hub;
+namespace Talaryon.Toolbox.Services.Hub;
 
 public class HubProvider<T>(HttpClient httpClient, string? id = null) : IHubResourceProviderSingle<T>, IHubResourceProviderMany<T> where T : IHubResource
 {
