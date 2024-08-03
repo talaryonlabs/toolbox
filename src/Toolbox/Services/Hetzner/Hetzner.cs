@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
@@ -17,6 +20,9 @@ public class HetznerOptions : TalaryonOptions<HetznerOptions>
 
 public class Hetzner : IHetzner
 {
+    private class HetznerContainer<T> : Dictionary<string, T>;
+    private class HetznerList<T> : List<HetznerContainer<T>>;
+    
     private readonly HttpClient _httpClient;
 
     public Hetzner(HttpClient httpClient, IOptions<HetznerOptions> optionsAccessor)
@@ -33,7 +39,7 @@ public class Hetzner : IHetzner
         _httpClient.BaseAddress = new Uri(@base);
         _httpClient.DefaultRequestHeaders.Add("Authorization", $"Basic {$"{user}:{password}".ToBase64String()}");
     }
-
+    
     private class Request<T>(HttpClient httpClient, string name, string? id)
         : ITalaryonRunner<T[]?>, ITalaryonRunner<T?>
     {
@@ -48,14 +54,17 @@ public class Hetzner : IHetzner
             try
             {
                 TalaryonLogger.Debug<Hetzner>($"Call {url}");
-                var response = await httpClient.GetFromJsonAsync<IHetznerObjectContainer<T>>(url, cancellationToken);
-                return response.Object;
+                var response = await httpClient.GetFromJsonAsync<HetznerContainer<T>>(url, cancellationToken);
+                if (response is not null)
+                {
+                    return response.First().Value;
+                }
             }
             catch (Exception e)
             {
                 TalaryonLogger.Error<Hetzner>(e.Message);
-                return default;
             }
+            return default;
         }
 
         T[]? ITalaryonRunner<T[]?>.Run() =>
@@ -68,13 +77,17 @@ public class Hetzner : IHetzner
             try
             {
                 TalaryonLogger.Debug<Hetzner>($"Call {name}");
-                return await httpClient.GetFromJsonAsync<T[]>(name, cancellationToken);
+                var response = await httpClient.GetFromJsonAsync<HetznerList<T>>(name, cancellationToken);
+                if (response is not null)
+                {
+                    return response.Select(v => v.First().Value).ToArray();
+                }
             }
             catch (Exception e)
             {
                 TalaryonLogger.Error<Hetzner>(e.Message);
-                return default;
             }
+            return default;
         }
     }
 
@@ -83,9 +96,4 @@ public class Hetzner : IHetzner
 
     public ITalaryonRunner<T?> Single<T>(string id) where T : IHetznerObject =>
         new Request<T>(_httpClient, Activator.CreateInstance<T>().Name, id);
-
-    public T Set<T>()
-    {
-        throw new NotImplementedException();
-    }
 }
