@@ -3,15 +3,7 @@
 namespace Talaryon.Toolbox.Services.Hetzner;
 
 // ReSharper disable InconsistentNaming
-public class HetznerServer : IHetznerObject
-{
-    public string Name => "server";
-    
-    [JsonPropertyName("server")]
-    public HetznerServerObject? Server { get; set; }
-}
-
-public class HetznerServerObject
+public class HetznerServer : IHetznerObject, IHetznerObjectContainer<HetznerServer>
 {
     [JsonPropertyName("server_number")] public int ServerId { get; set; }
     [JsonPropertyName("server_name")] public string? ServerName { get; set; }
@@ -42,6 +34,16 @@ public class HetznerServerObject
     [JsonPropertyName("subnet")] public HetznerServerSubnet[]? Subnets { get; set; }
     
     [JsonPropertyName("linked_storagebox")] public int? StorageBoxId { get; set; }
+    
+    public string Name => "server";
+    
+    [JsonPropertyName("server")]
+    HetznerServer? IHetznerObjectContainer<HetznerServer>.Object { get; set; }
+}
+
+public class HetznerServerObject
+{
+
 }
 
 public class HetznerServerSubnet

@@ -10,3 +10,8 @@ public interface IHetznerObject
 {
     string Name { get; }
 }
+
+public interface IHetznerObjectContainer<T>
+{
+    T? Object { get; set; }
+}

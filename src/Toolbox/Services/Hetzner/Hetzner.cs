@@ -48,7 +48,8 @@ public class Hetzner : IHetzner
             try
             {
                 TalaryonLogger.Debug<Hetzner>($"Call {url}");
-                return await httpClient.GetFromJsonAsync<T>(url, cancellationToken);
+                var response = await httpClient.GetFromJsonAsync<IHetznerObjectContainer<T>>(url, cancellationToken);
+                return response.Object;
             }
             catch (Exception e)
             {
