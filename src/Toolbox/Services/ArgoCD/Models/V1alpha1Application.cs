@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Talaryon.Toolbox.Services.ArgoCD.Models;
 
+[ArgoEndpoint("api/v1/applications/.id", ArgoEndpointType.Get | ArgoEndpointType.Update, typeof(V1alpha1Application))]
+[ArgoEndpoint("api/v1/applications", ArgoEndpointType.Create, typeof(V1alpha1Application))]
 public class V1alpha1Application
 {
     public V1ObjectMeta Metadata { get; set; }
@@ -13,6 +16,7 @@ public class V1alpha1Application
 /// <summary>
 /// ApplicationList is a list of Application resources.
 /// </summary>
+[ArgoEndpoint("api/v1/applications", ArgoEndpointType.List, typeof(V1alpha1ApplicationList))]
 public class V1alpha1ApplicationList
 {
     /// <summary>
@@ -41,9 +45,9 @@ public class V1alpha1ApplicationStatus
     public string ControllerNamespace { get; set; }
     public V1alpha1HealthStatus Health { get; set; }
     public List<V1alpha1RevisionHistory> History { get; set; }
-    public V1Time ObservedAt { get; set; }
+    public DateTime ObservedAt { get; set; }
     public V1alpha1OperationState OperationState { get; set; }
-    public V1Time ReconciledAt { get; set; }
+    public DateTime ReconciledAt { get; set; }
     public string ResourceHealthSource { get; set; }
     public List<V1alpha1ResourceStatus> Resources { get; set; }
     public string SourceType { get; set; }
@@ -57,7 +61,7 @@ public class V1alpha1ApplicationStatus
 /// </summary>
 public class V1alpha1ApplicationCondition
 {
-    public V1Time LastTransitionTime { get; set; }
+    public DateTime LastTransitionTime { get; set; }
 
     /// <summary>
     /// Message contains human-readable message indicating details about the condition.
@@ -84,4 +88,11 @@ public class V1alpha1ApplicationSummary
     /// Images holds all images of application child resources.
     /// </summary>
     public List<string> Images { get; set; }
+}
+
+public class V1alpha1ApplicationDestination
+{
+    public string Name { get; set; }
+    public string Namespace { get; set; }
+    public string Server { get; set; }
 }

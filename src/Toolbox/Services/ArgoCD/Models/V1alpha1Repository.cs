@@ -2,6 +2,8 @@
 
 namespace Talaryon.Toolbox.Services.ArgoCD.Models;
 
+[ArgoEndpoint("api/v1/repositories/.id", ArgoEndpointType.Get | ArgoEndpointType.Update, typeof(V1alpha1Repository))]
+[ArgoEndpoint("api/v1/repositories", ArgoEndpointType.Create, typeof(V1alpha1Repository))]
 public class V1alpha1Repository
 {
     public V1alpha1ConnectionState ConnectionState { get; set; }
@@ -28,6 +30,7 @@ public class V1alpha1Repository
     public string Username { get; set; }
 }
 
+[ArgoEndpoint("api/v1/repositories", ArgoEndpointType.List, typeof(V1alpha1RepositoryList))]
 public class V1alpha1RepositoryList
 {
     public List<V1alpha1Repository> Items { get; set; }

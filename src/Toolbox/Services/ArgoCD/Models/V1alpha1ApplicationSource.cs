@@ -76,23 +76,3 @@ public class V1alpha1ApplicationSourcePluginParameter
     public string Name { get; set; }
     public string String { get; set; }
 }
-
-public class V1alpha1HelmFileParameter
-{
-    public string Name { get; set; }
-    public string Path { get; set; }
-}
-
-public class V1alpha1HelmParameter
-{
-    public bool ForceString { get; set; }
-    public string Name { get; set; }
-    public string Value { get; set; }
-}
-
-
-public class ApplicationV1alpha1EnvEntry
-{
-    public string Name { get; set; }
-    public string Value { get; set; }
-}

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Talaryon.Toolbox.Services.ArgoCD.Models;
 
@@ -18,11 +19,11 @@ public class V1alpha1OperationInitiator
 
 public class V1alpha1OperationState
 {
-    public V1Time FinishedAt { get; set; }
+    public DateTime FinishedAt { get; set; }
     public string Message { get; set; }
     public V1alpha1Operation Operation { get; set; }
     public string Phase { get; set; }
     public long RetryCount { get; set; }
-    public V1Time StartedAt { get; set; }
+    public DateTime StartedAt { get; set; }
     public V1alpha1SyncOperationResult SyncResult { get; set; }
 }

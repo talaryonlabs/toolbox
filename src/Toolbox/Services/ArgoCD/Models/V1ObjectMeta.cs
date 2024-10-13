@@ -1,13 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Talaryon.Toolbox.Services.ArgoCD.Models;
 
 public class V1ObjectMeta
 {
     public Dictionary<string, string> Annotations { get; set; }
-    public V1Time CreationTimestamp { get; set; }
+    public DateTimeOffset CreationTimestamp { get; set; }
     public long? DeletionGracePeriodSeconds { get; set; }
-    public V1Time DeletionTimestamp { get; set; }
+    public DateTimeOffset DeletionTimestamp { get; set; }
     public List<string> Finalizers { get; set; }
     public string GenerateName { get; set; }
     public long? Generation { get; set; }

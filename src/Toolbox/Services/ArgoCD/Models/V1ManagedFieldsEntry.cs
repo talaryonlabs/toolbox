@@ -1,4 +1,6 @@
-﻿namespace Talaryon.Toolbox.Services.ArgoCD.Models;
+﻿using System;
+
+namespace Talaryon.Toolbox.Services.ArgoCD.Models;
 
 public class V1ManagedFieldsEntry
 {
@@ -8,5 +10,5 @@ public class V1ManagedFieldsEntry
     public string Manager { get; set; }
     public string Operation { get; set; }
     public string Subresource { get; set; }
-    public V1Time Time { get; set; }
+    public DateTime Time { get; set; }
 }

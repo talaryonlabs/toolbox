@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Talaryon.Toolbox.Services.ArgoCD.Models;
 
@@ -7,9 +8,9 @@ namespace Talaryon.Toolbox.Services.ArgoCD.Models;
 /// </summary>
 public class V1alpha1RevisionHistory
 {
-    public V1Time DeployStartedAt { get; set; }
+    public DateTime DeployStartedAt { get; set; }
 
-    public V1Time DeployedAt { get; set; }
+    public DateTime DeployedAt { get; set; }
 
     /// <summary>
     /// ID is an auto incrementing identifier of the RevisionHistory.

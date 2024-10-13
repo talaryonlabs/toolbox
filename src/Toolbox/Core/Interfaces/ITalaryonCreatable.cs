@@ -2,7 +2,7 @@
 
 public interface ITalaryonCreatable<TResult>
 {
-    ITalaryonRunner<TResult> Create();
+    ITalaryonParams<TResult> Create();
 }
     
 public interface ITalaryonCreatable<TResult, out TParams>
