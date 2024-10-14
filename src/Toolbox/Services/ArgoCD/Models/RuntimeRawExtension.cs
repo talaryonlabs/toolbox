@@ -2,5 +2,5 @@
 
 public class RuntimeRawExtension
 {
-    public string Raw { get; set; }
+    public string? Raw { get; set; }
 }

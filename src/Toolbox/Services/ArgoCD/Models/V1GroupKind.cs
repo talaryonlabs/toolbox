@@ -2,6 +2,6 @@
 
 public class V1GroupKind
 {
-    public string Group { get; set; }
-    public string Kind { get; set; }
+    public string? Group { get; set; }
+    public string? Kind { get; set; }
 }

@@ -7,10 +7,10 @@ namespace Talaryon.Toolbox.Services.ArgoCD.Models;
 [ArgoEndpoint("api/v1/applications", ArgoEndpointType.Create, typeof(V1alpha1Application))]
 public class V1alpha1Application
 {
-    public V1ObjectMeta Metadata { get; set; }
-    public V1alpha1Operation Operation { get; set; }
-    public V1alpha1ApplicationSpec Spec { get; set; }
-    public V1alpha1ApplicationStatus Status { get; set; }
+    public V1ObjectMeta Metadata { get; set; } = new();
+    public V1alpha1Operation Operation { get; set; } = new();
+    public V1alpha1ApplicationSpec Spec { get; set; } = new();
+    public V1alpha1ApplicationStatus Status { get; set; } = new();
 }
 
 /// <summary>

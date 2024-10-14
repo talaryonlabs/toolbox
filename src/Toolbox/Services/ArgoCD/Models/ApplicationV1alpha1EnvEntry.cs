@@ -2,6 +2,6 @@
 
 public class ApplicationV1alpha1EnvEntry
 {
-    public string Name { get; set; }
-    public string Value { get; set; }
+    public string? Name { get; set; }
+    public string? Value { get; set; }
 }

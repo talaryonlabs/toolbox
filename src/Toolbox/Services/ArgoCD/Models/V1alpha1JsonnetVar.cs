@@ -6,6 +6,6 @@
 public class V1alpha1JsonnetVar
 {
     public bool Code { get; set; }
-    public string Name { get; set; }
-    public string Value { get; set; }
+    public string? Name { get; set; }
+    public string? Value { get; set; }
 }

@@ -2,5 +2,5 @@
 
 public class V1FieldsV1
 {
-    public string Raw { get; set; }
+    public string? Raw { get; set; }
 }
