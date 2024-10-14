@@ -52,6 +52,15 @@ public interface IDirectus
     /// <param name="queryString">The query string to be appended to the URL. It can be used to include additional parameters.</param>
     /// <returns>The URL of the asset.</returns>
     string GetAssetUrl(string? assetId, QueryString queryString);
+
+    ITalaryonRunner<IDirectusSchema> Snapshot();
+    ITalaryonRunner<IDirectusSchema> Diff(IDirectusSchema current);
+    ITalaryonRunner<bool> ApplySchema(IDirectusSchema diff);
+}
+
+public interface IDirectusSchema
+{
+    public string? Data { get; set; }
 }
 
 public interface IDirectusRequestSingle<T> : ITalaryonRunner<DirectusResponse<T>?>
