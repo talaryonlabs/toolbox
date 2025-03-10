@@ -138,7 +138,7 @@ public class Directus : IDirectus
             catch (Exception e)
             {
                 TalaryonLogger.Error<Directus>(e.Message);
-                return default;
+                return null;
             }
         }
 
@@ -158,7 +158,7 @@ public class Directus : IDirectus
             catch (Exception e)
             {
                 TalaryonLogger.Error<Directus>(e.Message);
-                return default;
+                return null;
             };
         }
 
