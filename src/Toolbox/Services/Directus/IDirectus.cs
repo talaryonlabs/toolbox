@@ -43,7 +43,7 @@ public interface IDirectus
     /// </summary>
     /// <param name="assetId">The ID of the asset.</param>
     /// <returns>The URL of the asset.</returns>
-    string GetAssetUrl(string? assetId);
+    string? GetAssetUrl(string? assetId);
 
     /// <summary>
     /// Returns the URL of the asset with the specified ID.

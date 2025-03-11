@@ -69,7 +69,7 @@ public class Directus : IDirectus
     }
 
     public IDirectusRequestMany<T> Many<T>(string name) => new Request<T>(name, _httpClient, null);
-    public string GetAssetUrl(string? assetId) => $"{_base}assets/{assetId}";
+    public string? GetAssetUrl(string? assetId) => $"{_base}assets/{assetId}";
     public string GetAssetUrl(string? assetId, QueryString queryString) => $"{_base}assets/{assetId}{queryString.ToString()}";
     public ITalaryonRunner<IDirectusSchema> Snapshot()
     {
