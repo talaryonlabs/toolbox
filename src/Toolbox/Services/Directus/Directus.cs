@@ -130,9 +130,9 @@ public class Directus : IDirectus
         async Task<DirectusResponse<T>?> ITalaryonRunner<DirectusResponse<T>?>.RunAsync(CancellationToken cancellationToken)
         {
             var url = $"items/{name}/{id}?{string.Join("&", _query)}";
+            TalaryonLogger.Debug<Directus>($"Call {url}");
             try
             {
-                TalaryonLogger.Debug<Directus>($"Call {url}");
                 return await httpClient.GetFromJsonAsync<DirectusResponse<T>>(url, cancellationToken);
             }
             catch (Exception e)
@@ -150,9 +150,9 @@ public class Directus : IDirectus
         async Task<DirectusResponse<T[]>?> ITalaryonRunner<DirectusResponse<T[]>?>.RunAsync(CancellationToken cancellationToken)
         {
             var url = $"items/{name}?{string.Join("&", _query)}";
+            TalaryonLogger.Debug<Directus>($"Call {url}");
             try
             {
-                TalaryonLogger.Debug<Directus>($"Call {url}");
                 return await httpClient.GetFromJsonAsync<DirectusResponse<T[]>>(url, cancellationToken);
             }
             catch (Exception e)
