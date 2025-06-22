@@ -83,3 +83,9 @@ public interface IDirectusRequestMany<T> : ITalaryonRunner<DirectusResponse<T[]>
 
     IDirectusRequestMany<T> IncludeMetadata();
 }
+
+public interface IDirectusModel
+{
+    string GetTable();
+    string[] GetFields();
+}

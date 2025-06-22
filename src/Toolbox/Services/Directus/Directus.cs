@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
+using System.Reflection;
 using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
@@ -60,7 +62,20 @@ public class Directus : IDirectus
 
     public IDirectusRequestSingle<T> Single<T>(string name)
     {
-        return new Request<T>(name, _httpClient, null);
+
+        var attr = typeof(T).GetCustomAttribute<DirectusTableAttribute>() ??
+                   throw new Exception($"Missing attribute {nameof(DirectusTableAttribute)}.");
+
+        var props = typeof(T).GetProperties(BindingFlags.Instance | BindingFlags.Public)
+            .Select(v => v.GetCustomAttribute<DirectusFieldAttribute>()?.Name)
+            .ToList();
+
+        props.AddRange(attr.AdditionalFields ?? []);
+
+        var fields = string.Join(",", props);
+        
+        
+        return new Request<T>(attr.Name, _httpClient, null);
     }
 
     public IDirectusRequestSingle<T> Select<T>(string name, string? id)
