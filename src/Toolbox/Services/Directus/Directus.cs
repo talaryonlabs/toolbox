@@ -8,7 +8,6 @@ using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.Extensions.Options;
 using Talaryon.Toolbox.Extensions;
 
@@ -44,7 +43,8 @@ public class Directus : IDirectus
         _base = optionsAccessor.Value.BaseUrl ?? throw new ArgumentNullException(nameof(optionsAccessor.Value.BaseUrl));
         _httpClient = httpClient;
         _httpClient.BaseAddress = new Uri(_base);
-        _httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {optionsAccessor.Value.AccessToken ?? throw new ArgumentNullException(optionsAccessor.Value.AccessToken)}");
+        _httpClient.DefaultRequestHeaders.Add("Authorization",
+            $"Bearer {optionsAccessor.Value.AccessToken ?? throw new ArgumentNullException(optionsAccessor.Value.AccessToken)}");
     }
 
     public async Task<bool> Test()
@@ -60,32 +60,37 @@ public class Directus : IDirectus
         }
     }
 
-    public IDirectusRequestSingle<T> Single<T>(string name)
+    public IDirectusRequestSingle<T> Single<T>()
     {
-
         var attr = typeof(T).GetCustomAttribute<DirectusTableAttribute>() ??
                    throw new Exception($"Missing attribute {nameof(DirectusTableAttribute)}.");
 
-        var props = typeof(T).GetProperties(BindingFlags.Instance | BindingFlags.Public)
+        var fields = typeof(T).GetProperties(BindingFlags.Instance | BindingFlags.Public)
             .Select(v => v.GetCustomAttribute<DirectusFieldAttribute>()?.Name)
+            .Concat(attr.AdditionalFields ?? [])
             .ToList();
 
-        props.AddRange(attr.AdditionalFields ?? []);
-
-        var fields = string.Join(",", props);
-        
-        
-        return new Request<T>(attr.Name, _httpClient, null);
+        return new RequestSingle<T>(_httpClient, name: attr.Name, fields: fields.ToArray());
     }
 
-    public IDirectusRequestSingle<T> Select<T>(string name, string? id)
+    public IDirectusRequestMany<T> Many<T>()
     {
-        return new Request<T>(name, _httpClient, id);
+        var attr = typeof(T).GetCustomAttribute<DirectusTableAttribute>() ??
+                   throw new Exception($"Missing attribute {nameof(DirectusTableAttribute)}.");
+
+        var fields = typeof(T).GetProperties(BindingFlags.Instance | BindingFlags.Public)
+            .Select(v => v.GetCustomAttribute<DirectusFieldAttribute>()?.Name)
+            .Concat(attr.AdditionalFields ?? [])
+            .ToList();
+
+        return new RequestMany<T>(_httpClient, name: attr.Name, fields: fields.ToArray());
     }
 
-    public IDirectusRequestMany<T> Many<T>(string name) => new Request<T>(name, _httpClient, null);
     public string? GetAssetUrl(string? assetId) => $"{_base}assets/{assetId}";
-    public string GetAssetUrl(string? assetId, QueryString queryString) => $"{_base}assets/{assetId}{queryString.ToString()}";
+
+    public string GetAssetUrl(string? assetId, QueryString queryString) =>
+        $"{_base}assets/{assetId}{queryString.ToString()}";
+
     public ITalaryonRunner<IDirectusSchema> Snapshot()
     {
         throw new NotImplementedException();
@@ -101,50 +106,16 @@ public class Directus : IDirectus
         throw new NotImplementedException();
     }
 
-    private class Request<T>(string name, HttpClient httpClient, string? id) : IDirectusRequestMany<T>,
-        IDirectusRequestSingle<T>
+    private class RequestSingle<T>(HttpClient httpClient, string name, string?[] fields) : IDirectusRequestSingle<T>
     {
         private readonly List<string> _query = new();
 
-        public IDirectusRequestMany<T> Fields(params string[]? fields)
+        async Task<DirectusResponse<T>?> ITalaryonRunner<DirectusResponse<T>?>.RunAsync(
+            CancellationToken cancellationToken)
         {
             _query.Add($"fields={string.Join(",", fields)}");
-            return this;
-        }
 
-        public IDirectusRequestMany<T> Filter(string name, string type, string value)
-        {
-            _query.Add($"filter[{name}][{type}]={value}");
-            return this;
-        }
-
-        public IDirectusRequestMany<T> Sort(params string[] fields)
-        {
-            _query.Add($"sort={string.Join(",", fields)}");
-            return this;
-        }
-
-        public IDirectusRequestMany<T> Limit(int limit)
-        {
-            _query.Add($"limit={limit}");
-            return this;
-        }
-
-        public IDirectusRequestMany<T> Offset(int offset)
-        {
-            _query.Add($"offset={offset}");
-            return this;
-        }
-
-        public IDirectusRequestMany<T> IncludeMetadata()
-        {
-            _query.Add($"meta=*");
-            return this;
-        }
-
-        async Task<DirectusResponse<T>?> ITalaryonRunner<DirectusResponse<T>?>.RunAsync(CancellationToken cancellationToken)
-        {
-            var url = $"items/{name}/{id}?{string.Join("&", _query)}";
+            var url = $"items/{name}?{string.Join("&", _query)}";
             TalaryonLogger.Debug<Directus>($"Call {url}");
             try
             {
@@ -161,10 +132,53 @@ public class Directus : IDirectus
             (this as IDirectusRequestSingle<T>)
             .RunAsync(CancellationToken.None)
             .RunSynchronouslyWithResult();
+    }
 
-        async Task<DirectusResponse<T[]>?> ITalaryonRunner<DirectusResponse<T[]>?>.RunAsync(CancellationToken cancellationToken)
+
+    private class RequestMany<T>(HttpClient httpClient, string name, string?[] fields) : IDirectusRequestMany<T>
+    {
+        private readonly Dictionary<string, string> _query = new();
+
+        public IDirectusRequestMany<T> Filter(string field, string type, string value) =>
+            !_query.TryAdd($"filter[{field}][{type}]", value)
+                ? throw new Exception($"Filter {field},{type} already exists.")
+                : this;
+
+        public IDirectusRequestMany<T> Search(string pattern)
         {
-            var url = $"items/{name}?{string.Join("&", _query)}";
+            _query.Add("search", pattern);
+            return this;
+        }
+
+        public IDirectusRequestMany<T> Sort(params string[] sortingFields)
+        {
+            _query.Add("sort", string.Join(",", sortingFields));
+            return this;
+        }
+
+        public IDirectusRequestMany<T> Limit(int limit)
+        {
+            _query.Add("limit", $"{limit}");
+            return this;
+        }
+
+        public IDirectusRequestMany<T> Offset(int offset)
+        {
+            _query.Add("offset", $"{offset}");
+            return this;
+        }
+
+        public IDirectusRequestMany<T> IncludeMetadata()
+        {
+            _query.Add("meta", "*");
+            return this;
+        }
+
+        async Task<DirectusResponse<T[]>?> ITalaryonRunner<DirectusResponse<T[]>?>.RunAsync(
+            CancellationToken cancellationToken)
+        {
+            _query.Add("fields", string.Join(",", fields));
+            var url = $"items/{name}?{string.Join("&", _query.Select(v => v.Key + "=" + v.Value).ToArray())}";
             TalaryonLogger.Debug<Directus>($"Call {url}");
             try
             {
@@ -174,17 +188,12 @@ public class Directus : IDirectus
             {
                 TalaryonLogger.Error<Directus>(e.Message);
                 return null;
-            };
+            }
         }
 
         DirectusResponse<T[]>? ITalaryonRunner<DirectusResponse<T[]>?>.Run() =>
             (this as IDirectusRequestMany<T>)
             .RunAsync(CancellationToken.None)
             .RunSynchronouslyWithResult();
-
-        IDirectusRequestSingle<T> IDirectusRequestSingle<T>.Fields(params string[]? fields) =>
-            (Fields(fields) as IDirectusRequestSingle<T>)!;
-
-        
     }
 }
