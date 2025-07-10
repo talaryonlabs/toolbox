@@ -1,5 +1,3 @@
-using System;
-
 namespace Talaryon.Toolbox.Communication;
 
 [Serializable]

@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Talaryon.Toolbox.Services.Hetzner;
+﻿namespace Talaryon.Toolbox.Services.Hetzner;
 
 public interface IHetzner
 {

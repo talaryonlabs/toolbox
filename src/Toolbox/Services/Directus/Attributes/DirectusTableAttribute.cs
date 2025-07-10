@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Talaryon.Toolbox.Services.Directus;
+﻿namespace Talaryon.Toolbox.Services.Directus;
 
 [AttributeUsage(AttributeTargets.Class)]
 public class DirectusTableAttribute(string name, string[]? additionalFields = null) : Attribute

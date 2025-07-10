@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Json;
+﻿using System.Net.Http.Json;
 using System.Reflection;
+using System.Text.Json;
 using System.Text.Json.Serialization;
-using System.Threading;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using Talaryon.Toolbox.Extensions;
@@ -33,6 +28,30 @@ public class DirectusResponse<T>
 
 public class Directus : IDirectus
 {
+    private static string GetTableName<T>() =>
+        (typeof(T).GetCustomAttribute<DirectusTableAttribute>() ??
+         throw new Exception($"Missing attribute {nameof(DirectusTableAttribute)}.")).Name;
+
+    private static string?[] GetFields<T>() =>
+        typeof(T).GetProperties(BindingFlags.Instance | BindingFlags.Public)
+            .Where(v => v.HasCustomAttribute<DirectusFieldAttribute>())
+            .Select(v =>
+            {
+                var field = v.GetCustomAttribute<DirectusFieldAttribute>();
+                var builder = new List<string>();
+                var name = field!.Name;
+
+
+                if (field.Subfields is not null) builder.AddRange(field.Subfields!.Select(f => $"{name}.{f}"));
+                else builder.Add(name);
+
+                return string.Join(",", builder);
+            })
+            .Concat((typeof(T).GetCustomAttribute<DirectusTableAttribute>() ??
+                     throw new Exception($"Missing attribute {nameof(DirectusTableAttribute)}.")).AdditionalFields ??
+                    [])
+            .ToArray();
+
     private readonly HttpClient _httpClient;
     private readonly string _base;
 
@@ -62,34 +81,18 @@ public class Directus : IDirectus
 
     public IDirectusRequestSingle<T> Single<T>()
     {
-        var attr = typeof(T).GetCustomAttribute<DirectusTableAttribute>() ??
-                   throw new Exception($"Missing attribute {nameof(DirectusTableAttribute)}.");
-
-        var fields = typeof(T).GetProperties(BindingFlags.Instance | BindingFlags.Public)
-            .Select(v => v.GetCustomAttribute<DirectusFieldAttribute>()?.Name)
-            .Concat(attr.AdditionalFields ?? [])
-            .ToList();
-
-        return new RequestSingle<T>(_httpClient, name: attr.Name, fields: fields.ToArray());
+        return new RequestSingle<T>(_httpClient, name: GetTableName<T>(), fields: GetFields<T>());
     }
 
     public IDirectusRequestMany<T> Many<T>()
     {
-        var attr = typeof(T).GetCustomAttribute<DirectusTableAttribute>() ??
-                   throw new Exception($"Missing attribute {nameof(DirectusTableAttribute)}.");
-
-        var fields = typeof(T).GetProperties(BindingFlags.Instance | BindingFlags.Public)
-            .Select(v => v.GetCustomAttribute<DirectusFieldAttribute>()?.Name)
-            .Concat(attr.AdditionalFields ?? [])
-            .ToList();
-
-        return new RequestMany<T>(_httpClient, name: attr.Name, fields: fields.ToArray());
+        return new RequestMany<T>(_httpClient, name: GetTableName<T>(), fields: GetFields<T>());
     }
 
-    public string? GetAssetUrl(string? assetId) => $"{_base}assets/{assetId}";
+    public string GetAssetUrl(string? assetId) => new Uri(_base).Append($"assets/{assetId}").AbsoluteUri;
 
     public string GetAssetUrl(string? assetId, QueryString queryString) =>
-        $"{_base}assets/{assetId}{queryString.ToString()}";
+        new Uri(_base).Append($"assets/{assetId}{queryString.ToString()}").AbsoluteUri;
 
     public ITalaryonRunner<IDirectusSchema> Snapshot()
     {

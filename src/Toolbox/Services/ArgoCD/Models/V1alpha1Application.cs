@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Talaryon.Toolbox.Services.ArgoCD.Models;
+﻿namespace Talaryon.Toolbox.Services.ArgoCD.Models;
 
 [ArgoEndpoint("api/v1/applications/.id", ArgoEndpointType.Get | ArgoEndpointType.Update, typeof(V1alpha1Application))]
 [ArgoEndpoint("api/v1/applications", ArgoEndpointType.Create, typeof(V1alpha1Application))]

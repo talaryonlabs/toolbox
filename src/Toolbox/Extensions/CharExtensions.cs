@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Talaryon.Toolbox.Extensions;
+﻿namespace Talaryon.Toolbox.Extensions;
 
 public static class CharExtensions
 {

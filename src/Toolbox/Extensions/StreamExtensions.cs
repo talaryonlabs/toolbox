@@ -1,7 +1,4 @@
-﻿using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
-using Talaryon.Toolbox.Communication;
+﻿using Talaryon.Toolbox.Communication;
 
 namespace Talaryon.Toolbox.Extensions;
 

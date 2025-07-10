@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-namespace Talaryon.Toolbox.Extensions;
+﻿namespace Talaryon.Toolbox.Extensions;
 
 public static class TaskExtensions
 {

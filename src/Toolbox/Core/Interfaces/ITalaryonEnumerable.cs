@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Talaryon.Toolbox;
+﻿namespace Talaryon.Toolbox;
 
 public interface ITalaryonEnumerable<TItem> :
     ITalaryonRunner<IEnumerable<TItem>>

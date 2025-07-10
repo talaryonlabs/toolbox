@@ -1,9 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace Talaryon.Toolbox.IO;
+﻿namespace Talaryon.Toolbox.IO;
 
 // ReSharper disable MustUseReturnValue
 public class AsyncBinaryReader(Stream stream)

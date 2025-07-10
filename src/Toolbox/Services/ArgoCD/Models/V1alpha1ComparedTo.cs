@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Talaryon.Toolbox.Services.ArgoCD.Models;
+﻿namespace Talaryon.Toolbox.Services.ArgoCD.Models;
 
 /// <summary>
 /// ComparedTo contains application source and target which was used for resources comparison.

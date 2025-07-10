@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Talaryon.Toolbox.Services.ArgoCD.Models;
+﻿namespace Talaryon.Toolbox.Services.ArgoCD.Models;
 
 /// <summary>
 ///     SyncPolicy controls when a sync will be performed in response to updates in git.

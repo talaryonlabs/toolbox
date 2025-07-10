@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Talaryon.Toolbox.Services.YouTrack;
+﻿using Talaryon.Toolbox.Services.YouTrack;
 
 namespace Talaryon.Toolbox.Services.Hub;
 

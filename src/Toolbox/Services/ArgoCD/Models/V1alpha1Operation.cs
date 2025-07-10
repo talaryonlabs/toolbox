@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Talaryon.Toolbox.Services.ArgoCD.Models;
+﻿namespace Talaryon.Toolbox.Services.ArgoCD.Models;
 
 public class V1alpha1Operation
 {

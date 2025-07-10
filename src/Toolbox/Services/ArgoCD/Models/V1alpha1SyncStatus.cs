@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Talaryon.Toolbox.Services.ArgoCD.Models;
+﻿namespace Talaryon.Toolbox.Services.ArgoCD.Models;
 
 /// <summary>
 /// SyncStatus contains information about the currently observed live and desired states of an application.

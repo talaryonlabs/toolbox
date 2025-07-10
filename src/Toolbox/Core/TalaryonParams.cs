@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Talaryon.Toolbox;
+﻿namespace Talaryon.Toolbox;
 
 public class TalaryonParams
 {

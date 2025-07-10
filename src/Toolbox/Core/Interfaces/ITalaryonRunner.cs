@@ -1,7 +1,4 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-
-namespace Talaryon.Toolbox;
+﻿namespace Talaryon.Toolbox;
 
 public interface ITalaryonRunner
 {

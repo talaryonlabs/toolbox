@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Talaryon.Toolbox.Services.ArgoCD.Models;
+﻿namespace Talaryon.Toolbox.Services.ArgoCD.Models;
 
 /// <summary>
 /// ResourceIgnoreDifferences contains resource filter and a list of JSON paths which should be ignored during comparison with live state.

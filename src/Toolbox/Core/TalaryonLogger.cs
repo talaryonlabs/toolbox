@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Talaryon.Toolbox;
+﻿namespace Talaryon.Toolbox;
 
 public static class TalaryonLogger
 {

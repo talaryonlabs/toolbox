@@ -1,6 +1,4 @@
 ﻿using System.Data;
-using System.Threading;
-using System.Threading.Tasks;
 using Dapper.Contrib.Extensions;
 using Talaryon.Toolbox.Extensions;
 

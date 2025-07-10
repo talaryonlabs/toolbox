@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace Talaryon.Toolbox.Data;
+﻿namespace Talaryon.Toolbox.Data;
 
 public partial class SqlAdapterBase
 {

@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Talaryon.Toolbox.Services.ArgoCD;
+﻿namespace Talaryon.Toolbox.Services.ArgoCD;
 
 
 public class V1alpha1AppProjectParams : TalaryonParams

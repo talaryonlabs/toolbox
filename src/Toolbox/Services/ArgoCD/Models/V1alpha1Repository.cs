@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Talaryon.Toolbox.Services.ArgoCD.Models;
+﻿namespace Talaryon.Toolbox.Services.ArgoCD.Models;
 
 [ArgoEndpoint("api/v1/repositories/.id", ArgoEndpointType.Get | ArgoEndpointType.Update, typeof(V1alpha1Repository))]
 [ArgoEndpoint("api/v1/repositories", ArgoEndpointType.Create, typeof(V1alpha1Repository))]

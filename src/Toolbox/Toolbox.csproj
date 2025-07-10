@@ -6,6 +6,7 @@
         <RootNamespace>Talaryon.Toolbox</RootNamespace>
         <Nullable>enable</Nullable>
         <LangVersion>13</LangVersion>
+        <ImplicitUsings>enable</ImplicitUsings>
     </PropertyGroup>
 
     <ItemGroup>

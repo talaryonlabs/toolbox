@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Talaryon.Toolbox.Services.ArgoCD.Models;
+﻿namespace Talaryon.Toolbox.Services.ArgoCD.Models;
 
 public class V1ManagedFieldsEntry
 {

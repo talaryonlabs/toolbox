@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Talaryon.Toolbox.Services.Caching;
+﻿namespace Talaryon.Toolbox.Services.Caching;
 
 public interface ICacheService
 {
