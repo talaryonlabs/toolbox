@@ -1,8 +1,7 @@
 ﻿namespace Talaryon.Toolbox.Services.Directus;
 
 [AttributeUsage(AttributeTargets.Class)]
-public class DirectusTableAttribute(string name, string[]? additionalFields = null) : Attribute
+public class DirectusTableAttribute(string name) : Attribute
 {
     public string Name { get; set; } = name;
-    public string[]? AdditionalFields { get; } = additionalFields;
 }

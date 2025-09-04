@@ -1,6 +1,5 @@
 ﻿using System.Net.Http.Json;
 using System.Reflection;
-using System.Text.Json;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
@@ -32,25 +31,7 @@ public class Directus : IDirectus
         (typeof(T).GetCustomAttribute<DirectusTableAttribute>() ??
          throw new Exception($"Missing attribute {nameof(DirectusTableAttribute)}.")).Name;
 
-    private static string?[] GetFields<T>() =>
-        typeof(T).GetProperties(BindingFlags.Instance | BindingFlags.Public)
-            .Where(v => v.HasCustomAttribute<DirectusFieldAttribute>())
-            .Select(v =>
-            {
-                var field = v.GetCustomAttribute<DirectusFieldAttribute>();
-                var builder = new List<string>();
-                var name = field!.Name;
-
-
-                if (field.Subfields is not null) builder.AddRange(field.Subfields!.Select(f => $"{name}.{f}"));
-                else builder.Add(name);
-
-                return string.Join(",", builder);
-            })
-            .Concat((typeof(T).GetCustomAttribute<DirectusTableAttribute>() ??
-                     throw new Exception($"Missing attribute {nameof(DirectusTableAttribute)}.")).AdditionalFields ??
-                    [])
-            .ToArray();
+    private static string?[] GetFields<T>() => DirectusFieldAttribute.GetFields(typeof(T));
 
     private readonly HttpClient _httpClient;
     private readonly string _base;
