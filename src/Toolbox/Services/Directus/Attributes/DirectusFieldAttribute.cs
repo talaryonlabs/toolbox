@@ -5,7 +5,7 @@ using Talaryon.Toolbox.Extensions;
 namespace Talaryon.Toolbox.Services.Directus;
 
 [AttributeUsage(AttributeTargets.Property)]
-public class DirectusFieldAttribute(string name, Type? fieldType = null) : JsonContainerAttribute
+public class DirectusFieldAttribute(string name, Type? fieldType = null) : JsonContainerAttribute(name.Split(".")[0])
 {
     public static string[] GetFields(Type type) =>
         type.GetProperties(BindingFlags.Instance | BindingFlags.Public)
