@@ -26,10 +26,4 @@
       <None Remove="Toolbox.csproj.DotSettings" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Services\ArgoCD\Requests\" />
-    </ItemGroup>
-
-
-
 </Project>
