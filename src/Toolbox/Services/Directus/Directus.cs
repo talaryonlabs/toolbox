@@ -130,6 +130,14 @@ public class Directus : IDirectus
                 ? throw new Exception($"Filter {field},{type} already exists.")
                 : this;
 
+        public IDirectusRequestMany<T> Filter(Action<IDirectusFilter> filterBuilder)
+        {
+            var filter = new DirectusFilterBuilder();
+            filterBuilder.Invoke(filter);
+            _query.Add("filter", filter.Build());
+            return this;
+        }
+
         public IDirectusRequestMany<T> Search(string pattern)
         {
             _query.Add("search", pattern);

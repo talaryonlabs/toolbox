@@ -70,6 +70,7 @@ public interface IDirectusRequestMany<T> : ITalaryonRunner<DirectusResponse<T[]>
     /// <param name="value">The value to filter the field by.</param>
     /// <returns>Returns the updated request instance with the added filter applied.</returns>
     IDirectusRequestMany<T> Filter(string field, string type, string value);
+    IDirectusRequestMany<T> Filter(Action<IDirectusFilter> filterBuilder);
 
     /// <summary>
     /// Searches for items based on a specified search pattern in the Directus API.
