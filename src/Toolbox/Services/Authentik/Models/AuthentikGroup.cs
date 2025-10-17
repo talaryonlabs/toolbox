@@ -1,12 +1,12 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace Talaryon.Toolbox.Services.Authentik.Models;
 
-public class AuthentikGroup
+public class AuthentikGroup : IAuthentikRessource
 {
-    [JsonProperty("pk")] public required string GroupUuid { get; set; }
-    [JsonProperty("num_pk")] public required string NumericGroupUuid { get; set; }
-    [JsonProperty("name")] public required string Name { get; set; }
-    [JsonProperty("is_superuser")] public bool IsSuperUser { get; set; }
-    [JsonProperty("attributes")] public IDictionary<string, object> Attributes { get; set; } = new Dictionary<string, object>();
+    [JsonPropertyName("pk")] public required string Uuid { get; set; }
+    [JsonPropertyName("num_pk")] public required string NumericUuid { get; set; }
+    [JsonPropertyName("name")] public required string Name { get; set; }
+    [JsonPropertyName("is_superuser")] public bool IsSuperUser { get; set; }
+    [JsonPropertyName("attributes")] public IDictionary<string, object> Attributes { get; set; } = new Dictionary<string, object>();
 }

@@ -1,6 +1,4 @@
-﻿using System.Net.Http.Json;
-using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
+﻿using Microsoft.Extensions.Options;
 using Talaryon.Toolbox.Services.Authentik.Models;
 
 namespace Talaryon.Toolbox.Services.Authentik;
@@ -22,30 +20,22 @@ public class Authentik : IAuthentik
 
         _base = optionsAccessor.Value.BaseUrl ?? throw new ArgumentNullException(nameof(optionsAccessor.Value.BaseUrl));
         _httpClient = httpClient;
-        _httpClient.BaseAddress = new Uri(_base);
         _httpClient.DefaultRequestHeaders.Add("Authorization",
             $"Bearer {optionsAccessor.Value.AccessToken ?? throw new ArgumentNullException(optionsAccessor.Value.AccessToken)}");
     }
 
-
-    public ITalaryonRunner Test()
+    public IAuthentikRequestSingle<T> Single<T>() where T : IAuthentikRessource
     {
-        return new AuthentikTester(_httpClient);
+        return new AuthentikRequestSingle<T>(_httpClient, _base);
     }
-}
 
-public class AuthentikResult<T>
-{
-    [JsonProperty("results")] public T[] Result { get; set; } = [];
-    [JsonProperty("pagination")] public object Pagination { get; set; }
-}
-
-public class AuthentikTester(HttpClient httpClient) : ITalaryonRunner
-{
-    public void Run() => RunAsync().RunSynchronously();
-
-    public async Task RunAsync(CancellationToken cancellationToken = default)
+    public IAuthentikRequestSingle<T> Single<T>(string id) where T : IAuthentikRessource
     {
-        var result = await httpClient.GetFromJsonAsync<AuthentikResult<AuthentikApplication>>("/core/applications/", cancellationToken);
+        return new AuthentikRequestSingleId<T>(_httpClient, _base, id);
+    }
+
+    public IAuthentikRequestMany<T> Many<T>() where T : IAuthentikRessource
+    {
+        return new AuthentikRequestMany<T>(_httpClient, _base);
     }
 }

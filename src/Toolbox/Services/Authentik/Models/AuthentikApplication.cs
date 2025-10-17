@@ -1,17 +1,19 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace Talaryon.Toolbox.Services.Authentik.Models;
 
-public class AuthentikApplication
+[AuthentikApiEndpoint("/core/applications/")]
+[AuthentikApiEndpoint("/core/applications/.id/", AuthentikApiEndpointType.Get)]
+public class AuthentikApplication : IAuthentikRessource
 {
-    [JsonProperty("pk")] public required string Uuid { get; set; }
-    [JsonProperty("name")] public required string Name { get; set; }
-    [JsonProperty("slug")] public required string Slug { get; set; }
+    [JsonPropertyName("pk")] public required string Uuid { get; set; }
+    [JsonPropertyName("name")] public required string Name { get; set; }
+    [JsonPropertyName("slug")] public required string Slug { get; set; }
     
-    [JsonProperty("launch_url")] public string? LaunchUrl { get; set; }
-    [JsonProperty("group")] public string? Group { get; set; }
+    [JsonPropertyName("launch_url")] public string? LaunchUrl { get; set; }
+    [JsonPropertyName("group")] public string? Group { get; set; }
     
-    [JsonProperty("meta_icon")] public string? MetaIcon { get; set; }
-    [JsonProperty("meta_description")] public string? MetaDescription { get; set; }
-    [JsonProperty("meta_publisher")] public string? MetaPublisher { get; set; }
+    [JsonPropertyName("meta_icon")] public string? MetaIcon { get; set; }
+    [JsonPropertyName("meta_description")] public string? MetaDescription { get; set; }
+    [JsonPropertyName("meta_publisher")] public string? MetaPublisher { get; set; }
 }
