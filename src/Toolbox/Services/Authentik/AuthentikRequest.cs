@@ -1,31 +1,6 @@
-﻿using System.Net.Http.Json;
-using Talaryon.Toolbox.API.Client;
-using Talaryon.Toolbox.Extensions;
+﻿using Talaryon.Toolbox.API.Client;
 
 namespace Talaryon.Toolbox.Services.Authentik;
-
-/*public sealed class AuthentikRequestSingleId<T>(HttpClient httpClient, string baseUri, string id) : IAuthentikRequestSingle<T> where T : IAuthentikRessource
-{
-    public T? Run() => RunAsync().RunSynchronouslyWithResult();
-
-    public async Task<T?> RunAsync(CancellationToken cancellationToken = default)
-    {
-        var uri = AuthentikApiEndpoint.GetEndpoint<T>(AuthentikApiEndpointType.Get) ?? throw new AuthentikApiEndpointException<T>();
-        var requestUri = new Uri(baseUri)
-            .Append(uri.Replace(".id", id));
-
-        try
-        {
-            TalaryonLogger.Debug<AuthentikRequestSingleId<T>>($"{requestUri}");
-            return await httpClient.GetFromJsonAsync<T>(requestUri, cancellationToken);
-        }
-        catch (Exception e)
-        {
-            TalaryonLogger.Error<Authentik>(e.Message);
-            return default;
-        }
-    }
-}*/
 
 public sealed class AuthentikRequestSingle<T>(HttpClient httpClient, string baseUri, string? id = null) : IApiResourceProviderSingle<T>, ITalaryonParams<T, ApiRequestParams>
     where T : IApiResource
