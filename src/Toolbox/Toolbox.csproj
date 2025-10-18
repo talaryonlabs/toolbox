@@ -26,4 +26,8 @@
       <None Remove="Toolbox.csproj.DotSettings" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Services\Authentik\Attributes\" />
+    </ItemGroup>
+
 </Project>

@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace Talaryon.Toolbox.API;
+namespace Talaryon.Toolbox.API.Hosting;
 
 [DataContract]
 public class ApiError : Exception

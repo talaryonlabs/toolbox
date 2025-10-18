@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 
-namespace Talaryon.Toolbox.API;
+namespace Talaryon.Toolbox.API.Hosting;
 
 public class NotFoundError : ApiError
 {

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Options;
+using Talaryon.Toolbox.API.Client;
 using Talaryon.Toolbox.Services.Authentik.Models;
 
 namespace Talaryon.Toolbox.Services.Authentik;
@@ -23,19 +24,32 @@ public class Authentik : IAuthentik
         _httpClient.DefaultRequestHeaders.Add("Authorization",
             $"Bearer {optionsAccessor.Value.AccessToken ?? throw new ArgumentNullException(optionsAccessor.Value.AccessToken)}");
     }
-
-    public IAuthentikRequestSingle<T> Single<T>() where T : IAuthentikRessource
+    
+    public IApiResourceProviderSingle<T> Single<T>() where T : IApiResource
     {
-        return new AuthentikRequestSingle<T>(_httpClient, _base);
+        var request = new AuthentikRequestSingle<T>(_httpClient, _base);
+        
+        
+        throw new NotImplementedException();
     }
 
-    public IAuthentikRequestSingle<T> Single<T>(string id) where T : IAuthentikRessource
+    public IApiResourceProviderSingle<T> Single<T>(string id) where T : IApiResource
     {
-        return new AuthentikRequestSingleId<T>(_httpClient, _base, id);
+        throw new NotImplementedException();
     }
 
-    public IAuthentikRequestMany<T> Many<T>() where T : IAuthentikRessource
+    public IApiResourceProviderMany<T> Many<T>() where T : IApiResource
     {
-        return new AuthentikRequestMany<T>(_httpClient, _base);
+        throw new NotImplementedException();
+    }
+
+    public IApiResourceCreateFactory<T, TParams> Factory<T, TParams>() where T : IApiResource where TParams : ApiRequestParams
+    {
+        throw new NotImplementedException();
+    }
+
+    public ITalaryonRunner<bool> TestConnection()
+    {
+        throw new NotImplementedException();
     }
 }

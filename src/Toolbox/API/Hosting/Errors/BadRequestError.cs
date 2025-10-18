@@ -1,7 +1,7 @@
 ﻿using System.Runtime.Serialization;
 using Microsoft.AspNetCore.Http;
 
-namespace Talaryon.Toolbox.API;
+namespace Talaryon.Toolbox.API.Hosting;
 
 [DataContract]
 public class BadRequestError : ApiError

@@ -1,6 +1,8 @@
-﻿namespace Talaryon.Toolbox.Services.Authentik.Models;
+﻿using Talaryon.Toolbox.API.Client;
 
-public class AuthentikProvider : IAuthentikRessource
+namespace Talaryon.Toolbox.Services.Authentik.Models;
+
+public class AuthentikProvider : IApiResource
 {
     
 }

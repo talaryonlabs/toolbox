@@ -1,10 +1,11 @@
 ﻿using System.Text.Json.Serialization;
+using Talaryon.Toolbox.API.Client;
 
 namespace Talaryon.Toolbox.Services.Authentik.Models;
 
-[AuthentikApiEndpoint("/core/users/")]
-[AuthentikApiEndpoint("/core/users/.id/", AuthentikApiEndpointType.Get)]
-public class AuthentikUser : IAuthentikRessource
+[ApiEndpoint("/core/users/")]
+[ApiEndpoint("/core/users/.id/", ApiEndpointType.Single)]
+public class AuthentikUser : IApiResource
 {
     [JsonPropertyName("pk")] public required int Uuid { get; set; }
     [JsonPropertyName("username")] public required string Username { get; set; }

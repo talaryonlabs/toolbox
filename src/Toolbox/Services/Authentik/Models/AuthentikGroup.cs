@@ -1,8 +1,9 @@
 ﻿using System.Text.Json.Serialization;
+using Talaryon.Toolbox.API.Client;
 
 namespace Talaryon.Toolbox.Services.Authentik.Models;
 
-public class AuthentikGroup : IAuthentikRessource
+public class AuthentikGroup : IApiResource
 {
     [JsonPropertyName("pk")] public required string Uuid { get; set; }
     [JsonPropertyName("num_pk")] public required string NumericUuid { get; set; }
