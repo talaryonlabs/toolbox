@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace Talaryon.Toolbox.API;
+namespace Talaryon.Toolbox.API.Hosting.Filters;
 
 public sealed class ApiExceptionFilter : ExceptionFilterAttribute
 {

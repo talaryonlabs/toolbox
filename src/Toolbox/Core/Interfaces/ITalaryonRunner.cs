@@ -1,4 +1,6 @@
-﻿namespace Talaryon.Toolbox;
+﻿using Talaryon.Toolbox.Extensions;
+
+namespace Talaryon.Toolbox;
 
 public interface ITalaryonRunner
 {
@@ -8,6 +10,6 @@ public interface ITalaryonRunner
 
 public interface ITalaryonRunner<TResult>
 {
-    TResult? Run();
+    TResult? Run() => RunAsync().RunSynchronouslyWithResult();
     Task<TResult?> RunAsync(CancellationToken cancellationToken = default);
 }

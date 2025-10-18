@@ -1,6 +1,6 @@
 ﻿using Microsoft.Net.Http.Headers;
 
-namespace Talaryon.Toolbox.API;
+namespace Talaryon.Toolbox.API.Hosting;
 
 public class ApiMediaType : MediaTypeHeaderValue
 {

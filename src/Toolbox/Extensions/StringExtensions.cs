@@ -85,4 +85,9 @@ public static class StringExtensions
         // Remove any excess character to meet maxlength criteria
         return maxLength <= 0 || result.Length <= maxLength ? result : result.Substring(0, maxLength);
     }
+
+    public static string ReplaceMany(this string p, IEnumerable<KeyValuePair<string,string>> replacements)
+    {
+        return replacements.Aggregate(p, (current, replacement) => current.Replace(replacement.Key, replacement.Value));
+    }
 }

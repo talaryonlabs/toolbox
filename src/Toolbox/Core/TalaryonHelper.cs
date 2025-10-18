@@ -6,6 +6,7 @@ using System.Text;
 using System.Web;
 using Newtonsoft.Json;
 using Talaryon.Toolbox.API;
+using Talaryon.Toolbox.API.Hosting;
 
 namespace Talaryon.Toolbox;
 
@@ -172,6 +173,7 @@ public static class TalaryonHelper
         var cert = certificateRequest.CreateSelfSigned(DateTimeOffset.Now.AddDays(-1), DateTimeOffset.Now.AddYears(5));
 
         // windows only
-        return new X509Certificate2(cert.Export(X509ContentType.Pfx), (string?)null, X509KeyStorageFlags.Exportable);
+        return X509CertificateLoader.LoadPkcs12(cert.Export(X509ContentType.Pfx), null,
+            X509KeyStorageFlags.Exportable);
     }
 }
