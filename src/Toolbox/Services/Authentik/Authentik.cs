@@ -27,20 +27,17 @@ public class Authentik : IAuthentik
     
     public IApiResourceProviderSingle<T> Single<T>() where T : IApiResource
     {
-        var request = new AuthentikRequestSingle<T>(_httpClient, _base);
-        
-        
-        throw new NotImplementedException();
+        return new AuthentikRequestSingle<T>(_httpClient, _base);
     }
 
     public IApiResourceProviderSingle<T> Single<T>(string id) where T : IApiResource
     {
-        throw new NotImplementedException();
+        return new AuthentikRequestSingle<T>(_httpClient, _base, id);
     }
 
-    public IApiResourceProviderMany<T> Many<T>() where T : IApiResource
+    public IApiResourceProviderMany<TResource, AuthentikList> Many<TResource>() where TResource : IApiResource
     {
-        throw new NotImplementedException();
+        return new AuthentikRequestMany<TResource>(_httpClient, _base);
     }
 
     public IApiResourceCreateFactory<T, TParams> Factory<T, TParams>() where T : IApiResource where TParams : ApiRequestParams

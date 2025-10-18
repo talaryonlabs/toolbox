@@ -4,7 +4,7 @@ using Talaryon.Toolbox.API.Client;
 namespace Talaryon.Toolbox.Services.Authentik.Models;
 
 [ApiEndpoint("/core/applications/")]
-[ApiEndpoint("/core/applications/.id/", ApiEndpointType.Single)]
+[ApiEndpoint("/core/applications/.id/", ApiEndpointType.Single | ApiEndpointType.Update | ApiEndpointType.Delete)]
 public class AuthentikApplication : IApiResource
 {
     [JsonPropertyName("pk")] public required string Uuid { get; set; }

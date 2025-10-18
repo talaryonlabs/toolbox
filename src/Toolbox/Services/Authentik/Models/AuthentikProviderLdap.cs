@@ -3,9 +3,9 @@ using Talaryon.Toolbox.API.Client;
 
 namespace Talaryon.Toolbox.Services.Authentik.Models;
 
-[ApiEndpoint("/providers/all/")]
-[ApiEndpoint("/providers/all/.id/", ApiEndpointType.Single)]
-public class AuthentikProvider : IApiResource
+[ApiEndpoint("/providers/ldap/")]
+[ApiEndpoint("/providers/ldap/.id/", ApiEndpointType.Single)]
+public class AuthentikProviderLdap : IApiResource
 {
     [JsonPropertyName("pk")] public int Uuid { get; set; }
     [JsonPropertyName("name")] public string? Name { get; set; }
@@ -21,10 +21,13 @@ public class AuthentikProvider : IApiResource
     [JsonPropertyName("verbose_name")] public string? VerboseName { get; set; }
     [JsonPropertyName("verbose_name_plural")] public string? VerboseNamePlural { get; set; }
     [JsonPropertyName("meta_model_name")] public string? MetaModelName { get; set; }
-}
-
-public class AuthentikProviderRedirectUri
-{
-    [JsonPropertyName("matching_mode")] public string MatchingMode { get; set; }
-    [JsonPropertyName("url")] public string Url { get; set; }
+    [JsonPropertyName("base_dn")] public string? BaseDn { get; set; }
+    [JsonPropertyName("certificate")] public string? Certificate { get; set; }
+    [JsonPropertyName("tls_server_name")] public string? TlsServerName { get; set; }
+    [JsonPropertyName("uid_start_number")] public int? UidStartNumber { get; set; }
+    [JsonPropertyName("gid_start_number")] public int? GidStartNumber { get; set; }
+    [JsonPropertyName("outpost_set")] public string[] OutpostSet { get; set; } = [];
+    [JsonPropertyName("search_mode")] public string? SearchMode { get; set; }
+    [JsonPropertyName("bind_mode")] public string? BindMode { get; set; }
+    [JsonPropertyName("mfa_support")] public bool MfaSupport { get; set; }
 }

@@ -20,7 +20,7 @@ public static class YouTrackEndpoint
     public static List<string> GetAdditionalFields<T>() => (typeof(T)
         .GetCustomAttributes<YouTrackAdditionalFieldsAttribute>(true)
         .FirstOrDefault()
-        ?.Fields ?? Array.Empty<string>())
+        ?.Fields ?? [])
         .ToList();
 }
 

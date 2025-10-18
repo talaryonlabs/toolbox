@@ -1,3 +1,3 @@
 namespace Talaryon.Toolbox.API.Client;
 
-public class ApiEndpointException<T>() : Exception($"AuthentikApiEndpoint for {typeof(T).Name} not found.");
+public class ApiEndpointException<T>() : Exception($"{nameof(ApiEndpointAttribute)} for {typeof(T).Name} not found.");
