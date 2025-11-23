@@ -11,6 +11,8 @@ public enum DirectusFilterOperator
 public interface IDirectusFilter
 {
     IDirectusFilter Group(DirectusFilterOperator groupOperator, Action<IDirectusFilter> filterBuilder);
+    IDirectusFilter Join(string field, Action<IDirectusFilter> filterBuilder);
+    IDirectusFilter Join(string[] fields, Action<IDirectusFilter> filterBuilder);
     IDirectusFilter Equals(string field, string value);
     IDirectusFilter NotEquals(string field, string value);
     
@@ -46,7 +48,18 @@ public class DirectusFilterBuilder : IDirectusFilter
             };
         }
     }
-
+    
+    class FilterJoin
+    {
+        public required string Field { get; init; }
+        public required List<Dictionary<string, object>> Filters { get; init; }
+        
+        public static implicit operator Dictionary<string, object>(FilterJoin join)
+        {
+            return new Dictionary<string, object> { { join.Field, join.Filters.First() } };
+        }
+    }
+    
     class FilterGroup
     {
         public required string Operator { get; init; }
@@ -73,6 +86,40 @@ public class DirectusFilterBuilder : IDirectusFilter
         
         List.Add(group);
 
+        return this;
+    }
+
+    public IDirectusFilter Join(string field, Action<IDirectusFilter> filterBuilder)
+    {
+        var filter = new DirectusFilterBuilder();
+        filterBuilder.Invoke(filter);
+
+        var join = new FilterJoin()
+        {
+            Field = field,
+            Filters = filter.List
+        };
+        List.Add(join);
+        
+        return this;
+    }
+    
+    public IDirectusFilter Join(string[] fields, Action<IDirectusFilter> filterBuilder)
+    {
+        var inner = new DirectusFilterBuilder();
+        filterBuilder.Invoke(inner);
+
+        if (fields is not { Length: > 0 })
+            return this;
+
+        // Build nested dictionaries: fieldN -> ( ... -> field1 -> innerFilter )
+        Dictionary<string, object> nested = inner.List.First();
+        for (int i = fields.Length - 1; i >= 0; i--)
+        {
+            nested = new Dictionary<string, object> { { fields[i], nested } };
+        }
+
+        List.Add(nested);
         return this;
     }
 
