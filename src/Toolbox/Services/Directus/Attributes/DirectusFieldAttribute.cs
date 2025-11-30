@@ -1,11 +1,11 @@
 ﻿using System.Reflection;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 using Talaryon.Toolbox.Extensions;
 
 namespace Talaryon.Toolbox.Services.Directus;
 
 [AttributeUsage(AttributeTargets.Property)]
-public class DirectusFieldAttribute(string name, Type? fieldType = null) : JsonContainerAttribute(name.Split(".")[0])
+public class DirectusFieldAttribute(string name, Type? fieldType = null) : JsonAttribute
 {
     public static string[] GetFields(Type type) =>
         type.GetProperties(BindingFlags.Instance | BindingFlags.Public)
@@ -25,7 +25,7 @@ public class DirectusFieldAttribute(string name, Type? fieldType = null) : JsonC
             .SelectMany(v => v)
             .ToArray();
 
-    private string Name { get; } = name;
+    public string Name { get; } = name;
 
     private string[]? Subfields => fieldType is not null ? GetFields(fieldType) : null;
 }

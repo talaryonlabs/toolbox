@@ -2,6 +2,7 @@
 using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Text.Json.Serialization.Metadata;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
@@ -23,8 +24,8 @@ public class DirectusMetadata
 
 public class DirectusResponse<T>
 {
-    public T? Data { get; set; }
-    public DirectusMetadata? Meta { get; set; }
+    [JsonPropertyName("data")] public T? Data { get; set; }
+    [JsonPropertyName("meta")] public DirectusMetadata? Meta { get; set; }
 }
 
 public class Directus : IDirectus
@@ -37,6 +38,7 @@ public class Directus : IDirectus
 
     private readonly HttpClient _httpClient;
     private readonly string _base;
+    private readonly JsonSerializerOptions _serializerOptions;
 
     public Directus(HttpClient httpClient, IOptions<DirectusOptions> optionsAccessor)
     {
@@ -47,6 +49,14 @@ public class Directus : IDirectus
         _httpClient.BaseAddress = new Uri(_base);
         _httpClient.DefaultRequestHeaders.Add("Authorization",
             $"Bearer {optionsAccessor.Value.AccessToken ?? throw new ArgumentNullException(optionsAccessor.Value.AccessToken)}");
+        
+        _serializerOptions = new JsonSerializerOptions
+        {
+            TypeInfoResolver = new DefaultJsonTypeInfoResolver()
+            {
+                Modifiers = { DirectusTypeInfoResolver.Modify }
+            }
+        };
     }
 
     public async Task<bool> Test()
@@ -64,12 +74,12 @@ public class Directus : IDirectus
 
     public IDirectusRequestSingle<T> Single<T>()
     {
-        return new RequestSingle<T>(_httpClient, name: GetTableName<T>(), fields: GetFields<T>());
+        return new RequestSingle<T>(_httpClient, _serializerOptions, name: GetTableName<T>(), fields: GetFields<T>());
     }
 
     public IDirectusRequestMany<T> Many<T>()
     {
-        return new RequestMany<T>(_httpClient, name: GetTableName<T>(), fields: GetFields<T>());
+        return new RequestMany<T>(_httpClient, _serializerOptions, name: GetTableName<T>(), fields: GetFields<T>());
     }
 
     public string GetAssetUrl(string? assetId) => new Uri(_base).Append($"assets/{assetId}").AbsoluteUri;
@@ -92,7 +102,7 @@ public class Directus : IDirectus
         throw new NotImplementedException();
     }
 
-    private class RequestSingle<T>(HttpClient httpClient, string name, string?[] fields) : IDirectusRequestSingle<T>
+    private class RequestSingle<T>(HttpClient httpClient, JsonSerializerOptions options, string name, string?[] fields) : IDirectusRequestSingle<T>
     {
         private readonly List<string> _query = new();
 
@@ -105,7 +115,8 @@ public class Directus : IDirectus
             TalaryonLogger.Debug<Directus>($"Call {url}");
             try
             {
-                return await httpClient.GetFromJsonAsync<DirectusResponse<T>>(url, cancellationToken);
+                var item = await httpClient.GetFromJsonAsync<DirectusResponse<T>>(url, options, cancellationToken);
+                return item;
             }
             catch (Exception e)
             {
@@ -121,7 +132,7 @@ public class Directus : IDirectus
     }
 
 
-    private class RequestMany<T>(HttpClient httpClient, string name, string?[] fields) : IDirectusRequestMany<T>
+    private class RequestMany<T>(HttpClient httpClient, JsonSerializerOptions options, string name, string?[] fields) : IDirectusRequestMany<T>
     {
         private readonly Dictionary<string, string> _query = new();
 
@@ -176,7 +187,7 @@ public class Directus : IDirectus
             TalaryonLogger.Debug<Directus>($"Call {url}");
             try
             {
-                return await httpClient.GetFromJsonAsync<DirectusResponse<T[]>>(url, cancellationToken);
+                return await httpClient.GetFromJsonAsync<DirectusResponse<T[]>>(url, options, cancellationToken);
             }
             catch (Exception e)
             {
