@@ -5,7 +5,6 @@ using System.Text.Json.Serialization;
 using System.Text.Json.Serialization.Metadata;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
 using Talaryon.Toolbox.Extensions;
 
 namespace Talaryon.Toolbox.Services.Directus;
@@ -187,7 +186,7 @@ public class Directus : IDirectus
             TalaryonLogger.Debug<Directus>($"Call {url}");
             try
             {
-                return await httpClient.GetFromJsonAsync<DirectusResponse<T[]>>(url, options, cancellationToken);
+                return await httpClient.GetFromJsonAsync<DirectusResponse<T[]>>(url, cancellationToken);
             }
             catch (Exception e)
             {
