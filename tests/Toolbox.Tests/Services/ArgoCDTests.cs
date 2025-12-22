@@ -1,8 +1,6 @@
-﻿using System.Net.Http.Json;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 using Moq;
 using Talaryon.Toolbox.Services.ArgoCD;
-using Talaryon.Toolbox.Services.ArgoCD.Models;
 
 public class ArgoCDTests
 {

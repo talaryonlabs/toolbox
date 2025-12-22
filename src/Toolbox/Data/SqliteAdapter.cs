@@ -5,6 +5,7 @@ namespace Talaryon.Toolbox.Data;
 
 public sealed class SqliteOptions : TalaryonOptions<SqliteOptions>
 {
+    // ReSharper disable once UnusedAutoPropertyAccessor.Global
     public string? DataSource { get; set; }
 }
 

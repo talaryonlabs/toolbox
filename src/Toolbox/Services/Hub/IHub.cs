@@ -1,6 +1,4 @@
-﻿using Talaryon.Toolbox.Services.YouTrack;
-
-namespace Talaryon.Toolbox.Services.Hub;
+﻿namespace Talaryon.Toolbox.Services.Hub;
 
 public interface IHub
 {

@@ -2,10 +2,10 @@
 
 public interface ITalaryonParams<TResult>
 {
-    ITalaryonRunner<TResult> With(System.Action<TResult> withParams);
+    ITalaryonRunner<TResult> With(Action<TResult> withParams);
 }
 
 public interface ITalaryonParams<TResult, out TParams>
 {
-    ITalaryonRunner<TResult> With(System.Action<TParams> withParams);
+    ITalaryonRunner<TResult> With(Action<TParams> withParams);
 }

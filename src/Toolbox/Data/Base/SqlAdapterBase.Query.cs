@@ -13,12 +13,12 @@ public partial class SqlAdapterBase
         IDatabaseSelector<T>
     {
         private readonly IDbConnection _connection;
-        private readonly SqlAdapterBase.QueryBuilder<T> _queryBuilder;
+        private readonly QueryBuilder<T> _queryBuilder;
 
         public Query(IDbConnection connection)
         {
             _connection = connection;
-            _queryBuilder = new SqlAdapterBase.QueryBuilder<T>();
+            _queryBuilder = new QueryBuilder<T>();
             _queryBuilder.Select<T>("*");
         }
 

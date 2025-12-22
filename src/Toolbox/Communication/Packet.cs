@@ -1,6 +1,5 @@
 ﻿using System.Reflection;
 using System.Runtime.InteropServices;
-using Microsoft.Win32.SafeHandles;
 using Talaryon.Toolbox.IO;
 
 namespace Talaryon.Toolbox.Communication;
@@ -56,7 +55,7 @@ public static class Packet
         var packet = Activator.CreateInstance<T>();
 
         Reader
-            .ReadAsync<T>(stream, packet)
+            .ReadAsync(stream, packet)
             .AsTask()
             .Wait();
 

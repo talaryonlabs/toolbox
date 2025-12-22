@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Options;
 using Talaryon.Toolbox.API.Client;
-using Talaryon.Toolbox.Services.Authentik.Models;
 
 namespace Talaryon.Toolbox.Services.Authentik;
 

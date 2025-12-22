@@ -1,7 +1,6 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
 using Talaryon.Toolbox.Services.Authentik.Models;
-using Talaryon.Toolbox.Services.Directus;
 
 namespace Talaryon.Toolbox.Services.Authentik;
 
