@@ -58,7 +58,6 @@ object Build : BuildType({
         }
         dotnetPublish {
             id = "dotnet"
-            enabled = false
             projects = "src/Toolbox/Toolbox.csproj"
             sdk = "9"
         }
