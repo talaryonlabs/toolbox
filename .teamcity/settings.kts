@@ -83,10 +83,6 @@ object Build : BuildType({
 object CodeQuality : BuildType({
     name = "Code Quality"
 
-    vcs {
-        root(HttpsGithubComTalaryonlabsWebkitRefsHeadsDev)
-    }
-
     steps {
         qodana {
             id = "Qodana"
