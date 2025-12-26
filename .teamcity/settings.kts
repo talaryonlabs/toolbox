@@ -77,6 +77,13 @@ object Build : BuildType({
                 authType = vcsRoot()
             }
         }
+        pullRequests {
+            vcsRootExtId = "${DslContext.settingsRoot.id}"
+            provider = github {
+                authType = vcsRoot()
+                filterAuthorRole = PullRequests.GitHubRoleFilter.MEMBER
+            }
+        }
     }
 
     requirements {
