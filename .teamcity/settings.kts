@@ -83,6 +83,10 @@ object Build : BuildType({
 object CodeQuality : BuildType({
     name = "Code Quality"
 
+    vcs {
+        root(DslContext.settingsRoot)
+    }
+
     steps {
         qodana {
             id = "Qodana"
