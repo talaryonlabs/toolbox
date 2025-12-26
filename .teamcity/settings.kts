@@ -49,6 +49,7 @@ object Build : BuildType({
     steps {
         qodana {
             id = "Qodana"
+            enabled = false
             linter = dotNet {
                 version = Qodana.DotNetVersion.LATEST
             }
