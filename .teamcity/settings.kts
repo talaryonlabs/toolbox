@@ -4,6 +4,8 @@ import jetbrains.buildServer.configs.kotlin.buildSteps.Qodana
 import jetbrains.buildServer.configs.kotlin.buildSteps.dotnetPublish
 import jetbrains.buildServer.configs.kotlin.buildSteps.dotnetTest
 import jetbrains.buildServer.configs.kotlin.buildSteps.qodana
+import jetbrains.buildServer.configs.kotlin.triggers.finishBuildTrigger
+import jetbrains.buildServer.configs.kotlin.vcs.GitVcsRoot
 
 /*
 The settings script is an entry point for defining a TeamCity
@@ -31,7 +33,10 @@ version = "2025.11"
 
 project {
 
+    vcsRoot(HttpsGithubComTalaryonlabsWebkitRefsHeadsDev)
+
     buildType(Build)
+    buildType(CodeQuality)
 }
 
 object Build : BuildType({
@@ -72,5 +77,51 @@ object Build : BuildType({
     requirements {
         exists("container.engine")
         contains("teamcity.agent.hostname", ".build.ferociousbyte.dev")
+    }
+})
+
+object CodeQuality : BuildType({
+    name = "Code Quality"
+
+    vcs {
+        root(HttpsGithubComTalaryonlabsWebkitRefsHeadsDev)
+    }
+
+    steps {
+        qodana {
+            id = "Qodana"
+            linter = dotNet {
+                version = Qodana.DotNetVersion.LATEST
+            }
+            inspectionProfile = default()
+            additionalQodanaArguments = "--project-dir src/WebKit"
+            cloudToken = "credentialsJSON:d7203668-12e8-4dfb-9fcb-c9514995c460"
+        }
+    }
+
+    triggers {
+        finishBuildTrigger {
+            buildType = "Libraries_Webkit_Build"
+        }
+    }
+
+    features {
+        perfmon {
+        }
+    }
+
+    requirements {
+        contains("teamcity.agent.name", "build-ferociousbyte-dev")
+    }
+})
+
+object HttpsGithubComTalaryonlabsWebkitRefsHeadsDev : GitVcsRoot({
+    name = "https://github.com/talaryonlabs/webkit#refs/heads/dev"
+    url = "https://github.com/talaryonlabs/webkit"
+    branch = "refs/heads/dev"
+    branchSpec = "refs/heads/*"
+    authMethod = password {
+        userName = "ferociousbyte"
+        password = "credentialsJSON:6a79183f-823b-402a-95f9-6dfe2623f133"
     }
 })
