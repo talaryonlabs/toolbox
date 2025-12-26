@@ -57,7 +57,6 @@ object Build : BuildType({
         dotnetTest {
             id = "dotnet_1"
             projects = "tests/Toolbox.Tests/Toolbox.Tests.csproj"
-            sdk = "9"
         }
     }
 
