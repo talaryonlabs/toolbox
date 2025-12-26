@@ -47,15 +47,6 @@ object Build : BuildType({
     }
 
     steps {
-        qodana {
-            id = "Qodana"
-            enabled = false
-            linter = dotNet {
-                version = Qodana.DotNetVersion.LATEST
-            }
-            inspectionProfile = default()
-            cloudToken = "credentialsJSON:cdec7c6d-0d4f-423d-910f-301ce7e7f3ce"
-        }
         dotnetBuild {
             id = "dotnet"
             projects = "src/Toolbox/Toolbox.csproj"
