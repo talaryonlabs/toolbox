@@ -1,7 +1,7 @@
 import jetbrains.buildServer.configs.kotlin.*
 import jetbrains.buildServer.configs.kotlin.buildFeatures.perfmon
 import jetbrains.buildServer.configs.kotlin.buildSteps.Qodana
-import jetbrains.buildServer.configs.kotlin.buildSteps.dotnetPublish
+import jetbrains.buildServer.configs.kotlin.buildSteps.dotnetBuild
 import jetbrains.buildServer.configs.kotlin.buildSteps.dotnetTest
 import jetbrains.buildServer.configs.kotlin.buildSteps.qodana
 import jetbrains.buildServer.configs.kotlin.triggers.finishBuildTrigger
@@ -56,7 +56,7 @@ object Build : BuildType({
             inspectionProfile = default()
             cloudToken = "credentialsJSON:cdec7c6d-0d4f-423d-910f-301ce7e7f3ce"
         }
-        dotnetPublish {
+        dotnetBuild {
             id = "dotnet"
             projects = "src/Toolbox/Toolbox.csproj"
             sdk = "9"
