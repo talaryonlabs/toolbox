@@ -101,7 +101,7 @@ object CodeQuality : BuildType({
 
     triggers {
         finishBuildTrigger {
-            buildType = "Libraries_Webkit_Build"
+            buildType = "${Build.id}"
         }
     }
 
