@@ -4,6 +4,7 @@ import jetbrains.buildServer.configs.kotlin.buildSteps.Qodana
 import jetbrains.buildServer.configs.kotlin.buildSteps.dotnetBuild
 import jetbrains.buildServer.configs.kotlin.buildSteps.dotnetTest
 import jetbrains.buildServer.configs.kotlin.buildSteps.qodana
+import jetbrains.buildServer.configs.kotlin.triggers.vcs
 import jetbrains.buildServer.configs.kotlin.vcs.GitVcsRoot
 
 /*
@@ -85,6 +86,11 @@ object CodeQuality : BuildType({
             inspectionProfile = default()
             additionalQodanaArguments = "--project-dir src/Toolbox"
             cloudToken = "credentialsJSON:d7203668-12e8-4dfb-9fcb-c9514995c460"
+        }
+    }
+
+    triggers {
+        vcs {
         }
     }
 
