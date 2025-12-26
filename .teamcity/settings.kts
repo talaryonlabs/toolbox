@@ -105,7 +105,7 @@ object CodeQuality : BuildType({
             }
             inspectionProfile = default()
             additionalQodanaArguments = "--project-dir src/Toolbox"
-            cloudToken = "credentialsJSON:d7203668-12e8-4dfb-9fcb-c9514995c460"
+            cloudToken = "credentialsJSON:cdec7c6d-0d4f-423d-910f-301ce7e7f3ce"
         }
     }
 
