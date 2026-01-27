@@ -4,8 +4,8 @@ using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Web;
-using Newtonsoft.Json;
 using Talaryon.Toolbox.API.Hosting;
+using System.Text.Json;
 
 namespace Talaryon.Toolbox;
 
@@ -14,7 +14,7 @@ public static class TalaryonHelper
     [Pure]
     public static byte[] SerializeObject<T>(T obj)
     {
-        var p = JsonConvert.SerializeObject(obj);
+        var p = JsonSerializer.Serialize(obj);
         return Encoding.UTF8.GetBytes(p);
     }
 
@@ -22,7 +22,7 @@ public static class TalaryonHelper
     public static T? DeserializeObject<T>(byte[] data)
     {
         var p = Encoding.UTF8.GetString(data);
-        return JsonConvert.DeserializeObject<T>(p);
+        return JsonSerializer.Deserialize<T>(p);
     }
 
     // ReSharper disable once InconsistentNaming

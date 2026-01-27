@@ -1,12 +1,13 @@
 ﻿using System.Reflection;
-using Newtonsoft.Json;
+using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 
 namespace Talaryon.Toolbox.API.Hosting;
 
-[JsonObject]
+[DataContract]
 public class ApiRequest<T>
 {
-    [JsonProperty("items")]
+    [JsonPropertyName("items")]
     public IDictionary<string, object?> Items { get; set; } = new Dictionary<string, object?>();
 
     public static T operator +(T a, ApiRequest<T> b)
@@ -19,8 +20,8 @@ public class ApiRequest<T>
         var obj = Activator.CreateInstance<T>();
         foreach (var property in typeof(T).GetProperties())
         {
-            var attribute = property.GetCustomAttribute<JsonPropertyAttribute>();
-            if (attribute is not null && a.Items.TryGetValue(attribute.PropertyName ?? property.Name, out var value))
+            var attribute = property.GetCustomAttribute<JsonPropertyNameAttribute>();
+            if (attribute is not null && a.Items.TryGetValue(property.Name, out var value))
             {
                 property.SetValue(obj, value);
             }

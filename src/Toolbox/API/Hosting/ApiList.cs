@@ -1,14 +1,14 @@
 ﻿using System.Runtime.Serialization;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Talaryon.Toolbox.API.Hosting;
 
-[JsonObject]
+[DataContract]
 public class ApiList<T>
 {
-    [JsonProperty("items")] public IEnumerable<T> Items { get; set; } = new List<T>();
-    [JsonProperty("next_cursor")] public string? NextCursor { get; set; }
-    [JsonProperty("total_count")] public int TotalCount { get; set; }
+    [JsonPropertyName("items")] public IEnumerable<T> Items { get; set; } = new List<T>();
+    [JsonPropertyName("next_cursor")] public string? NextCursor { get; set; }
+    [JsonPropertyName("total_count")] public int TotalCount { get; set; }
 }
 
 [DataContract]

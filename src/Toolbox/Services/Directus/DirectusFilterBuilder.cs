@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json;
 
 namespace Talaryon.Toolbox.Services.Directus;
 
@@ -197,6 +197,6 @@ public class DirectusFilterBuilder : IDirectusFilter
 
     public string Build()
     {
-        return JsonConvert.SerializeObject(List is { Count: 1 } ? List.First() : List, Formatting.None);
+        return JsonSerializer.Serialize<object>(List is { Count: 1 } ? List.First() : List);
     }
 }

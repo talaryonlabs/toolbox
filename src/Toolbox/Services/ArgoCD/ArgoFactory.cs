@@ -2,9 +2,7 @@
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using Microsoft.AspNetCore.Http.Extensions;
-using Newtonsoft.Json;
 using Talaryon.Toolbox.Extensions;
-using Talaryon.Toolbox.Services.ArgoCD.Models;
 
 namespace Talaryon.Toolbox.Services.ArgoCD;
 
