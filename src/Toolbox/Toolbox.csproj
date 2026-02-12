@@ -7,17 +7,23 @@
         <Nullable>enable</Nullable>
         <LangVersion>14</LangVersion>
         <ImplicitUsings>enable</ImplicitUsings>
+        <Title>Talaryon Toolbox</Title>
+        <Authors>Talaryon Labs</Authors>
+        <Copyright>Talaryon Labs</Copyright>
+        <PackageProjectUrl>https://github.com/talaryonlabs/toolbox</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/talaryonlabs/toolbox</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
     </PropertyGroup>
 
     <ItemGroup>
       <PackageReference Include="Dapper" Version="2.1.66" />
       <PackageReference Include="Dapper.Contrib" Version="2.0.78" />
       <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.3.9" />
-      <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="10.0.2" />
-      <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="10.0.2" />
-      <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.2" />
-      <PackageReference Include="Microsoft.Extensions.Http" Version="10.0.2" />
-      <PackageReference Include="Microsoft.Extensions.Options" Version="10.0.2" />
+      <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="10.0.3" />
+      <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="10.0.3" />
+      <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.3" />
+      <PackageReference Include="Microsoft.Extensions.Http" Version="10.0.3" />
+      <PackageReference Include="Microsoft.Extensions.Options" Version="10.0.3" />
       <PackageReference Include="MySqlConnector" Version="2.5.0" />
       <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
     </ItemGroup>
