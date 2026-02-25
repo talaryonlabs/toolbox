@@ -1,9 +1,8 @@
-﻿using System.Runtime.Serialization;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
+using Talaryon.Toolbox.Hosting.Api.Attributes;
 
 namespace Talaryon.Toolbox.Hosting.Api;
 
-[DataContract]
 public class ApiList<T>
 {
     [JsonPropertyName("items")] public IEnumerable<T> Items { get; set; } = new List<T>();
@@ -11,7 +10,6 @@ public class ApiList<T>
     [JsonPropertyName("total_count")] public int TotalCount { get; set; }
 }
 
-[DataContract]
 public class ApiListArgs
 {
     [QueryMember("cursor")] public string Cursor { get; set; } = string.Empty;

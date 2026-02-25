@@ -1,13 +1,5 @@
-﻿using System.Runtime.Serialization;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 
-namespace Talaryon.Toolbox.Hosting.Api;
+namespace Talaryon.Toolbox.Hosting.Api.Errors;
 
-[DataContract]
-public class NotImplementedError : ApiError
-{
-    public NotImplementedError() 
-        : base(StatusCodes.Status501NotImplemented, "Method not implemented.")
-    {
-    }
-}
+public class NotImplementedError() : ApiError(StatusCodes.Status501NotImplemented, "Method not implemented.");

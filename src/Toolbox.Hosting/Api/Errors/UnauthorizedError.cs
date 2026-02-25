@@ -1,13 +1,5 @@
-﻿using System.Runtime.Serialization;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 
-namespace Talaryon.Toolbox.Hosting.Api;
+namespace Talaryon.Toolbox.Hosting.Api.Errors;
 
-[DataContract]
-public class UnauthorizedError : ApiError
-{
-    public UnauthorizedError(string? message) 
-        : base(StatusCodes.Status401Unauthorized, message)
-    {
-    }
-}
+public class UnauthorizedError(string? message) : ApiError(StatusCodes.Status401Unauthorized, message);

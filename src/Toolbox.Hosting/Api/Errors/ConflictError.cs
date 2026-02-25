@@ -1,13 +1,5 @@
-﻿using System.Runtime.Serialization;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 
-namespace Talaryon.Toolbox.Hosting.Api;
+namespace Talaryon.Toolbox.Hosting.Api.Errors;
 
-[DataContract]
-public class ConflictError : ApiError
-{
-    public ConflictError(string? message) 
-        : base(StatusCodes.Status409Conflict, message)
-    {
-    }
-}
+public class ConflictError(string? message) : ApiError(StatusCodes.Status409Conflict, message);

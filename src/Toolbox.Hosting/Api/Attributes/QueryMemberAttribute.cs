@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace Talaryon.Toolbox.Hosting.Api;
+namespace Talaryon.Toolbox.Hosting.Api.Attributes;
 
 [AttributeUsage(AttributeTargets.Property)]
 public class QueryMemberAttribute : FromQueryAttribute

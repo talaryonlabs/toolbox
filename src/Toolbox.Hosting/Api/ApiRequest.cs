@@ -1,10 +1,8 @@
 ﻿using System.Reflection;
-using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 
 namespace Talaryon.Toolbox.Hosting.Api;
 
-[DataContract]
 public class ApiRequest<T>
 {
     [JsonPropertyName("items")]

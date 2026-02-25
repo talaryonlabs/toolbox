@@ -1,17 +1,14 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace Talaryon.Toolbox.Hosting.Api;
 
-[DataContract]
-public class ApiError : Exception
+public class ApiError() : Exception
 {
-    [DataMember(Name = "code")] public int Code { get; set; }
-    [DataMember(Name = "request_id")] public string? RequestId { get; set; }
-    [DataMember(Name = "message")] public new string? Message { get; set; }
-    [DataMember(Name = "documentation_url")] public string DocumentationUrl { get; set; }
-    [DataMember(Name = "stack_trace")] private new string? StackTrace { get; set; }
-
-    public ApiError() => DocumentationUrl = "https://github.com/talaryonstudios/toolbox";
+    [JsonPropertyName("code")] public int Code { get; set; }
+    [JsonPropertyName("request_id")] public string? RequestId { get; set; }
+    [JsonPropertyName("message")] public new string? Message { get; set; }
+    [JsonPropertyName("documentation_url")] public string DocumentationUrl { get; set; } = "https://github.com/talaryonstudios/toolbox";
+    [JsonPropertyName("stack_trace")] private new string? StackTrace { get; set; }
 
     public ApiError(int code, string? message)
         : this()

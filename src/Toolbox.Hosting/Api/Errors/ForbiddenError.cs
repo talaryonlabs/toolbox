@@ -1,13 +1,5 @@
-﻿using System.Runtime.Serialization;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 
-namespace Talaryon.Toolbox.Hosting.Api;
+namespace Talaryon.Toolbox.Hosting.Api.Errors;
 
-[DataContract]
-public class ForbiddenError : ApiError
-{
-    public ForbiddenError() 
-        : base(StatusCodes.Status403Forbidden, "Forbidden.")
-    {
-    }
-}
+public class ForbiddenError() : ApiError(StatusCodes.Status403Forbidden, "Forbidden.");

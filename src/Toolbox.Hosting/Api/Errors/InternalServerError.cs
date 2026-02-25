@@ -1,9 +1,7 @@
-﻿using System.Runtime.Serialization;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 
-namespace Talaryon.Toolbox.Hosting.Api;
+namespace Talaryon.Toolbox.Hosting.Api.Errors;
 
-[DataContract]
 public sealed class InternalServerError : ApiError
 {
     public InternalServerError()

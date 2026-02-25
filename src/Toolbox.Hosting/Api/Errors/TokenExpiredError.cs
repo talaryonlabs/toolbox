@@ -1,14 +1,8 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Text.Json.Serialization;
 
-namespace Talaryon.Toolbox.Hosting.Api;
+namespace Talaryon.Toolbox.Hosting.Api.Errors;
 
-[DataContract]
-public class TokenExpiredError : UnauthorizedError
+public class TokenExpiredError() : UnauthorizedError("Token is expired! Login again to retrive a new token.")
 {
-    [DataMember(Name = "expired_at")] public DateTime ExpiredAt { get; set; }
-        
-    public TokenExpiredError() 
-        : base("Token is expired! Login again to retrive a new token.")
-    {
-    }
+    [JsonPropertyName("expired_at")] public DateTime ExpiredAt { get; set; }
 }

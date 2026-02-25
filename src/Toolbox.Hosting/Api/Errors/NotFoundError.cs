@@ -1,12 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
 
-namespace Talaryon.Toolbox.Hosting.Api;
+namespace Talaryon.Toolbox.Hosting.Api.Errors;
 
-public class NotFoundError : ApiError
-{
-    public NotFoundError(string? message) 
-        : base(StatusCodes.Status404NotFound, message)
-    {
-            
-    }
-}
+public class NotFoundError(string? message) : ApiError(StatusCodes.Status404NotFound, message);

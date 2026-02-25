@@ -1,12 +1,6 @@
-﻿using System.Runtime.Serialization;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 
-namespace Talaryon.Toolbox.Hosting.Api;
+namespace Talaryon.Toolbox.Hosting.Api.Errors;
 
-[DataContract]
-public class AuthenticationError : ApiError
-{
-    public AuthenticationError() : base(StatusCodes.Status401Unauthorized, "Authentication failed. Username and Password correct?")
-    {
-    }
-}
+public class AuthenticationError() : ApiError(StatusCodes.Status401Unauthorized,
+    "Authentication failed. Username and Password correct?");

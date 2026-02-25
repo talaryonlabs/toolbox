@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics.Contracts;
 using System.Reflection;
 using System.Web;
-using Talaryon.Toolbox.Hosting.Api;
+using Talaryon.Toolbox.Hosting.Api.Attributes;
 
 namespace Talaryon.Toolbox.Hosting;
 
