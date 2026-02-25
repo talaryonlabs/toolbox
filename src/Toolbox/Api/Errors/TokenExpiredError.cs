@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Talaryon.Toolbox.Hosting.Api.Errors;
+namespace Talaryon.Toolbox.Api.Errors;
 
 public class TokenExpiredError() : UnauthorizedError("Token is expired! Login again to retrive a new token.")
 {

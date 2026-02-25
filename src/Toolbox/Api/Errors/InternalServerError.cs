@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 
-namespace Talaryon.Toolbox.Hosting.Api.Errors;
+namespace Talaryon.Toolbox.Api.Errors;
 
 public sealed class InternalServerError : ApiError
 {

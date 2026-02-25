@@ -1,4 +1,4 @@
-﻿namespace Talaryon.Toolbox.Api.Client;
+﻿namespace Talaryon.Toolbox.Api;
 
 public interface IApiRequest<in TResource, TOut> : ITalaryonRunner<TOut>
 {

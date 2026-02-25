@@ -1,4 +1,4 @@
-namespace Talaryon.Toolbox.Api.Client;
+namespace Talaryon.Toolbox.Api;
 
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
 public class ApiEndpointAttribute(string url, ApiEndpointType type = ApiEndpointType.Many, ApiEndpointMethod method = ApiEndpointMethod.Get) : Attribute

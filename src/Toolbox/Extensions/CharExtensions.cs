@@ -25,8 +25,11 @@ public static class CharExtensions
         { 'ĵ', "j" }
     };
     
-    public static string RemapInternationalCharToAscii(this char c)
+    extension(char c)
     {
-        return CharMappings.TryGetValue(c, out var mappedValue) ? mappedValue : string.Empty;
+        public string RemapInternationalCharToAscii()
+        {
+            return CharMappings.TryGetValue(c, out var mappedValue) ? mappedValue : string.Empty;
+        }
     }
 }

@@ -2,7 +2,7 @@
 using Talaryon.Toolbox.Extensions;
 using Talaryon.Toolbox.Services.Authentik;
 
-namespace Talaryon.Toolbox.Api.Client;
+namespace Talaryon.Toolbox.Api;
 
 public class ApiRequest<TResource>(HttpClient httpClient, string baseUri)
     : ApiRequest<TResource, TResource>(httpClient, baseUri);

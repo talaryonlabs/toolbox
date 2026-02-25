@@ -1,6 +1,6 @@
 using System.Reflection;
 
-namespace Talaryon.Toolbox.Api.Client;
+namespace Talaryon.Toolbox.Api;
 
 public static class ApiEndpoint
 {

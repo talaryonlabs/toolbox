@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Talaryon.Toolbox.Hosting.Api;
+namespace Talaryon.Toolbox.Api;
 
 public class ApiError() : Exception
 {

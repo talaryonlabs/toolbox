@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Talaryon.Toolbox.Hosting.Api.Errors;
+using Talaryon.Toolbox.Api.Errors;
 
 namespace Talaryon.Toolbox.Hosting.Api;
 

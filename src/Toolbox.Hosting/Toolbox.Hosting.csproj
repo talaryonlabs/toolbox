@@ -15,7 +15,7 @@
         <Product>Talaryon.Toolbox.Hosting</Product>
         <AssemblyName>Talaryon.Toolbox.Hosting</AssemblyName>
         <RootNamespace>Talaryon.Toolbox.Hosting</RootNamespace>
-        <Version>1.0.3</Version>
+        <Version>1.1.0</Version>
     </PropertyGroup>
 
     <ItemGroup>

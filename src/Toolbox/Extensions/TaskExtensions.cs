@@ -2,19 +2,25 @@
 
 public static class TaskExtensions
 {
-    public static T RunSynchronouslyWithResult<T>(this Task<T> task)
+    extension<T>(Task<T> task)
     {
-        task
-            .Wait();
-        return task.Result;
+        public T RunSynchronouslyWithResult()
+        {
+            task
+                .Wait();
+            return task.Result;
+        }
     }
     
-    public static T RunSynchronouslyWithResult<T>(this ValueTask<T> valueTask)
+    extension<T>(ValueTask<T> valueTask)
     {
-        valueTask
-            .AsTask()
-            .Wait();
+        public T RunSynchronouslyWithResult()
+        {
+            valueTask
+                .AsTask()
+                .Wait();
         
-        return valueTask.Result;
+            return valueTask.Result;
+        }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Extensions;
 
-namespace Talaryon.Toolbox.Api.Client;
+namespace Talaryon.Toolbox.Api;
 
 public class ApiRequestParams
 {

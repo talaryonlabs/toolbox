@@ -4,5 +4,8 @@ namespace Talaryon.Toolbox.Extensions;
 
 public static class MemberInfoExtensions
 {
-    public static bool HasCustomAttribute<T>(this MemberInfo memberInfo) where T : Attribute => memberInfo.GetCustomAttributes<T>(true).Any();
+    extension(MemberInfo memberInfo)
+    {
+        public bool HasCustomAttribute<T>() where T : Attribute => memberInfo.GetCustomAttributes<T>(true).Any();
+    }
 }

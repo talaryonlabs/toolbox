@@ -2,8 +2,9 @@
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Talaryon.Toolbox.Api;
+using Talaryon.Toolbox.Api.Errors;
 using Talaryon.Toolbox.Extensions;
-using Talaryon.Toolbox.Hosting.Api.Errors;
 
 namespace Talaryon.Toolbox.Hosting.Api.Filters;
 
