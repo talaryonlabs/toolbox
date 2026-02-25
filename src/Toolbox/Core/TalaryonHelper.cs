@@ -1,10 +1,7 @@
 ﻿using System.Diagnostics.Contracts;
-using System.Reflection;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
-using System.Web;
-using Talaryon.Toolbox.API.Hosting;
 using System.Text.Json;
 
 namespace Talaryon.Toolbox;
@@ -116,22 +113,6 @@ public static class TalaryonHelper
                 return $"{name.ToLower()}={HttpUtility.UrlEncode(value.ToString())}";
             }));
     }*/
-
-    [Pure]
-    public static string ToQueryString<T>(T data)
-    {
-        return string.Join("&", typeof(T)
-            .GetProperties(BindingFlags.Instance | BindingFlags.Public)
-            .Where(v => v.CanRead)
-            .Select(v =>
-            {
-                var attr = v.GetCustomAttributes<QueryMemberAttribute>().FirstOrDefault();
-                var name = attr is not null ? attr.Name : v.Name;
-                var value = v.GetValue(data) ?? "";
-
-                return $"{name.ToLower()}={HttpUtility.UrlEncode(value.ToString())}";
-            }));
-    }
 
     public static X509Certificate2 CreateSelfSignedCertificate()
     {

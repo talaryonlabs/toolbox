@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <PackageId>Talaryon.Toolbox.Hosting</PackageId>
+        <Title>Talaryon Toolbox Hosting Extension</Title>
+        <Authors>Talaryon Labs</Authors>
+        <Copyright>Talaryon Labs</Copyright>
+        <PackageProjectUrl>https://github.com/talaryonlabs/toolbox</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/talaryonlabs/toolbox</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <Company>Talaryon Labs</Company>
+        <Product>Talaryon.Toolbox.Hosting</Product>
+        <AssemblyName>Talaryon.Toolbox.Hosting</AssemblyName>
+        <RootNamespace>Talaryon.Toolbox.Hosting</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.3.9" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Toolbox\Toolbox.csproj" />
+    </ItemGroup>
+
+</Project>

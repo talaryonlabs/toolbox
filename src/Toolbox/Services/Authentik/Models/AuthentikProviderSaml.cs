@@ -1,5 +1,5 @@
 ﻿using System.Text.Json.Serialization;
-using Talaryon.Toolbox.API.Client;
+using Talaryon.Toolbox.Api.Client;
 
 namespace Talaryon.Toolbox.Services.Authentik.Models;
 
