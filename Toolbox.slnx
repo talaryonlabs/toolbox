@@ -1,5 +1,6 @@
 ﻿<Solution>
   <Project Path="src/Toolbox.Hosting/Toolbox.Hosting.csproj" />
-  <Project Path="src\Toolbox\Toolbox.csproj" Type="C#" />
-  <Project Path="tests\Toolbox.Tests\Toolbox.Tests.csproj" Type="C#" />
+  <Project Path="src/Toolbox.Services/Toolbox.Services.csproj" />
+  <Project Path="src\Toolbox\Toolbox.csproj" />
+  <Project Path="tests\Toolbox.Tests\Toolbox.Tests.csproj" />
 </Solution>

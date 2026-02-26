@@ -1,6 +1,5 @@
 ﻿using System.Net.Http.Json;
 using Talaryon.Toolbox.Extensions;
-using Talaryon.Toolbox.Services.Authentik;
 
 namespace Talaryon.Toolbox.Api;
 
@@ -23,38 +22,24 @@ public class ApiRequest<TResource, TOut>(HttpClient httpClient, string baseUri) 
         var requestUri = new Uri(baseUri)
             .Append(_uriParams is {Count: >0 } ? uri.ReplaceMany(_uriParams) : uri)
             .Append(_queryParams.ToQueryString().ToString());
+        
+        // TalaryonLogger.Debug<ApiRequest<TResource, TOut>>($"{_method.ToString().ToUpper()} ({_type.ToString()}) {requestUri}");
 
-        try
+        var response = await (_method switch
         {
-            TalaryonLogger.Debug<ApiRequest<TResource, TOut>>($"{_method.ToString().ToUpper()} ({_type.ToString()}) {requestUri}");
-            HttpResponseMessage response;
-            
-            switch (_method)
-            {
-                case ApiEndpointMethod.Post:
-                    response = await httpClient.PostAsJsonAsync(requestUri, _content, cancellationToken);
-                    break;
-                case ApiEndpointMethod.Put:
-                    response = await httpClient.PutAsJsonAsync(requestUri, _content, cancellationToken);
-                    break;
-                case ApiEndpointMethod.Patch:
-                    response = await httpClient.PatchAsJsonAsync(requestUri, _content, cancellationToken);
-                    break;
-                case ApiEndpointMethod.Delete:
-                    response = await httpClient.DeleteAsync(requestUri, cancellationToken);
-                    break;
-                case ApiEndpointMethod.Get:
-                    return await httpClient.GetFromJsonAsync<TOut>(requestUri, cancellationToken);
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-            return await response.Content.ReadFromJsonAsync<TOut>(cancellationToken);
-        }
-        catch (Exception e)
+            ApiEndpointMethod.Post => httpClient.PostAsJsonAsync(requestUri, _content, cancellationToken),
+            ApiEndpointMethod.Put => httpClient.PutAsJsonAsync(requestUri, _content, cancellationToken),
+            ApiEndpointMethod.Patch => httpClient.PatchAsJsonAsync(requestUri, _content, cancellationToken),
+            ApiEndpointMethod.Delete => httpClient.DeleteAsync(requestUri, cancellationToken),
+            ApiEndpointMethod.Get => httpClient.GetAsync(requestUri, cancellationToken),
+            _ => throw new ArgumentOutOfRangeException()
+        });
+        if (!response.IsSuccessStatusCode)
         {
-            TalaryonLogger.Error<Authentik>(e.Message);
+            var error = await response.Content.ReadFromJsonAsync<ApiError>(cancellationToken);
         }
-        return default;
+        
+        return await response.Content.ReadFromJsonAsync<TOut>(cancellationToken);
     }
 
     public IApiRequest<TResource, TOut> WithType(ApiEndpointType type)

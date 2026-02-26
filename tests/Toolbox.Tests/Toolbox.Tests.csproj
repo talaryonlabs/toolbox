@@ -33,6 +33,8 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\src\Toolbox.Hosting\Toolbox.Hosting.csproj" />
+      <ProjectReference Include="..\..\src\Toolbox.Services\Toolbox.Services.csproj" />
       <ProjectReference Include="..\..\src\Toolbox\Toolbox.csproj" />
     </ItemGroup>
 
