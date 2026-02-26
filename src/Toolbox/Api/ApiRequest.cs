@@ -34,12 +34,16 @@ public class ApiRequest<TResource, TOut>(HttpClient httpClient, string baseUri) 
             ApiEndpointMethod.Get => httpClient.GetAsync(requestUri, cancellationToken),
             _ => throw new ArgumentOutOfRangeException()
         });
-        if (!response.IsSuccessStatusCode)
-        {
-            var error = await response.Content.ReadFromJsonAsync<ApiError>(cancellationToken);
-        }
+        if (response.IsSuccessStatusCode) 
+            return await response.Content.ReadFromJsonAsync<TOut>(cancellationToken);
         
-        return await response.Content.ReadFromJsonAsync<TOut>(cancellationToken);
+        var error = await response.Content.ReadFromJsonAsync<ApiError>(cancellationToken);
+        if (error is not null)
+        {
+            throw error;
+        }
+        throw new InvalidOperationException($"Request failed with status code {response.StatusCode}");
+
     }
 
     public IApiRequest<TResource, TOut> WithType(ApiEndpointType type)
