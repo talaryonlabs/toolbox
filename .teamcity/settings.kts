@@ -157,9 +157,9 @@ object Toolbox : BuildType({
         script {
             name = "Get Version Number"
             id = "Get_Version_Number"
-            workingDir = "src/StackManager.Proxy"
+            workingDir = "src/Toolbox"
             scriptContent = """
-                export version="${'$'}(cat StackManager.Proxy.csproj | grep -Eo '<Version>[0-9.\-]+</Version>' | grep -Eo '[0-9.\-]+')"
+                export version="${'$'}(cat Toolbox.csproj | grep -Eo '<Version>[0-9.\-]+</Version>' | grep -Eo '[0-9.\-]+')"
                 echo "##teamcity[buildNumber '${'$'}version']"
             """.trimIndent()
         }
