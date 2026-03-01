@@ -99,8 +99,8 @@ object Toolbox : BuildType({
 
     params {
         param("env.version", "-")
-        param("env.state", "-")
         param("env.package", "-")
+        param("env.state", "-")
         param("local.projectName", "Toolbox")
     }
 
@@ -184,6 +184,10 @@ object Toolbox : BuildType({
 
 object ToolboxHosting : BuildType({
     name = "Toolbox.Hosting"
+
+    params {
+        param("local.projectName", "%env.TEAMCITY_PROJECT_NAME%")
+    }
 
     vcs {
         root(DslContext.settingsRoot)
