@@ -126,6 +126,8 @@ object Toolbox : BuildType({
                     echo "Version ${'$'}VERSION already exists on ${'$'}SOURCE."
                 fi
                 
+                echo "##teamcity[setParameter name='env.package' value='${'$'}PACKAGE_NAME']"
+                echo "##teamcity[setParameter name='env.version' value='${'$'}VERSION']"
                 echo "##teamcity[buildNumber '${'$'}PACKAGE_NAME:${'$'}VERSION']"
             """.trimIndent()
         }
