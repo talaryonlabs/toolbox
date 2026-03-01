@@ -145,6 +145,10 @@ object Toolbox : BuildType({
         dotnetPack {
             name = "Pack NuGet Package"
             id = "Pack_NuGet_Package"
+
+            conditions {
+                doesNotEqual("env.state", "exists")
+            }
             projects = "src/%local.projectName%/%local.projectName%.csproj"
             outputDir = "publish"
         }
