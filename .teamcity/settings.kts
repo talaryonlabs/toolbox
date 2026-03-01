@@ -141,7 +141,7 @@ object Toolbox : BuildType({
         dotnetPack {
             name = "Pack NuGet Package"
             id = "Pack_NuGet_Package"
-            projects = "src/Toolbox/Toolbox.csproj"
+            projects = "src/%local.projectName%/%local.projectName%.csproj"
             outputDir = "publish"
         }
         dotnetNugetPush {
