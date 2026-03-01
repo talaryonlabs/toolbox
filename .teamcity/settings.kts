@@ -176,9 +176,9 @@ object ToolboxHosting : BuildType({
         script {
             name = "Get Version Number"
             id = "Get_Version_Number"
-            workingDir = "src/Toolbox"
+            workingDir = "src/Toolbox.Hosting"
             scriptContent = """
-                export version="${'$'}(cat Toolbox.csproj | grep -Eo '<Version>[0-9.\-]+</Version>' | grep -Eo '[0-9.\-]+')"
+                export version="${'$'}(cat Toolbox.Hosting.csproj | grep -Eo '<Version>[0-9.\-]+</Version>' | grep -Eo '[0-9.\-]+')"
                 echo "##teamcity[buildNumber '${'$'}version']"
             """.trimIndent()
         }
