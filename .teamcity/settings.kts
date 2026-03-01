@@ -5,8 +5,12 @@ import jetbrains.buildServer.configs.kotlin.buildFeatures.perfmon
 import jetbrains.buildServer.configs.kotlin.buildFeatures.pullRequests
 import jetbrains.buildServer.configs.kotlin.buildSteps.Qodana
 import jetbrains.buildServer.configs.kotlin.buildSteps.dotnetBuild
+import jetbrains.buildServer.configs.kotlin.buildSteps.dotnetNugetPush
+import jetbrains.buildServer.configs.kotlin.buildSteps.dotnetPack
+import jetbrains.buildServer.configs.kotlin.buildSteps.dotnetRestore
 import jetbrains.buildServer.configs.kotlin.buildSteps.dotnetTest
 import jetbrains.buildServer.configs.kotlin.buildSteps.qodana
+import jetbrains.buildServer.configs.kotlin.buildSteps.script
 import jetbrains.buildServer.configs.kotlin.triggers.vcs
 import jetbrains.buildServer.configs.kotlin.vcs.GitVcsRoot
 
@@ -36,11 +40,13 @@ version = "2025.11"
 
 project {
 
+    vcsRoot(HttpsGithubComTalaryonlabsStackmgrRefsHeadsMain)
     vcsRoot(HttpsGithubComTalaryonlabsWebkitRefsHeadsDev)
 
     buildType(Build)
+    buildType(Toolbox)
     buildType(CodeQuality)
-    buildTypesOrder = arrayListOf(CodeQuality, Build)
+    buildTypesOrder = arrayListOf(CodeQuality, Build, Toolbox)
 }
 
 object Build : BuildType({
@@ -137,6 +143,85 @@ object CodeQuality : BuildType({
 
     requirements {
         contains("teamcity.agent.name", "build-ferociousbyte-dev")
+    }
+})
+
+object Toolbox : BuildType({
+    name = "Toolbox"
+
+    vcs {
+        root(HttpsGithubComTalaryonlabsStackmgrRefsHeadsMain)
+    }
+
+    steps {
+        script {
+            name = "Get Version Number"
+            id = "Get_Version_Number"
+            workingDir = "src/StackManager.Proxy"
+            scriptContent = """
+                export version="${'$'}(cat StackManager.Proxy.csproj | grep -Eo '<Version>[0-9.\-]+</Version>' | grep -Eo '[0-9.\-]+')"
+                echo "##teamcity[buildNumber '${'$'}version']"
+            """.trimIndent()
+        }
+        dotnetRestore {
+            name = "Restore Packages"
+            id = "Restore_Packages"
+            projects = "src/StackManager.CLI/StackManager.CLI.csproj"
+            sources = "https://nuget.pkg.talaryon.dev/v3/index.json"
+        }
+        dotnetBuild {
+            name = "Build"
+            id = "dotnet"
+            projects = "src/StackManager.CLI/StackManager.CLI.csproj"
+        }
+        dotnetPack {
+            name = "Pack NuGet Package"
+            id = "Pack_NuGet_Package"
+            projects = "src/StackManager.CLI/StackManager.CLI.csproj"
+            outputDir = "publish"
+        }
+        dotnetNugetPush {
+            name = "Push NuGet Package"
+            id = "Push_NuGet_Package"
+            packages = "publish/*StackManager*.nupkg"
+            serverUrl = "https://nuget.pkg.talaryon.dev/v3/index.json"
+            apiKey = "credentialsJSON:56baad1f-80c9-4e5e-8ad3-d684ac95dfb8"
+        }
+    }
+
+    triggers {
+        vcs {
+        }
+    }
+
+    features {
+        perfmon {
+        }
+        commitStatusPublisher {
+            enabled = false
+            vcsRootExtId = "${HttpsGithubComTalaryonlabsStackmgrRefsHeadsMain.id}"
+            publisher = github {
+                githubUrl = "https://api.github.com"
+                authType = personalToken {
+                    token = "credentialsJSON:f395c44f-e583-4547-91ab-c3d8e4d49d97"
+                }
+            }
+        }
+    }
+
+    requirements {
+        contains("teamcity.agent.name", "build-ferociousbyte-dev")
+    }
+})
+
+object HttpsGithubComTalaryonlabsStackmgrRefsHeadsMain : GitVcsRoot({
+    name = "https://github.com/talaryonlabs/stackmgr#refs/heads/main"
+    url = "https://github.com/talaryonlabs/stackmgr"
+    branch = "refs/heads/main"
+    branchSpec = "refs/heads/*"
+    authMethod = password {
+        userName = "ferociousbyte"
+        password = "credentialsJSON:d420966c-62b3-43f3-a5de-67e5abe6916a"
     }
 })
 
