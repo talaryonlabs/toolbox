@@ -191,7 +191,7 @@ object ToolboxHosting : BuildType({
         dotnetBuild {
             name = "Build"
             id = "dotnet"
-            projects = "src/Toolbox/Toolbox.csproj"
+            projects = "src/Toolbox.Hosting/Toolbox.Hosting.csproj"
         }
         dotnetPack {
             name = "Pack NuGet Package"
