@@ -101,7 +101,7 @@ object Toolbox : BuildType({
         param("env.version", "-")
         param("env.package", "-")
         param("env.state", "-")
-        param("local.projectName", "Toolbox")
+        param("local.projectName", "%env.TEAMCITY_PROJECT_NAME%")
     }
 
     vcs {
