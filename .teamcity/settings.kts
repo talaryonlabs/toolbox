@@ -247,8 +247,8 @@ object ToolboxHosting : BuildType({
         dotnetNugetPush {
             name = "Push NuGet Package"
             id = "Push_NuGet_Package"
-            packages = "publish/*Toolbox.Hosting*.nupkg"
-            serverUrl = "https://nuget.pkg.talaryon.dev/v3/index.json"
+            packages = "publish/%env.package%.%env.version%.nupkg"
+            serverUrl = "https://%nuget.source.talaryon%/v3/index.json"
             apiKey = "credentialsJSON:56baad1f-80c9-4e5e-8ad3-d684ac95dfb8"
         }
     }
