@@ -265,7 +265,7 @@ object ToolboxServices : BuildType({
         dotnetPack {
             name = "Pack NuGet Package"
             id = "Pack_NuGet_Package"
-            projects = "src/Toolbox.Hosting/Toolbox.Hosting.csproj"
+            projects = "src/Toolbox.Services/Toolbox.Services.csproj"
             outputDir = "publish"
         }
         dotnetNugetPush {
