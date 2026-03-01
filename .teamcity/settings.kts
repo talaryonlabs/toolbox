@@ -99,9 +99,9 @@ object Toolbox : BuildType({
 
     params {
         param("env.version", "-")
-        param("env.state", "-")
         param("env.package", "-")
-        param("local.projectName", "Toolbox")
+        param("env.state", "-")
+        param("local.projectName", "%env.TEAMCITY_PROJECT_NAME%")
     }
 
     vcs {
@@ -145,12 +145,20 @@ object Toolbox : BuildType({
         dotnetPack {
             name = "Pack NuGet Package"
             id = "Pack_NuGet_Package"
+
+            conditions {
+                doesNotEqual("env.state", "exists")
+            }
             projects = "src/%local.projectName%/%local.projectName%.csproj"
             outputDir = "publish"
         }
         dotnetNugetPush {
             name = "Push NuGet Package"
             id = "Push_NuGet_Package"
+
+            conditions {
+                doesNotEqual("env.state", "exists")
+            }
             packages = "publish/%env.package%.%env.version%.nupkg"
             serverUrl = "https://%nuget.source.talaryon%/v3/index.json"
             apiKey = "credentialsJSON:56baad1f-80c9-4e5e-8ad3-d684ac95dfb8"
@@ -185,6 +193,13 @@ object Toolbox : BuildType({
 object ToolboxHosting : BuildType({
     name = "Toolbox.Hosting"
 
+    params {
+        param("env.version", "-")
+        param("env.state", "-")
+        param("env.package", "-")
+        param("local.projectName", "%env.TEAMCITY_PROJECT_NAME%")
+    }
+
     vcs {
         root(DslContext.settingsRoot)
     }
@@ -195,32 +210,45 @@ object ToolboxHosting : BuildType({
             id = "Get_Version_Number"
             workingDir = "src/Toolbox.Hosting"
             scriptContent = """
-                export version="${'$'}(cat Toolbox.Hosting.csproj | grep -Eo '<Version>[0-9.\-]+</Version>' | grep -Eo '[0-9.\-]+')"
-                echo "##teamcity[buildNumber '${'$'}version']"
+                #!/bin/bash
+                SOURCE="%nuget.source.talaryon%"
+                VERSION="${'$'}(cat %local.projectName%.csproj | grep -Eo '<Version>[0-9.\-]+</Version>' | grep -Eo '[0-9.\-]+')"
+                PACKAGE_NAME="${'$'}(grep -Eo '<PackageId>[A-Za-z0-9.\-]+</PackageId>' %local.projectName%.csproj | sed -E 's/<PackageId>([A-Za-z0-9.\-]+)<\/PackageId>/\1/')"
+                API_URL="https://${'$'}SOURCE/v3/registration/${'$'}PACKAGE_NAME/index.json"
+                RESPONSE=${'$'}(curl -s "${'$'}API_URL" | jq -r '.items[].items[].catalogEntry.version')
+                
+                if echo "${'$'}RESPONSE" | grep -q "${'$'}VERSION"; then
+                	echo "##teamcity[setParameter name='env.state' value='exists']"
+                    echo "Version ${'$'}VERSION already exists on ${'$'}SOURCE."
+                fi
+                
+                echo "##teamcity[setParameter name='env.package' value='${'$'}PACKAGE_NAME']"
+                echo "##teamcity[setParameter name='env.version' value='${'$'}VERSION']"
+                echo "##teamcity[buildNumber '${'$'}PACKAGE_NAME:${'$'}VERSION']"
             """.trimIndent()
         }
         dotnetRestore {
             name = "Restore Packages"
             id = "Restore_Packages"
-            projects = "src/Toolbox.Hosting/Toolbox.Hosting.csproj"
-            sources = "https://nuget.pkg.talaryon.dev/v3/index.json"
+            projects = "src/%local.projectName%/%local.projectName%.csproj"
+            sources = "https://%nuget.source.talaryon%/v3/index.json"
         }
         dotnetBuild {
             name = "Build"
             id = "dotnet"
-            projects = "src/Toolbox.Hosting/Toolbox.Hosting.csproj"
+            projects = "src/%local.projectName%/%local.projectName%.csproj"
         }
         dotnetPack {
             name = "Pack NuGet Package"
             id = "Pack_NuGet_Package"
-            projects = "src/Toolbox.Hosting/Toolbox.Hosting.csproj"
+            projects = "src/%local.projectName%/%local.projectName%.csproj"
             outputDir = "publish"
         }
         dotnetNugetPush {
             name = "Push NuGet Package"
             id = "Push_NuGet_Package"
-            packages = "publish/*Toolbox.Hosting*.nupkg"
-            serverUrl = "https://nuget.pkg.talaryon.dev/v3/index.json"
+            packages = "publish/%env.package%.%env.version%.nupkg"
+            serverUrl = "https://%nuget.source.talaryon%/v3/index.json"
             apiKey = "credentialsJSON:56baad1f-80c9-4e5e-8ad3-d684ac95dfb8"
         }
     }
