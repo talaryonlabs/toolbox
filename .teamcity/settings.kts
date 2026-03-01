@@ -44,7 +44,8 @@ project {
 
     buildType(Toolbox)
     buildType(CodeQuality)
-    buildTypesOrder = arrayListOf(CodeQuality, Toolbox)
+    buildType(ToolboxHosting)
+    buildTypesOrder = arrayListOf(CodeQuality, Toolbox, ToolboxHosting)
 }
 
 object CodeQuality : BuildType({
@@ -98,6 +99,74 @@ object CodeQuality : BuildType({
 
 object Toolbox : BuildType({
     name = "Toolbox"
+
+    vcs {
+        root(DslContext.settingsRoot)
+    }
+
+    steps {
+        script {
+            name = "Get Version Number"
+            id = "Get_Version_Number"
+            workingDir = "src/Toolbox"
+            scriptContent = """
+                export version="${'$'}(cat Toolbox.csproj | grep -Eo '<Version>[0-9.\-]+</Version>' | grep -Eo '[0-9.\-]+')"
+                echo "##teamcity[buildNumber '${'$'}version']"
+            """.trimIndent()
+        }
+        dotnetRestore {
+            name = "Restore Packages"
+            id = "Restore_Packages"
+            projects = "src/Toolbox/Toolbox.csproj"
+            sources = "https://nuget.pkg.talaryon.dev/v3/index.json"
+        }
+        dotnetBuild {
+            name = "Build"
+            id = "dotnet"
+            projects = "src/Toolbox/Toolbox.csproj"
+        }
+        dotnetPack {
+            name = "Pack NuGet Package"
+            id = "Pack_NuGet_Package"
+            projects = "src/Toolbox/Toolbox.csproj"
+            outputDir = "publish"
+        }
+        dotnetNugetPush {
+            name = "Push NuGet Package"
+            id = "Push_NuGet_Package"
+            packages = "publish/*Toolbox*.nupkg"
+            serverUrl = "https://nuget.pkg.talaryon.dev/v3/index.json"
+            apiKey = "credentialsJSON:56baad1f-80c9-4e5e-8ad3-d684ac95dfb8"
+        }
+    }
+
+    triggers {
+        vcs {
+        }
+    }
+
+    features {
+        perfmon {
+        }
+        commitStatusPublisher {
+            enabled = false
+            vcsRootExtId = "${HttpsGithubComTalaryonlabsStackmgrRefsHeadsMain.id}"
+            publisher = github {
+                githubUrl = "https://api.github.com"
+                authType = personalToken {
+                    token = "credentialsJSON:f395c44f-e583-4547-91ab-c3d8e4d49d97"
+                }
+            }
+        }
+    }
+
+    requirements {
+        contains("teamcity.agent.name", "build-ferociousbyte-dev")
+    }
+})
+
+object ToolboxHosting : BuildType({
+    name = "Toolbox.Hosting"
 
     vcs {
         root(DslContext.settingsRoot)
