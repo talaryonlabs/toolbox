@@ -230,8 +230,8 @@ object ToolboxHosting : BuildType({
         dotnetRestore {
             name = "Restore Packages"
             id = "Restore_Packages"
-            projects = "src/Toolbox.Hosting/Toolbox.Hosting.csproj"
-            sources = "https://nuget.pkg.talaryon.dev/v3/index.json"
+            projects = "src/%local.projectName%/%local.projectName%.csproj"
+            sources = "https://%nuget.source.talaryon%/v3/index.json"
         }
         dotnetBuild {
             name = "Build"
