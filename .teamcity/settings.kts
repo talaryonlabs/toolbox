@@ -8,7 +8,6 @@ import jetbrains.buildServer.configs.kotlin.buildSteps.dotnetBuild
 import jetbrains.buildServer.configs.kotlin.buildSteps.dotnetNugetPush
 import jetbrains.buildServer.configs.kotlin.buildSteps.dotnetPack
 import jetbrains.buildServer.configs.kotlin.buildSteps.dotnetRestore
-import jetbrains.buildServer.configs.kotlin.buildSteps.dotnetTest
 import jetbrains.buildServer.configs.kotlin.buildSteps.qodana
 import jetbrains.buildServer.configs.kotlin.buildSteps.script
 import jetbrains.buildServer.configs.kotlin.triggers.vcs
@@ -43,59 +42,10 @@ project {
     vcsRoot(HttpsGithubComTalaryonlabsStackmgrRefsHeadsMain)
     vcsRoot(HttpsGithubComTalaryonlabsWebkitRefsHeadsDev)
 
-    buildType(Build)
     buildType(Toolbox)
     buildType(CodeQuality)
-    buildTypesOrder = arrayListOf(CodeQuality, Build, Toolbox)
+    buildTypesOrder = arrayListOf(CodeQuality, Toolbox)
 }
-
-object Build : BuildType({
-    name = "Build"
-
-    vcs {
-        root(DslContext.settingsRoot)
-    }
-
-    steps {
-        dotnetBuild {
-            id = "dotnet"
-            projects = "src/Toolbox/Toolbox.csproj"
-        }
-        dotnetTest {
-            id = "dotnet_1"
-            projects = "tests/Toolbox.Tests/Toolbox.Tests.csproj"
-        }
-    }
-
-    triggers {
-        vcs {
-        }
-    }
-
-    features {
-        perfmon {
-        }
-        commitStatusPublisher {
-            vcsRootExtId = "${DslContext.settingsRoot.id}"
-            publisher = github {
-                githubUrl = "https://api.github.com"
-                authType = vcsRoot()
-            }
-        }
-        pullRequests {
-            vcsRootExtId = "${DslContext.settingsRoot.id}"
-            provider = github {
-                authType = vcsRoot()
-                filterAuthorRole = PullRequests.GitHubRoleFilter.MEMBER
-            }
-        }
-    }
-
-    requirements {
-        exists("container.engine")
-        contains("teamcity.agent.hostname", ".build.ferociousbyte.dev")
-    }
-})
 
 object CodeQuality : BuildType({
     name = "Code Quality"
