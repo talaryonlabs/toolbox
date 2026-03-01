@@ -97,6 +97,10 @@ object CodeQuality : BuildType({
 object Toolbox : BuildType({
     name = "Toolbox"
 
+    params {
+        param("local.projectName", "Toolbox")
+    }
+
     vcs {
         root(DslContext.settingsRoot)
     }
