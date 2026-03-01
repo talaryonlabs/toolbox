@@ -98,6 +98,7 @@ object Toolbox : BuildType({
     name = "Toolbox"
 
     params {
+        param("env.version", "-")
         param("env.state", "-")
         param("env.package", "-")
         param("local.projectName", "Toolbox")
