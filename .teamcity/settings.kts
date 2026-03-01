@@ -186,6 +186,7 @@ object ToolboxHosting : BuildType({
     name = "Toolbox.Hosting"
 
     params {
+        param("env.state", "-")
         param("local.projectName", "%env.TEAMCITY_PROJECT_NAME%")
     }
 
