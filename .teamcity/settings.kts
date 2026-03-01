@@ -155,6 +155,10 @@ object Toolbox : BuildType({
         dotnetNugetPush {
             name = "Push NuGet Package"
             id = "Push_NuGet_Package"
+
+            conditions {
+                doesNotEqual("env.state", "exists")
+            }
             packages = "publish/%env.package%.%env.version%.nupkg"
             serverUrl = "https://%nuget.source.talaryon%/v3/index.json"
             apiKey = "credentialsJSON:56baad1f-80c9-4e5e-8ad3-d684ac95dfb8"
