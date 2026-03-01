@@ -110,10 +110,21 @@ object Toolbox : BuildType({
         script {
             name = "Get Version Number"
             id = "Get_Version_Number"
-            workingDir = "src/Toolbox"
+            workingDir = "src/%local.projectName%"
             scriptContent = """
-                export version="${'$'}(cat Toolbox.csproj | grep -Eo '<Version>[0-9.\-]+</Version>' | grep -Eo '[0-9.\-]+')"
-                echo "##teamcity[buildNumber '${'$'}version']"
+                #!/bin/bash
+                SOURCE="%nuget.source.talaryon%"
+                VERSION="${'$'}(cat %local.projectName%.csproj | grep -Eo '<Version>[0-9.\-]+</Version>' | grep -Eo '[0-9.\-]+')"
+                PACKAGE_NAME="${'$'}(grep -Eo '<PackageId>[A-Za-z0-9.\-]+</PackageId>' %local.projectName%.csproj | sed -E 's/<PackageId>([A-Za-z0-9.\-]+)<\/PackageId>/\1/')"
+                API_URL="https://${'$'}SOURCE/v3/registration/${'$'}PACKAGE_NAME/index.json"
+                RESPONSE=${'$'}(curl -s "${'$'}API_URL" | jq -r '.items[].items[].catalogEntry.version')
+                
+                if echo "${'$'}RESPONSE" | grep -q "${'$'}VERSION"; then
+                	echo "##teamcity[setParameter name='env.state' value='exists']"
+                    echo "Version ${'$'}VERSION already exists on ${'$'}SOURCE."
+                fi
+                
+                echo "##teamcity[buildNumber '${'$'}PACKAGE_NAME:${'$'}VERSION']"
             """.trimIndent()
         }
         dotnetRestore {
