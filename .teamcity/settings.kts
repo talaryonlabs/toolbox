@@ -236,7 +236,7 @@ object ToolboxHosting : BuildType({
         dotnetBuild {
             name = "Build"
             id = "dotnet"
-            projects = "src/Toolbox.Hosting/Toolbox.Hosting.csproj"
+            projects = "src/%local.projectName%/%local.projectName%.csproj"
         }
         dotnetPack {
             name = "Pack NuGet Package"
