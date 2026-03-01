@@ -196,7 +196,7 @@ object ToolboxHosting : BuildType({
         dotnetPack {
             name = "Pack NuGet Package"
             id = "Pack_NuGet_Package"
-            projects = "src/Toolbox/Toolbox.csproj"
+            projects = "src/Toolbox.Hosting/Toolbox.Hosting.csproj"
             outputDir = "publish"
         }
         dotnetNugetPush {
