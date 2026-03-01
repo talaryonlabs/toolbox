@@ -149,6 +149,10 @@ object CodeQuality : BuildType({
 object Toolbox : BuildType({
     name = "Toolbox"
 
+    vcs {
+        root(DslContext.settingsRoot)
+    }
+
     steps {
         script {
             name = "Get Version Number"
