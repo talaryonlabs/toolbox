@@ -99,6 +99,7 @@ object Toolbox : BuildType({
 
     params {
         param("env.state", "-")
+        param("env.package", "-")
         param("local.projectName", "Toolbox")
     }
 
