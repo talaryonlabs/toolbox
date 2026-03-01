@@ -172,7 +172,7 @@ object Toolbox : BuildType({
         dotnetBuild {
             name = "Build"
             id = "dotnet"
-            projects = "src/StackManager.CLI/StackManager.CLI.csproj"
+            projects = "src/Toolbox/Toolbox.csproj"
         }
         dotnetPack {
             name = "Pack NuGet Package"
