@@ -40,6 +40,7 @@ project {
 
     buildType(Build)
     buildType(CodeQuality)
+    buildTypesOrder = arrayListOf(CodeQuality, Build)
 }
 
 object Build : BuildType({
