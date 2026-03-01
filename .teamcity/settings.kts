@@ -149,10 +149,6 @@ object CodeQuality : BuildType({
 object Toolbox : BuildType({
     name = "Toolbox"
 
-    vcs {
-        root(HttpsGithubComTalaryonlabsStackmgrRefsHeadsMain)
-    }
-
     steps {
         script {
             name = "Get Version Number"
