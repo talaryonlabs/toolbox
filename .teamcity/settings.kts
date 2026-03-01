@@ -260,7 +260,7 @@ object ToolboxServices : BuildType({
         dotnetBuild {
             name = "Build"
             id = "dotnet"
-            projects = "src/Toolbox.Hosting/Toolbox.Hosting.csproj"
+            projects = "src/Toolbox.Services/Toolbox.Services.csproj"
         }
         dotnetPack {
             name = "Pack NuGet Package"
