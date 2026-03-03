@@ -14,16 +14,14 @@ public class ApiRequest<TResource, TOut>(HttpClient httpClient, string baseUri) 
     private ApiEndpointMethod _method = ApiEndpointMethod.Get;
     private TResource? _content;
 
-    public TOut? Run() => RunAsync().RunSynchronouslyWithResult();
+    public ApiResponse<TOut> Run() => RunAsync().RunSynchronouslyWithResult();
 
-    public async Task<TOut?> RunAsync(CancellationToken cancellationToken = default)
+    public async Task<ApiResponse<TOut>> RunAsync(CancellationToken cancellationToken = default)
     {
         var uri = ApiEndpoint.GetEndpoint<TResource>(_type) ?? throw new ApiEndpointException<TResource>();
         var requestUri = new Uri(baseUri)
             .Append(_uriParams is {Count: >0 } ? uri.ReplaceMany(_uriParams) : uri)
             .Append(_queryParams.ToQueryString().ToString());
-        
-        // TalaryonLogger.Debug<ApiRequest<TResource, TOut>>($"{_method.ToString().ToUpper()} ({_type.ToString()}) {requestUri}");
 
         var response = await (_method switch
         {
@@ -34,16 +32,18 @@ public class ApiRequest<TResource, TOut>(HttpClient httpClient, string baseUri) 
             ApiEndpointMethod.Get => httpClient.GetAsync(requestUri, cancellationToken),
             _ => throw new ArgumentOutOfRangeException()
         });
-        if (response.IsSuccessStatusCode) 
-            return await response.Content.ReadFromJsonAsync<TOut>(cancellationToken);
-        
-        var error = await response.Content.ReadFromJsonAsync<ApiError>(cancellationToken);
-        if (error is not null)
-        {
-            throw error;
-        }
-        throw new InvalidOperationException($"Request failed with status code {response.StatusCode}");
 
+        return new ApiResponse<TOut>
+        {
+            IsSuccessful = response.IsSuccessStatusCode,
+            StatusCode = (int)response.StatusCode,
+            Error = response.Content.Headers.ContentLength > 0 && !response.IsSuccessStatusCode
+                ? await response.Content.ReadFromJsonAsync<ApiError>(cancellationToken)
+                : null,
+            Data = response.Content.Headers.ContentLength > 0 && response.IsSuccessStatusCode
+                ? await response.Content.ReadFromJsonAsync<TOut>(cancellationToken)
+                : default
+        };
     }
 
     public IApiRequest<TResource, TOut> WithType(ApiEndpointType type)
@@ -61,7 +61,9 @@ public class ApiRequest<TResource, TOut>(HttpClient httpClient, string baseUri) 
 
     public IApiRequest<TResource, TOut> WithParam(string name, string value)
     {
-        _uriParams.Add(name, value);
+        _uriParams.Add($"{{{name}}}", value);
+        _uriParams.Add($":{name}:", value);
+        _uriParams.Add($"${name}", value);
         return this;
     }
 

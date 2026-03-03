@@ -2,13 +2,13 @@
 
 namespace Talaryon.Toolbox.Services.Authentik;
 
-public sealed class AuthentikRequestSingle<T>(HttpClient httpClient, string baseUri, string? id = null) : IApiResourceProviderSingle<T>, ITalaryonParams<T, ApiRequestParams>
+public sealed class AuthentikRequestSingle<T>(HttpClient httpClient, string baseUri, string? id = null) : IApiResourceProviderSingle<T>, ITalaryonParams<ApiResponse<T>, ApiRequestParams>
     where T : IApiResource
 {
     private readonly ApiRequestParams _params = new();
     private readonly ApiRequest<T> _request = new(httpClient, baseUri);
 
-    public Task<T?> RunAsync(CancellationToken cancellationToken = default)
+    public Task<ApiResponse<T>> RunAsync(CancellationToken cancellationToken = default)
     {
         _request.WithType(ApiEndpointType.Single);
 
@@ -28,21 +28,21 @@ public sealed class AuthentikRequestSingle<T>(HttpClient httpClient, string base
         throw new NotImplementedException();
     }
 
-    public ITalaryonRunner<T> With(Action<ApiRequestParams> withParams)
-    {
-        withParams(_params);
-        return this;
-    }
-
     public ITalaryonRunner<bool> Exists() => new ResourceExists(this);
 
-    private class ResourceExists(ITalaryonRunner<T> runner) : ITalaryonRunner<bool>
+    private class ResourceExists(ITalaryonRunner<ApiResponse<T>> runner) : ITalaryonRunner<bool>
     {
         public async Task<bool> RunAsync(CancellationToken cancellationToken = default)
         {
             var response = await runner.RunAsync(cancellationToken);
-            return response is not null;
+            return response.Data is not null;
         }
+    }
+
+    public ITalaryonRunner<ApiResponse<T>> With(Action<ApiRequestParams> withParams)
+    {
+        withParams(_params);
+        return this;
     }
 }
 
@@ -51,8 +51,26 @@ public sealed class AuthentikRequestMany<T>(HttpClient httpClient, string baseUr
 {
     private readonly ApiRequestParams _params = new();
     private readonly ApiRequest<T, AuthentikList> _request = new(httpClient, baseUri);
-    
-    public Task<AuthentikList?> RunAsync(CancellationToken cancellationToken = default)
+
+
+    public ITalaryonRunner<int> Count() => new ResourceCount(this);
+
+    private class ResourceCount(ITalaryonRunner<ApiResponse<AuthentikList>> runner) : ITalaryonRunner<int>
+    {
+        public async Task<int> RunAsync(CancellationToken cancellationToken = default)
+        {
+            var list = await runner.RunAsync(cancellationToken);
+            return list is { Data: null } ? 0 : list.Data.Pagination.Count;
+        }
+    }
+
+    public ITalaryonRunner<ApiResponse<AuthentikList>> With(Action<ApiRequestParams> withParams)
+    {
+        withParams(_params);
+        return this;   
+    }
+
+    public Task<ApiResponse<AuthentikList>> RunAsync(CancellationToken cancellationToken = default)
     {
         _request.WithType(ApiEndpointType.Many);
         
@@ -62,22 +80,4 @@ public sealed class AuthentikRequestMany<T>(HttpClient httpClient, string baseUr
         }
         return _request.RunAsync(cancellationToken);
     }
-    
-    public ITalaryonRunner<AuthentikList> With(Action<ApiRequestParams> withParams)
-    {
-        withParams(_params);
-        return this;
-    }
-
-    public ITalaryonRunner<int> Count() => new ResourceCount(this);
-
-    private class ResourceCount(ITalaryonRunner<AuthentikList> runner) : ITalaryonRunner<int>
-    {
-        public async Task<int> RunAsync(CancellationToken cancellationToken = default)
-        {
-            var list = await runner.RunAsync(cancellationToken);
-            return list is {Pagination.Count: > 0 } ? list.Pagination.Count : 0;
-        }
-    }
-    
 }

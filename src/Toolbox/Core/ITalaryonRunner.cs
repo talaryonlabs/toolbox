@@ -10,6 +10,6 @@ public interface ITalaryonRunner
 
 public interface ITalaryonRunner<TResult>
 {
-    TResult? Run() => RunAsync().RunSynchronouslyWithResult();
-    Task<TResult?> RunAsync(CancellationToken cancellationToken = default);
+    TResult Run() => RunAsync().RunSynchronouslyWithResult();
+    Task<TResult> RunAsync(CancellationToken cancellationToken = default);
 }

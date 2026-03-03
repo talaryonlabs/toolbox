@@ -1,6 +1,6 @@
 ﻿namespace Talaryon.Toolbox.Api;
 
-public interface IApiRequest<in TResource, TOut> : ITalaryonRunner<TOut>
+public interface IApiRequest<in TResource, TOut> : ITalaryonRunner<ApiResponse<TOut>>
 {
     IApiRequest<TResource, TOut> WithType(ApiEndpointType type);
     IApiRequest<TResource, TOut> WithParam(string name, string value);

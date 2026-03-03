@@ -4,21 +4,21 @@ public interface IApiResource
 {
 }
 
-public interface IApiResourceCreateFactory<TResource, out TParams> : ITalaryonCreatable<TResource, TParams>, ITalaryonParams<TResource, TParams>
+public interface IApiResourceCreateFactory<TResource, out TParams> : ITalaryonCreatable<ApiResponse<TResource>, TParams>, ITalaryonParams<ApiResponse<TResource>, TParams>
     where TResource : IApiResource
     where TParams : ApiRequestParams
 {
     
 }
 
-public interface IApiResourceUpdateFactory<TResource, out TParams> : ITalaryonUpdatable<TResource, TParams>, ITalaryonDeletable<bool>, ITalaryonParams<TResource, TParams>
+public interface IApiResourceUpdateFactory<TResource, out TParams> : ITalaryonUpdatable<ApiResponse<TResource>, TParams>, ITalaryonDeletable<bool>, ITalaryonParams<ApiResponse<TResource>, TParams>
     where TResource : IApiResource
     where TParams : ApiRequestParams
 {
     
 }
 
-public interface IApiResourceProviderSingle<TResource> : ITalaryonRunner<TResource>, ITalaryonExistable
+public interface IApiResourceProviderSingle<TResource> : ITalaryonRunner<ApiResponse<TResource>>, ITalaryonExistable
     where TResource : IApiResource
 {
     IApiResourceUpdateFactory<TResource, TParams> GetFactory<TParams>() where TParams : ApiRequestParams;
@@ -29,7 +29,7 @@ public interface IApiResourceProviderMany<TResource> : ITalaryonEnumerable<TReso
 {
 }
 
-public interface IApiResourceProviderMany<TResource, TList> : ITalaryonRunner<TList>, ITalaryonParams<TList, ApiRequestParams>, ITalaryonCountable
+public interface IApiResourceProviderMany<TResource, TList> : ITalaryonRunner<ApiResponse<TList>>, ITalaryonParams<ApiResponse<TList>, ApiRequestParams>, ITalaryonCountable
     where TResource : IApiResource
 {
 }
