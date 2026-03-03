@@ -32,20 +32,58 @@ public static class TalaryonHelper
     [Pure]
     public static ulong ParseNamedSize(string namedSize)
     {
-        var names = new[] { "K", "M", "G", "T", "P", "E" }; // "Z", "Y"
-        var alias = new[] { "KB", "MB", "GB", "TB", "PB", "EB" }; // "ZB", "YB"
+        if (string.IsNullOrWhiteSpace(namedSize))
+            throw new ArgumentException("Input cannot be null or empty.", nameof(namedSize));
 
-        for (var i = 0; i < names.Length; i++)
-            if (namedSize.EndsWith(names[i], true, null))
-            {
-                return (ulong)(long.Parse(namedSize.Substring(0, namedSize.Length - 1)) * Math.Pow(1024, i + 1));
-            }
-            else if (namedSize.EndsWith(alias[i], true, null))
-            {
-                return (ulong)(long.Parse(namedSize[..^2]) * Math.Pow(1024, i + 1));
-            }
+        var suffixes = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase)
+        {
+            // SI-Standard
+            { "K", 1 }, { "KB", 1 },
+            { "M", 2 }, { "MB", 2 },
+            { "G", 3 }, { "GB", 3 },
+            { "T", 4 }, { "TB", 4 },
+            { "P", 5 }, { "PB", 5 },
+            { "E", 6 }, { "EB", 6 },
+            // IEC-Standard
+            { "Ki", 1 }, { "KiB", 1 },
+            { "Mi", 2 }, { "MiB", 2 },
+            { "Gi", 3 }, { "GiB", 3 },
+            { "Ti", 4 }, { "TiB", 4 },
+            { "Pi", 5 }, { "PiB", 5 },
+            { "Ei", 6 }, { "EiB", 6 },
+        };
+
+        foreach (var (suffix, exponent) in suffixes)
+        {
+            if (!namedSize.EndsWith(suffix, StringComparison.OrdinalIgnoreCase))
+                continue;
+
+            var numericPart = suffix.Length == 1
+                ? namedSize[..^1] // "K", "M", etc.
+                : namedSize[..^2]; // "KB", "MiB", etc.
+
+            return ulong.TryParse(numericPart, out var value)
+                ? value * (ulong)Math.Pow(1024, exponent)
+                : throw new FormatException($"Invalid numeric format in '{namedSize}'.");
+        }
 
         return ulong.Parse(namedSize);
+    }
+    
+    [Pure]
+    public static string FormatNamedSize(ulong bytes, string format = "0.##")
+    {
+        string[] suffixes = ["B", "KiB", "MiB", "GiB", "TiB", "PiB", "EiB"];
+        var suffixIndex = 0;
+        double size = bytes;
+
+        while (size >= 1024 && suffixIndex < suffixes.Length - 1)
+        {
+            size /= 1024;
+            suffixIndex++;
+        }
+
+        return $"{size.ToString(format)} {suffixes[suffixIndex]}";
     }
 
     [Pure]
