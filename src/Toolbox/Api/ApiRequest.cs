@@ -61,7 +61,7 @@ public class ApiRequest<TResource, TOut>(HttpClient httpClient, string baseUri) 
 
     public IApiRequest<TResource, TOut> WithParam(string name, string value)
     {
-        _uriParams.Add($"{{{name}}}", value);
+        _uriParams.Add("{" + name + "}", value);
         _uriParams.Add($":{name}:", value);
         _uriParams.Add($"${name}", value);
         return this;
