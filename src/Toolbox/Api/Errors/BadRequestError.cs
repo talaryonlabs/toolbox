@@ -2,4 +2,15 @@
 
 namespace Talaryon.Toolbox.Api.Errors;
 
-public class BadRequestError() : ApiError(StatusCodes.Status403Forbidden, "Forbidden.");
+public sealed class BadRequestError : ApiError
+{
+    public BadRequestError(string? message)
+        : base(StatusCodes.Status400BadRequest, message)
+    {
+    }
+
+    public BadRequestError(Exception exception)
+        : base(StatusCodes.Status400BadRequest, exception)
+    {
+    }
+}
