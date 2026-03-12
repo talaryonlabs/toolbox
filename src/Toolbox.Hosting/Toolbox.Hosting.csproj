@@ -17,6 +17,7 @@
         <Version>1.2.0</Version>
         <OutputType>Library</OutputType>
         <AssemblyVersion>1.2.0</AssemblyVersion>
+        <IsPackable>true</IsPackable>
     </PropertyGroup>
 
     <ItemGroup>
