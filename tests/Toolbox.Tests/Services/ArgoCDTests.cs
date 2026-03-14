@@ -2,49 +2,61 @@
 using Moq;
 using Talaryon.Toolbox.Services.ArgoCD;
 
-public class ArgoCDTests
+namespace Talaryon.Toolbox.Tests.Services
 {
-    private readonly Mock<HttpClient> _mockHttpClient;
-    private readonly Mock<IOptions<ArgoCDOptions>> _mockOptions;
-    private readonly ArgoCD _argoCd;
-
-    public ArgoCDTests()
+    public class ArgoCDTests
     {
-        _mockHttpClient = new Mock<HttpClient>();
-        _mockOptions = new Mock<IOptions<ArgoCDOptions>>();
-        
-        var directusOptions = new ArgoCDOptions
+        private readonly Mock<HttpClient> _mockHttpClient;
+        private readonly Mock<IOptions<ArgoCDOptions>> _mockOptions;
+        private readonly ArgoCD _argoCd;
+
+        public ArgoCDTests()
         {
-            BaseUrl = "http://example.com",
-            AccessToken = "sample-token"
-        };
-        
-        _mockOptions.Setup(x => x.Value).Returns(directusOptions);
+            _mockHttpClient = new Mock<HttpClient>();
+            _mockOptions = new Mock<IOptions<ArgoCDOptions>>();
+            
+            var argoCDOptions = new ArgoCDOptions
+            {
+                BaseUrl = "http://example.com",
+                AccessToken = "sample-token"
+            };
+            
+            _mockOptions.Setup(x => x.Value).Returns(argoCDOptions);
 
-        _argoCd = new ArgoCD(_mockHttpClient.Object, _mockOptions.Object);
-    }
+            _argoCd = new ArgoCD(_mockHttpClient.Object, _mockOptions.Object);
+        }
 
-    [Fact]
-    public void Constructor_ThrowsArgumentNullException_WhenOptionsAccessorIsNull()
-    {
-        Assert.Throws<ArgumentNullException>(() => new ArgoCD(_mockHttpClient.Object, null));
-    }
+        [Fact]
+        public void Constructor_ThrowsArgumentNullException_WhenOptionsAccessorIsNull()
+        {
+            Assert.Throws<ArgumentNullException>(() => new ArgoCD(_mockHttpClient.Object, null));
+        }
 
-    [Fact]
-    public void Constructor_ThrowsArgumentNullException_WhenBaseUrlIsNull()
-    {
-        var optionsAccessor = new Mock<IOptions<ArgoCDOptions>>();
-        optionsAccessor.Setup(x => x.Value).Returns(new ArgoCDOptions());
+        [Fact]
+        public void Constructor_ThrowsArgumentNullException_WhenBaseUrlIsNull()
+        {
+            var optionsAccessor = new Mock<IOptions<ArgoCDOptions>>();
+            optionsAccessor.Setup(x => x.Value).Returns(new ArgoCDOptions());
 
-        Assert.Throws<ArgumentNullException>(() => new ArgoCD(_mockHttpClient.Object, optionsAccessor.Object));
-    }
+            var exception = Assert.Throws<ArgumentNullException>(() => new ArgoCD(_mockHttpClient.Object, optionsAccessor.Object));
+            Assert.Equal("BaseUrl", exception.ParamName);
+        }
 
-    [Fact]
-    public void Constructor_ThrowsArgumentNullException_WhenAccessTokenIsNull()
-    {
-        var optionsAccessor = new Mock<IOptions<ArgoCDOptions>>();
-        optionsAccessor.Setup(x => x.Value).Returns(new ArgoCDOptions { BaseUrl = "http://example.com" });
+        [Fact]
+        public void Constructor_ThrowsArgumentNullException_WhenAccessTokenIsNull()
+        {
+            var optionsAccessor = new Mock<IOptions<ArgoCDOptions>>();
+            optionsAccessor.Setup(x => x.Value).Returns(new ArgoCDOptions { BaseUrl = "http://example.com" });
 
-        Assert.Throws<ArgumentNullException>(() => new ArgoCD(_mockHttpClient.Object, optionsAccessor.Object));
+            // Just verify that an ArgumentNullException is thrown
+            Assert.Throws<ArgumentNullException>(() => new ArgoCD(_mockHttpClient.Object, optionsAccessor.Object));
+        }
+
+        [Fact]
+        public void Constructor_ShouldInitializeWithValidOptions()
+        {
+            // Act & Assert - constructor doesn't throw
+            Assert.NotNull(_argoCd);
+        }
     }
 }

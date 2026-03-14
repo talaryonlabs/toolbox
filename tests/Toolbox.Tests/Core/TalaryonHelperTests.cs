@@ -1,3 +1,5 @@
+using System.Text.RegularExpressions;
+
 namespace Talaryon.Toolbox.Tests
 {
     public class TalaryonHelperTests
@@ -14,6 +16,8 @@ namespace Talaryon.Toolbox.Tests
             // Assert
             Assert.NotNull(result);
             Assert.NotEmpty(result);
+            Assert.Contains("\"Id\":1", System.Text.Encoding.UTF8.GetString(result));
+            Assert.Contains("\"Name\":\"Test\"", System.Text.Encoding.UTF8.GetString(result));
         }
 
         [Fact]
@@ -33,7 +37,7 @@ namespace Talaryon.Toolbox.Tests
         }
 
         [Fact]
-        public void UUID_Should_ReturnUUID()
+        public void UUID_Should_ReturnValidUUID()
         {
             // Act
             var result = TalaryonHelper.UUID();
@@ -42,6 +46,8 @@ namespace Talaryon.Toolbox.Tests
             Assert.NotNull(result);
             Assert.NotEmpty(result);
             Assert.IsType<string>(result);
+            // Verify UUID format (8-4-4-4-12 hex digits)
+            Assert.Matches("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$", result);
         }
 
         [Theory]
