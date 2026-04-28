@@ -1,8 +1,11 @@
-﻿using System.Diagnostics.Contracts;
+﻿using System;
+using System.Collections.Immutable;
+using System.Diagnostics.Contracts;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Text.Json;
+using Talaryon.Toolbox.Data;
 
 namespace Talaryon.Toolbox;
 
@@ -134,6 +137,97 @@ public static class TalaryonHelper
         }
 
         return (protocol, hostname, port);
+    }
+
+    [Pure]
+    public static ConnectionString ParseConnectionString(string connectionString)
+    {
+        if (string.IsNullOrWhiteSpace(connectionString))
+            throw new ArgumentException("Connection string cannot be null or empty.", nameof(connectionString));
+
+        var result = new ConnectionString();
+        var remaining = connectionString;
+
+        // Parse type (required)
+        var typeEnd = remaining.IndexOf("://", StringComparison.Ordinal);
+        if (typeEnd < 0)
+            throw new FormatException("Connection string must contain '://' to separate type from the rest.");
+
+        result.Type = remaining.Substring(0, typeEnd);
+        remaining = remaining.Substring(typeEnd + 3);
+
+        // Parse auth (username:password@) if present
+        var atIndex = remaining.IndexOf('@');
+        if (atIndex >= 0)
+        {
+            var authPart = remaining.Substring(0, atIndex);
+            var colonIndex = authPart.IndexOf(':');
+            if (colonIndex >= 0)
+            {
+                result.Username = authPart.Substring(0, colonIndex);
+                result.Password = authPart.Substring(colonIndex + 1);
+            }
+            else
+            {
+                result.Username = authPart;
+            }
+            remaining = remaining.Substring(atIndex + 1);
+        }
+
+        // Parse host:port[/endpoint][?options]
+        var slashIndex = remaining.IndexOf('/');
+        var queryIndex = remaining.IndexOf('?');
+
+        // Determine the end of host:port section
+        var hostPortEnd = Math.Min(
+            slashIndex >= 0 ? slashIndex : int.MaxValue,
+            queryIndex >= 0 ? queryIndex : int.MaxValue
+        );
+
+        var hostPortPart = hostPortEnd == int.MaxValue
+            ? remaining
+            : remaining.Substring(0, hostPortEnd);
+
+        // Parse host and port
+        var hostColonIndex = hostPortPart.IndexOf(':');
+        if (hostColonIndex >= 0)
+        {
+            result.Host = hostPortPart.Substring(0, hostColonIndex);
+            if (int.TryParse(hostPortPart.Substring(hostColonIndex + 1), out var port))
+                result.Port = port;
+        }
+        else
+        {
+            result.Host = hostPortPart;
+        }
+
+        // Parse endpoint if present
+        if (slashIndex >= 0 && (queryIndex < 0 || slashIndex < queryIndex))
+        {
+            var endpointStart = slashIndex + 1;
+            var endpointEnd = queryIndex >= 0 ? queryIndex : remaining.Length;
+            result.Endpoint = remaining.Substring(endpointStart, endpointEnd - endpointStart);
+        }
+
+        // Parse options if present
+        if (queryIndex >= 0)
+        {
+            var optionsString = remaining.Substring(queryIndex + 1);
+            var options = ImmutableDictionary.CreateBuilder<string, string>();
+
+            foreach (var pair in optionsString.Split('&'))
+            {
+                var split = pair.Split('=', 2);
+                var key = split.Length > 0 ? Uri.UnescapeDataString(split[0]) : string.Empty;
+                var value = split.Length > 1 ? Uri.UnescapeDataString(split[1]) : string.Empty;
+                if (!string.IsNullOrEmpty(key))
+                    options.Add(key, value);
+            }
+
+            result.Options = options.ToImmutable();
+        }
+
+        return result;
     }
 
     /*[Pure]

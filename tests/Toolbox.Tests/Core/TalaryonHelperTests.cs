@@ -89,6 +89,132 @@ namespace Talaryon.Toolbox.Tests
             Assert.Equal(TimeSpan.FromMilliseconds(expectedDelay), result);
         }
 
+        [Fact]
+        public void ParseConnectionString_Should_ParseBasicConnectionString()
+        {
+            // Act
+            var result = TalaryonHelper.ParseConnectionString("redis://localhost:6379");
+
+            // Assert
+            Assert.Equal("redis", result.Type);
+            Assert.Null(result.Username);
+            Assert.Null(result.Password);
+            Assert.Equal("localhost", result.Host);
+            Assert.Equal(6379, result.Port);
+            Assert.Null(result.Endpoint);
+            Assert.Empty(result.Options);
+        }
+
+        [Fact]
+        public void ParseConnectionString_Should_ParseWithAuth()
+        {
+            // Act
+            var result = TalaryonHelper.ParseConnectionString("mysql://user:pass@localhost:3306");
+
+            // Assert
+            Assert.Equal("mysql", result.Type);
+            Assert.Equal("user", result.Username);
+            Assert.Equal("pass", result.Password);
+            Assert.Equal("localhost", result.Host);
+            Assert.Equal(3306, result.Port);
+            Assert.Null(result.Endpoint);
+            Assert.Empty(result.Options);
+        }
+
+        [Fact]
+        public void ParseConnectionString_Should_ParseWithEndpoint()
+        {
+            // Act
+            var result = TalaryonHelper.ParseConnectionString("http://api.example.com/v1");
+
+            // Assert
+            Assert.Equal("http", result.Type);
+            Assert.Null(result.Username);
+            Assert.Null(result.Password);
+            Assert.Equal("api.example.com", result.Host);
+            Assert.Null(result.Port);
+            Assert.Equal("v1", result.Endpoint);
+            Assert.Empty(result.Options);
+        }
+
+        [Fact]
+        public void ParseConnectionString_Should_ParseWithOptions()
+        {
+            // Act
+            var result = TalaryonHelper.ParseConnectionString("http://api.example.com?param=value&param2=value2");
+
+            // Assert
+            Assert.Equal("http", result.Type);
+            Assert.Equal("api.example.com", result.Host);
+            Assert.Null(result.Port);
+            Assert.Null(result.Endpoint);
+            Assert.Equal(2, result.Options.Count);
+            Assert.Equal("value", result.Options["param"]);
+            Assert.Equal("value2", result.Options["param2"]);
+        }
+
+        [Fact]
+        public void ParseConnectionString_Should_ParseFullConnectionString()
+        {
+            // Act
+            var result = TalaryonHelper.ParseConnectionString("ws://user:secret@localhost:8080/chat?token=abc123&reconnect=true");
+
+            // Assert
+            Assert.Equal("ws", result.Type);
+            Assert.Equal("user", result.Username);
+            Assert.Equal("secret", result.Password);
+            Assert.Equal("localhost", result.Host);
+            Assert.Equal(8080, result.Port);
+            Assert.Equal("chat", result.Endpoint);
+            Assert.Equal(2, result.Options.Count);
+            Assert.Equal("abc123", result.Options["token"]);
+            Assert.Equal("true", result.Options["reconnect"]);
+        }
+
+        [Fact]
+        public void ParseConnectionString_Should_ParseUsernameWithoutPassword()
+        {
+            // Act
+            var result = TalaryonHelper.ParseConnectionString("https://user@host:8080/api?param=value");
+
+            // Assert
+            Assert.Equal("https", result.Type);
+            Assert.Equal("user", result.Username);
+            Assert.Null(result.Password);
+            Assert.Equal("host", result.Host);
+            Assert.Equal(8080, result.Port);
+            Assert.Equal("api", result.Endpoint);
+            Assert.Single(result.Options);
+            Assert.Equal("value", result.Options["param"]);
+        }
+
+        [Fact]
+        public void ParseConnectionString_Should_ParseHostWithoutPort()
+        {
+            // Act
+            var result = TalaryonHelper.ParseConnectionString("type://host");
+
+            // Assert
+            Assert.Equal("type", result.Type);
+            Assert.Equal("host", result.Host);
+            Assert.Null(result.Port);
+        }
+
+        [Fact]
+        public void ParseConnectionString_Should_ThrowOnEmptyString()
+        {
+            // Act & Assert
+            Assert.Throws<ArgumentException>(() => TalaryonHelper.ParseConnectionString(""));
+            Assert.Throws<ArgumentException>(() => TalaryonHelper.ParseConnectionString(null!));
+        }
+
+        [Fact]
+        public void ParseConnectionString_Should_ThrowOnMissingScheme()
+        {
+            // Act & Assert
+            Assert.Throws<FormatException>(() => TalaryonHelper.ParseConnectionString("localhost:6379"));
+        }
+
         private class TestObject
         {
             public int Id { get; set; }
