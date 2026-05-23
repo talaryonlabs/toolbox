@@ -7,9 +7,9 @@ branches:
     regex: ^main$
   dev:
     tag: dev
+    mode: Mainline
     increment: None
     regex: ^dev$
-    source-branches: [main]
   feature:
     tag: feature
     increment: Inherit
