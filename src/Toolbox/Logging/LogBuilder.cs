@@ -1,8 +1,7 @@
 using System.Text;
-using Talaryon.Toolbox;
 using Talaryon.Toolbox.Extensions;
 
-namespace Talaryon.StackManager;
+namespace Talaryon.Toolbox.Logging;
 
 public interface ILogBuilder<out T>
 {
