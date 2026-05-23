@@ -1,0 +1,17 @@
+mode: ContinuousDelivery
+branches:
+  main:
+    tag: ''
+    increment: Patch
+    prevent-increment-of-merged-branch-version: true
+    regex: ^main$|^master$
+  dev:
+    tag: dev
+    increment: None
+    regex: ^dev$
+    source-branches: [main, master]
+  feature:
+    tag: feature
+    increment: Inherit
+    regex: ^feature?[/-]
+    source-branches: [ main, dev ]
