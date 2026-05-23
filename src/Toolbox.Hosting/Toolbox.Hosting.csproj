@@ -14,11 +14,13 @@
         <Product>Talaryon.Toolbox.Hosting</Product>
         <AssemblyName>Talaryon.Toolbox.Hosting</AssemblyName>
         <RootNamespace>Talaryon.Toolbox.Hosting</RootNamespace>
-        <Version>1.2.0</Version>
         <OutputType>Library</OutputType>
-        <AssemblyVersion>1.2.0</AssemblyVersion>
         <IsPackable>true</IsPackable>
     </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="GitVersion.MsBuild" Version="6.0.0" PrivateAssets="all" />
+    </ItemGroup>
 
     <ItemGroup>
       <FrameworkReference Include="Microsoft.AspNetCore.App" />
