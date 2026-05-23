@@ -9,7 +9,7 @@ branches:
     tag: dev
     increment: None
     regex: ^dev$
-    source-branches: [ main ]
+    source-branches: [ ]
   feature:
     tag: feature
     increment: Inherit
