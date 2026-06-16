@@ -133,6 +133,7 @@ public class Directus : IDirectus
 
     private class RequestMany<T>(HttpClient httpClient, JsonSerializerOptions options, string name, string?[] fields) : IDirectusRequestMany<T>
     {
+        private readonly JsonSerializerOptions _options = options;
         private readonly Dictionary<string, string> _query = new();
 
         public IDirectusRequestMany<T> Filter(string field, string type, string value) =>
@@ -186,7 +187,7 @@ public class Directus : IDirectus
             TalaryonLogger.Debug<Directus>($"Call {url}");
             try
             {
-                return await httpClient.GetFromJsonAsync<DirectusResponse<T[]>>(url, cancellationToken);
+                return await httpClient.GetFromJsonAsync<DirectusResponse<T[]>>(url, _options, cancellationToken);
             }
             catch (Exception e)
             {
