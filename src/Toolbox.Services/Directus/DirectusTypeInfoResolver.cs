@@ -15,6 +15,7 @@ public static class DirectusTypeInfoResolver
                 var newProperty =
                     typeInfo.CreateJsonPropertyInfo(property.PropertyType, attribute.Name);
                 newProperty.Set = property.Set;
+                typeInfo.Properties.Remove(property);
                 typeInfo.Properties.Add(newProperty);
             }
         }
