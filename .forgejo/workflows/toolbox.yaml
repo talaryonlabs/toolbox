@@ -11,23 +11,16 @@ jobs:
             VERSION=${GITHUB_REF#refs/tags/}
             VERSION=${VERSION#v}
             IS_TAG=true
-            # Check if tag's commit is on main branch
-            if git branch --contains ${GITHUB_SHA} | grep -q "main"; then
-              IS_MAIN=true
-            fi
           else
             LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "1.0.0")
             BRANCH=${GITHUB_REF#refs/heads/}
             VERSION="${LATEST_TAG#v}-ci.${GITHUB_SHA:0:8}"
             if [ "$BRANCH" != "main" ]; then
               VERSION="${VERSION}-${BRANCH}"
-            else
-              IS_MAIN=true
             fi
           fi
           echo "VERSION=$VERSION" >> $GITHUB_ENV
           echo "IS_TAG=$IS_TAG" >> $GITHUB_ENV
-          echo "IS_MAIN=$IS_MAIN" >> $GITHUB_ENV
 
       - name: Add NuGet source
         run: |
@@ -41,5 +34,5 @@ jobs:
         run: dotnet nuget push ./artifacts/base/Talaryon.Toolbox.${{ env.VERSION }}.nupkg -s code.talaryon.dev -k ${{ secrets.PACKAGE_APIKEY }}
 
       - name: Push NuGet package to nuget.pkg.talaryon.dev
-        if: env.IS_TAG == 'true' && env.IS_MAIN == 'true'
+        if: env.IS_TAG == 'true'
         run: dotnet nuget push ./artifacts/base/Talaryon.Toolbox.${{ env.VERSION }}.nupkg -s nuget.pkg.talaryon.dev -k ${{ secrets.NUGET_APIKEY }}
