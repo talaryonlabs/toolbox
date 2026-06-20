@@ -35,11 +35,11 @@ jobs:
           dotnet nuget add source --name code.talaryon.dev https://code.talaryon.dev/api/packages/${{ forgejo.repository_owner }}/nuget/index.json
 
       - name: Build NuGet package
-        run: dotnet pack src/Toolbox/Toolbox.csproj -c Release -o ./artifacts/base -p:Version=${{ env.VERSION }}
+        run: dotnet pack src/Toolbox.Hosting/Toolbox.Hosting.csproj -c Release -o ./artifacts/hosting -p:Version=${{ env.VERSION }}
 
       - name: Push NuGet package to code.talaryon.dev
-        run: dotnet nuget push ./artifacts/base/Talaryon.Toolbox.${{ env.VERSION }}.nupkg -s code.talaryon.dev -k ${{ secrets.PACKAGE_APIKEY }}
+        run: dotnet nuget push ./artifacts/hosting/Talaryon.Toolbox.Hosting.${{ env.VERSION }}.nupkg -s code.talaryon.dev -k ${{ secrets.PACKAGE_APIKEY }}
 
       - name: Push NuGet package to nuget.pkg.talaryon.dev
         if: env.IS_TAG == 'true' && env.IS_MAIN == 'true'
-        run: dotnet nuget push ./artifacts/base/Talaryon.Toolbox.${{ env.VERSION }}.nupkg -s nuget.pkg.talaryon.dev -k ${{ secrets.NUGET_APIKEY }}
+        run: dotnet nuget push ./artifacts/hosting/Talaryon.Toolbox.Hosting.${{ env.VERSION }}.nupkg -s nuget.pkg.talaryon.dev -k ${{ secrets.NUGET_APIKEY }}
