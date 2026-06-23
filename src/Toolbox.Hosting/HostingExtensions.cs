@@ -56,7 +56,7 @@ public static class HostingExtensions
                     context.Response.Headers.Append("Content-Security-Policy", "default-src 'self'");
                     return next();
                 })
-                .Use((context, next) => context.Request.ContentLength > 1024 * 1024
+                .Use((context, next) => context.Request.ContentLength > options.MaxRequestBodySize
                     ? Task.FromResult<object>(context.Response.StatusCode = 413)
                     : next());
 
